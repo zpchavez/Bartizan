@@ -14,13 +14,13 @@ namespace Mod
 
 		public override void ForceStart()
 		{
-			MyVersusPlayerMatchResults.PlayerWins = new int[4];
+			MyVersusPlayerMatchResults.PlayerWins = new int[8];
 			base.ForceStart();
 		}
 
 		public override void StartVersus()
 		{
-			MyVersusPlayerMatchResults.PlayerWins = new int[4];
+			MyVersusPlayerMatchResults.PlayerWins = new int[8];
 			base.StartVersus();
 		}
 	}
@@ -32,7 +32,8 @@ namespace Mod
 
 		OutlineText winsText;
 
-		public MyVersusPlayerMatchResults(Session session, VersusMatchResults matchResults, int playerIndex, Vector2 tweenFrom, Vector2 tweenTo, List<AwardInfo> awards) : base(session, matchResults, playerIndex, tweenFrom, tweenTo, awards)
+		public MyVersusPlayerMatchResults(Session session, VersusMatchResults matchResults, int playerIndex, bool small, Vector2 tweenFrom, Vector2 tweenTo, List<AwardInfo> awards)
+			: base(session, matchResults, playerIndex, small, tweenFrom, tweenTo, awards)
 		{
 			if (session.MatchStats[playerIndex].Won)
 				PlayerWins[playerIndex]++;
