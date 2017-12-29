@@ -23,12 +23,15 @@ namespace Mod
 		[PerPlayer]
 		public Variant NoDodgeCooldowns;
 
-		public MyMatchVariants()
+		public MyMatchVariants(bool noPerPlayer = false) : base(noPerPlayer)
 		{
 			// mutually exclusive variants
 			this.CreateLinks(NoHeadBounce, NoTimeLimit);
 			this.CreateLinks(NoDodgeCooldowns, ShowDodgeCooldown);
 			this.CreateLinks(AwfullyFastArrows, AwfullySlowArrows);
+
+			this.FreeAiming.TournamentRules = true;
+			this.FreeAiming.TeamTournamentRules = true;
 		}
 	}
 
