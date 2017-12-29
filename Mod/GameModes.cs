@@ -332,15 +332,16 @@ namespace Mod
 		public override void Die(int killerIndex, Arrow arrow, Explosion explosion, ShockCircle circle)
 		{
 			base.Die(killerIndex, arrow, explosion, circle);
-			// Ghosts treated as players in crawl and gotta-bust-ghost modes
 			var mobLogic = this.Level.Session.RoundLogic as MobRoundLogic;
 			var gottaBustLogic = this.Level.Session.RoundLogic as GottaBustGhostsRoundLogic;
 			if (mobLogic != null) {
+				// Ghosts treated as players in crawl mode
 				mobLogic.OnPlayerDeath(
 					null, this.corpse, this.PlayerIndex, DeathCause.Arrow, // FIXME
 					this.Position, killerIndex
 				);
 			} else if (gottaBustLogic != null) {
+				// Need to keep track of ghosts in gotta-bust-ghosts mode
 				gottaBustLogic.ghostDied(this.PlayerIndex);
 			}
 		}
