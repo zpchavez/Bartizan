@@ -334,9 +334,7 @@ namespace Mod
 			base.Die(killerIndex, arrow, explosion, circle);
 			// Ghosts treated as players in crawl and gotta-bust-ghost modes
 			var mobLogic = this.Level.Session.RoundLogic as MobRoundLogic;
-			TFGame.Log(new Exception("About to do AS thing"), false);
 			var gottaBustLogic = this.Level.Session.RoundLogic as GottaBustGhostsRoundLogic;
-			TFGame.Log(new Exception("Did AS thing"), false);
 			if (mobLogic != null) {
 				mobLogic.OnPlayerDeath(
 					null, this.corpse, this.PlayerIndex, DeathCause.Arrow, // FIXME
@@ -408,7 +406,6 @@ namespace Mod
 		public GottaBustGhostsRoundLogic(Session session)
 			: base(session)
 		{
-			this.CanMiasma = false;
 			this.endDelay = new Counter();
 			this.endDelay.Set(90);
 		}
@@ -437,15 +434,14 @@ namespace Mod
 				}
 				base.Session.EndRound();
 			}
-			//  else if (this.isLivingPlayer() && this.areGhosts()) {
-			// 	base.Session.CurrentLevel.Ending = false;
-			// } else if (base.Session.CurrentLevel.LivingPlayers == 1 && !this.areGhosts()) {
-			// 	base.Session.CurrentLevel.Ending = true;
-			// }
 		}
 
 		public void checkRoundEndConditions() {
-			if (base.Session.CurrentLevel.LivingPlayers < 2 && !this.areGhosts()) {
+			if (
+				base.Session.CurrentLevel.LivingPlayers == 0 || (
+					base.Session.CurrentLevel.LivingPlayers < 2 && !this.areGhosts()
+				)
+			) {
 				base.Session.CurrentLevel.Ending = true;
 			} else {
 				base.Session.CurrentLevel.Ending = false;
@@ -453,7 +449,6 @@ namespace Mod
 		}
 
 		public void ghostDied(int playerIndex) {
-			TFGame.Log(new Exception("Ghost Died"), false);
 			activeGhosts[playerIndex].RemoveSelf();
 			activeGhosts[playerIndex] = null;
 			this.checkRoundEndConditions();
@@ -464,20 +459,6 @@ namespace Mod
 			base.OnPlayerDeath(player, corpse, playerIndex, cause, position, killerIndex);
 			this.Session.CurrentLevel.Add(activeGhosts[playerIndex] = new PlayerGhost(corpse));
 			this.checkRoundEndConditions();
-
-			// if (base.Session.MatchSettings.Variants.ReturnAsGhosts[playerIndex]) {
-			// 	TFGame.Log(new Exception("Return as ghosts detected"), false);
-			// } else {
-			// 	TFGame.Log(new Exception("Return as ghosts NOT detected"), false);
-			// }
-      //
-			// if (base.Session.MatchSettings.Variants.ReturnAsGhosts[playerIndex] && this.isLivingPlayer()) {
-			// 	TFGame.Log(new Exception("Yup"), false);
-			// 	base.Session.CurrentLevel.Ending = false;
-			// } else {
-			// 	TFGame.Log(new Exception("Nope"), false);
-			// 	// base.Session.CurrentLevel.Add(new FloatText(player.Position, "Nope", Color.White, Color.Yellow, 3.0f));
-			// }
 		}
 	}
 }
