@@ -23,6 +23,9 @@ namespace Mod
 		[PerPlayer]
 		public Variant NoDodgeCooldowns;
 
+		[PerPlayer]
+		public Variant VarietyPack;
+
 		public MyMatchVariants(bool noPerPlayer = false) : base(noPerPlayer)
 		{
 			// mutually exclusive variants
@@ -41,6 +44,28 @@ namespace Mod
 		public MyPlayer(int playerIndex, Vector2 position, Allegiance allegiance, Allegiance teamColor, PlayerInventory inventory, Player.HatStates hatState, bool frozen, bool flash, bool indicator)
 			: base(playerIndex, position, allegiance, teamColor, inventory, hatState, frozen, flash, indicator)
 		{
+		}
+
+		public override void Added()
+		{
+			base.Added();
+			if (((MyMatchVariants)Level.Session.MatchSettings.Variants).VarietyPack[this.PlayerIndex]) {
+				this.Arrows.Clear();
+				this.Arrows.SetMaxArrows(10);
+				var arrows = new ArrowTypes[] {
+					ArrowTypes.Bomb,
+					ArrowTypes.SuperBomb,
+					ArrowTypes.Laser,
+					ArrowTypes.Bramble,
+					ArrowTypes.Drill,
+					ArrowTypes.Bolt,
+					ArrowTypes.Toy,
+					ArrowTypes.Feather,
+					ArrowTypes.Trigger,
+					ArrowTypes.Prism
+				};
+				this.Arrows.AddArrows(arrows);
+			}
 		}
 
 		public override bool CanGrabLedge(int a, int b)
