@@ -64,6 +64,18 @@ namespace Mod
 					ArrowTypes.Trigger,
 					ArrowTypes.Prism
 				};
+
+				// Randomize. Couldn't get static method to work.
+				Random rand = new Random();
+				// For each spot in the array, pick
+				// a random item to swap into that spot.
+				for (int i = 0; i < arrows.Length - 1; i++)
+				{
+					int j = rand.Next(i, arrows.Length);
+					ArrowTypes temp = arrows[i];
+					arrows[i] = arrows[j];
+					arrows[j] = temp;
+				}
 				this.Arrows.AddArrows(arrows);
 			}
 		}
