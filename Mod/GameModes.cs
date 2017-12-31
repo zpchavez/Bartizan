@@ -19,10 +19,7 @@ namespace Mod
 		public override void Update() {
 			base.Update();
 			if (((MyMatchVariants)this.session.MatchSettings.Variants).GottaBustGhosts) {
-				TFGame.Log(new Exception("Variant is enabled"), false);
 				this.ghostWaitCounter = float.MaxValue;
-			} else {
-				TFGame.Log(new Exception("Variant does not appear to be enabled"), false);
 			}
 		}
 	}
