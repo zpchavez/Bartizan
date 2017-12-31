@@ -26,6 +26,8 @@ namespace Mod
 		[PerPlayer]
 		public Variant VarietyPack;
 
+		public Variant GottaBustGhosts;
+
 		public MyMatchVariants(bool noPerPlayer = false) : base(noPerPlayer)
 		{
 			// mutually exclusive variants

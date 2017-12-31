@@ -9,6 +9,25 @@ using System.Linq;
 namespace Mod
 {
 	[Patch]
+	public class MyRoundEndCounter : RoundEndCounter
+	{
+		public MyRoundEndCounter (Session session)
+			: base(session)
+		{
+		}
+
+		public override void Update() {
+			base.Update();
+			if (((MyMatchVariants)this.session.MatchSettings.Variants).GottaBustGhosts) {
+				TFGame.Log(new Exception("Variant is enabled"), false);
+				this.ghostWaitCounter = float.MaxValue;
+			} else {
+				TFGame.Log(new Exception("Variant does not appear to be enabled"), false);
+			}
+		}
+	}
+
+	[Patch]
 	public class MyRoundLogic : RoundLogic
 	{
 		protected MyRoundLogic(Session session, bool canHaveMiasma)
