@@ -40,8 +40,6 @@ namespace Mod
 			switch (session.MatchSettings.Mode) {
 				case RespawnRoundLogic.Mode:
 					return new RespawnRoundLogic(session);
-				case GottaBustGhostsRoundLogic.Mode:
-					return new GottaBustGhostsRoundLogic(session);
 				case MobRoundLogic.Mode:
 					return new MobRoundLogic(session);
 				default:
@@ -59,7 +57,6 @@ namespace Mod
 			Modes.TeamDeathmatch,
 			RespawnRoundLogic.Mode,
 			MobRoundLogic.Mode,
-			GottaBustGhostsRoundLogic.Mode,
 		};
 
 		public MyVersusModeButton(Vector2 position, Vector2 tweenFrom)
@@ -74,8 +71,6 @@ namespace Mod
 					return "RESPAWN";
 				case MobRoundLogic.Mode:
 					return "CRAWL";
-				case GottaBustGhostsRoundLogic.Mode:
-					return "GOTTA BUST GHOSTS";
 				default:
 					return VersusModeButton.GetModeName(mode);
 			}
@@ -87,8 +82,6 @@ namespace Mod
 				case RespawnRoundLogic.Mode:
 					return TFGame.MenuAtlas["gameModes/respawn"];
 				case MobRoundLogic.Mode:
-					return TFGame.MenuAtlas["gameModes/crawl"];
-				case GottaBustGhostsRoundLogic.Mode:
 					return TFGame.MenuAtlas["gameModes/crawl"];
 				default:
 					return VersusModeButton.GetModeIcon(mode);
@@ -140,7 +133,6 @@ namespace Mod
 				switch (this.Mode) {
 					case RespawnRoundLogic.Mode:
 					case MobRoundLogic.Mode:
-					case GottaBustGhostsRoundLogic.Mode:
 						int goals = this.PlayerGoals(5, 8, 10, 10, 10, 10, 10);
 						return (int)Math.Ceiling(((float)goals * MatchSettings.GoalMultiplier[(int)this.MatchLength]));
 					default:
@@ -163,7 +155,6 @@ namespace Mod
 			var mode = MainMenu.VersusMatchSettings.Mode;
 			if (mode == RespawnRoundLogic.Mode
 				|| mode == MobRoundLogic.Mode
-				|| mode == GottaBustGhostsRoundLogic.Mode
 			) {
 				MainMenu.VersusMatchSettings.Mode = Modes.HeadHunters;
 				base.Render();
@@ -352,16 +343,12 @@ namespace Mod
 		{
 			base.Die(killerIndex, arrow, explosion, circle);
 			var mobLogic = this.Level.Session.RoundLogic as MobRoundLogic;
-			var gottaBustLogic = this.Level.Session.RoundLogic as GottaBustGhostsRoundLogic;
 			if (mobLogic != null) {
 				// Ghosts treated as players in crawl mode
 				mobLogic.OnPlayerDeath(
 					null, this.corpse, this.PlayerIndex, DeathCause.Arrow, // FIXME
 					this.Position, killerIndex
 				);
-			} else if (gottaBustLogic != null) {
-				// Need to keep track of ghosts in gotta-bust-ghosts mode
-				gottaBustLogic.ghostDied(this.PlayerIndex);
 			}
 		}
 	}
@@ -414,71 +401,6 @@ namespace Mod
 			} else {
 				RemoveGhostAndRespawn(killerIndex, position);
 			}
-		}
-	}
-
-	public class GottaBustGhostsRoundLogic : HeadhuntersRoundLogic
-	{
-		public const Modes Mode = (Modes)44;
-		PlayerGhost[] activeGhosts = new PlayerGhost[8];
-		private Counter endDelay;
-
-		public GottaBustGhostsRoundLogic(Session session)
-			: base(session)
-		{
-			this.endDelay = new Counter();
-			this.endDelay.Set(90);
-		}
-
-		public bool areGhosts() {
-			for (int i = 0; i < 8; i++) {
-				if (TFGame.Players[i] && activeGhosts[i] != null) {
-					return true;
-				}
-			}
-			return false;
-		}
-
-		public bool isLivingPlayer() {
-			return base.Session.CurrentLevel.LivingPlayers > 0;
-		}
-
-		public override void OnUpdate()
-		{
-			base.OnUpdate();
-
-			if (base.RoundStarted && base.Session.CurrentLevel.Ending && base.Session.CurrentLevel.CanEnd) {
-				if (this.endDelay) {
-					this.endDelay.Update();
-					return;
-				}
-				base.Session.EndRound();
-			}
-		}
-
-		public void checkRoundEndConditions() {
-			if (
-				base.Session.CurrentLevel.LivingPlayers == 0 || (
-					base.Session.CurrentLevel.LivingPlayers < 2 && !this.areGhosts()
-				)
-			) {
-				base.Session.CurrentLevel.Ending = true;
-			} else {
-				base.Session.CurrentLevel.Ending = false;
-			}
-		}
-
-		public void ghostDied(int playerIndex) {
-			activeGhosts[playerIndex].RemoveSelf();
-			activeGhosts[playerIndex] = null;
-			this.checkRoundEndConditions();
-		}
-
-		public override void OnPlayerDeath(Player player, PlayerCorpse corpse, int playerIndex, DeathCause cause, Vector2 position, int killerIndex)
-		{
-			base.OnPlayerDeath(player, corpse, playerIndex, cause, position, killerIndex);
-			this.Session.CurrentLevel.Add(activeGhosts[playerIndex] = new PlayerGhost(corpse));
-			this.checkRoundEndConditions();
 		}
 	}
 }
