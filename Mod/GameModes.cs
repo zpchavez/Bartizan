@@ -19,7 +19,7 @@ namespace Mod
 		public override void Update() {
 			base.Update();
 			if (((MyMatchVariants)this.session.MatchSettings.Variants).GottaBustGhosts) {
-				this.ghostWaitCounter = float.MaxValue;
+				this.ghostWaitCounter = 1;
 			}
 		}
 	}
