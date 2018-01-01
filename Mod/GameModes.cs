@@ -9,22 +9,6 @@ using System.Linq;
 namespace Mod
 {
 	[Patch]
-	public class MyRoundEndCounter : RoundEndCounter
-	{
-		public MyRoundEndCounter (Session session)
-			: base(session)
-		{
-		}
-
-		public override void Update() {
-			base.Update();
-			if (((MyMatchVariants)this.session.MatchSettings.Variants).GottaBustGhosts) {
-				this.ghostWaitCounter = 1;
-			}
-		}
-	}
-
-	[Patch]
 	public class MyRoundLogic : RoundLogic
 	{
 		protected MyRoundLogic(Session session, bool canHaveMiasma)
