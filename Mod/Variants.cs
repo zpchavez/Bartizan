@@ -59,6 +59,8 @@ namespace Mod
 	[Patch]
 	public class MyPlayer : Player
 	{
+		private string lastHatState = "UNSET";
+
 		public MyPlayer(int playerIndex, Vector2 position, Allegiance allegiance, Allegiance teamColor, PlayerInventory inventory, Player.HatStates hatState, bool frozen, bool flash, bool indicator)
 			: base(playerIndex, position, allegiance, teamColor, inventory, hatState, frozen, flash, indicator)
 		{
@@ -128,6 +130,28 @@ namespace Mod
 		{
 			if (!((MyMatchVariants)Level.Session.MatchSettings.Variants).NoHeadBounce[this.PlayerIndex])
 				base.HurtBouncedOn(bouncerIndex);
+		}
+
+		public override void Update()
+		{
+			// ArcherData
+			base.Update();
+			if (lastHatState == "UNSET") {
+				lastHatState = HatState.ToString();
+				TFGame.Log(new Exception("Setting initial lastHatState"), false);
+				TFGame.Log(new Exception(lastHatState), false);
+			} else if (lastHatState != HatState.ToString()) {
+				if (lastHatState != "Crown" && HatState.ToString() == "Crown") {
+					TFGame.Log(new Exception("Trying It"), false);
+					ChalicePad chalicePad = new ChalicePad(ActualPosition, 5);
+					// Chalice chalice = new Chalice(chalicePad);
+					// ChaliceGhost chaliceGhost = new ChaliceGhost(0, chalice);
+					// Level.Session.CurrentLevel.Add(chalicePad);
+				}
+				lastHatState = HatState.ToString();
+				TFGame.Log(new Exception("Setting changed lastHatState"), false);
+				TFGame.Log(new Exception(lastHatState), false);
+			}
 		}
 
 	}
