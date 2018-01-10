@@ -28,6 +28,8 @@ namespace Mod
 
 		public Variant GottaBustGhosts;
 
+		public Variant KillerCrowns;
+
 		public MyMatchVariants(bool noPerPlayer = false) : base(noPerPlayer)
 		{
 			// mutually exclusive variants
@@ -136,21 +138,22 @@ namespace Mod
 		{
 			// ArcherData
 			base.Update();
-			if (lastHatState == "UNSET") {
-				lastHatState = HatState.ToString();
-				TFGame.Log(new Exception("Setting initial lastHatState"), false);
-				TFGame.Log(new Exception(lastHatState), false);
-			} else if (lastHatState != HatState.ToString()) {
-				if (lastHatState != "Crown" && HatState.ToString() == "Crown") {
-					TFGame.Log(new Exception("Trying It"), false);
-					ChalicePad chalicePad = new ChalicePad(ActualPosition, 5);
-					// Chalice chalice = new Chalice(chalicePad);
-					// ChaliceGhost chaliceGhost = new ChaliceGhost(0, chalice);
-					// Level.Session.CurrentLevel.Add(chalicePad);
+			if (((MyMatchVariants)Level.Session.MatchSettings.Variants).KillerCrowns) {
+				if (lastHatState == "UNSET") {
+					lastHatState = HatState.ToString();
+				} else if (lastHatState != HatState.ToString()) {
+					if (lastHatState != "Crown" && HatState.ToString() == "Crown") {
+						for (int i = 0; i < 8; i++) {
+							if (TFGame.Players[i] && i != PlayerIndex) {
+								Player player = Level.GetPlayer(i);
+								if (player) {
+									player.Die(DeathCause.JumpedOn, PlayerIndex);
+								}
+							}
+						}
+					}
+					lastHatState = HatState.ToString();
 				}
-				lastHatState = HatState.ToString();
-				TFGame.Log(new Exception("Setting changed lastHatState"), false);
-				TFGame.Log(new Exception(lastHatState), false);
 			}
 		}
 
