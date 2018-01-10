@@ -28,6 +28,8 @@ namespace Mod
 
 		public Variant GottaBustGhosts;
 
+		public Variant KillerCrowns;
+
 		public MyMatchVariants(bool noPerPlayer = false) : base(noPerPlayer)
 		{
 			// mutually exclusive variants
@@ -59,6 +61,8 @@ namespace Mod
 	[Patch]
 	public class MyPlayer : Player
 	{
+		private string lastHatState = "UNSET";
+
 		public MyPlayer(int playerIndex, Vector2 position, Allegiance allegiance, Allegiance teamColor, PlayerInventory inventory, Player.HatStates hatState, bool frozen, bool flash, bool indicator)
 			: base(playerIndex, position, allegiance, teamColor, inventory, hatState, frozen, flash, indicator)
 		{
@@ -128,6 +132,29 @@ namespace Mod
 		{
 			if (!((MyMatchVariants)Level.Session.MatchSettings.Variants).NoHeadBounce[this.PlayerIndex])
 				base.HurtBouncedOn(bouncerIndex);
+		}
+
+		public override void Update()
+		{
+			// ArcherData
+			base.Update();
+			if (((MyMatchVariants)Level.Session.MatchSettings.Variants).KillerCrowns) {
+				if (lastHatState == "UNSET") {
+					lastHatState = HatState.ToString();
+				} else if (lastHatState != HatState.ToString()) {
+					if (lastHatState != "Crown" && HatState.ToString() == "Crown") {
+						for (int i = 0; i < 8; i++) {
+							if (TFGame.Players[i] && i != PlayerIndex) {
+								Player player = Level.GetPlayer(i);
+								if (player) {
+									player.Die(DeathCause.JumpedOn, PlayerIndex);
+								}
+							}
+						}
+					}
+					lastHatState = HatState.ToString();
+				}
+			}
 		}
 
 	}

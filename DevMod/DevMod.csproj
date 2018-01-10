@@ -55,6 +55,6 @@
     <Reference Condition=" '$(Configuration)' == 'DebugWindows' " Include="Microsoft.Xna.Framework.Net" />
   </ItemGroup>
   <Target Name="AfterBuild">
-    <Exec Command="../bin/Patcher.exe patch Mod.dll DevMod.dll" WorkingDirectory="../bin" />
+    <Exec Command="../bin/Patcher.exe patch Mod.dll" WorkingDirectory="../bin" />
   </Target>
 </Project>
