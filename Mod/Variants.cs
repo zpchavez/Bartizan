@@ -146,7 +146,11 @@ namespace Mod
 							if (TFGame.Players[i] && i != PlayerIndex) {
 								Player player = Level.GetPlayer(i);
 								if (player && player.Allegiance != Allegiance) {
-									player.Die(DeathCause.JumpedOn, PlayerIndex);
+									if (player.HasShield) {
+										player.shield.Lose();
+									} else {
+										player.Die(DeathCause.Chalice, PlayerIndex);
+									}
 								}
 							}
 						}
