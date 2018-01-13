@@ -30,6 +30,8 @@ namespace Mod
 
 		public Variant KillerCrowns;
 
+		public Variant FastGhosts;
+
 		public MyMatchVariants(bool noPerPlayer = false) : base(noPerPlayer)
 		{
 			// mutually exclusive variants

@@ -332,6 +332,17 @@ namespace Mod
 				);
 			}
 		}
+
+		public override void Update()
+		{
+			if (((MyMatchVariants)Level.Session.MatchSettings.Variants).FastGhosts) {
+				typeof(Engine).GetProperty("TimeMult").SetValue(null, Engine.TimeMult * 1.5f, null);
+				base.Update();
+				typeof(Engine).GetProperty("TimeMult").SetValue(null, Engine.TimeMult / 1.5f, null);
+			} else {
+				base.Update();
+			}
+		}
 	}
 
 	public class MobRoundLogic : RespawnRoundLogic
