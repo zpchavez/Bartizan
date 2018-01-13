@@ -12,24 +12,29 @@ namespace Mod
 	public class MyMatchVariants : MatchVariants
 	{
 		[Header("MODS")]
-		[PerPlayer]
+		[PerPlayer, CanRandom]
 		public Variant NoHeadBounce;
-		[PerPlayer]
+		[PerPlayer, CanRandom]
 		public Variant NoLedgeGrab;
+		[CanRandom]
 		public Variant AwfullySlowArrows;
+		[CanRandom]
 		public Variant AwfullyFastArrows;
-		[PerPlayer]
+		[PerPlayer, CanRandom]
 		public Variant InfiniteArrows;
-		[PerPlayer]
+		[PerPlayer, CanRandom]
 		public Variant NoDodgeCooldowns;
 
-		[PerPlayer]
+		[PerPlayer, CanRandom]
 		public Variant VarietyPack;
 
+		[CanRandom]
 		public Variant GottaBustGhosts;
 
+		[CanRandom]
 		public Variant KillerCrowns;
 
+		[CanRandom]
 		public Variant FastGhosts;
 
 		public MyMatchVariants(bool noPerPlayer = false) : base(noPerPlayer)
