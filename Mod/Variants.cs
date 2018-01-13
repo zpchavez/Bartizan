@@ -136,7 +136,6 @@ namespace Mod
 
 		public override void Update()
 		{
-			// ArcherData
 			base.Update();
 			if (((MyMatchVariants)Level.Session.MatchSettings.Variants).KillerCrowns) {
 				if (lastHatState == "UNSET") {
@@ -146,7 +145,7 @@ namespace Mod
 						for (int i = 0; i < 8; i++) {
 							if (TFGame.Players[i] && i != PlayerIndex) {
 								Player player = Level.GetPlayer(i);
-								if (player) {
+								if (player && player.Allegiance != Allegiance) {
 									player.Die(DeathCause.JumpedOn, PlayerIndex);
 								}
 							}
