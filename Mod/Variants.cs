@@ -152,7 +152,7 @@ namespace Mod
 						for (int i = 0; i < 8; i++) {
 							if (TFGame.Players[i] && i != PlayerIndex) {
 								Player player = Level.GetPlayer(i);
-								if (player && player.Allegiance != Allegiance) {
+								if (player && (player.Allegiance == Allegiance.Neutral || player.Allegiance != Allegiance)) {
 									if (player.HasShield) {
 										player.shield.Lose();
 									} else {
