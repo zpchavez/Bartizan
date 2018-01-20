@@ -153,6 +153,7 @@ namespace Mod
 							if (TFGame.Players[i] && i != PlayerIndex) {
 								Player player = Level.GetPlayer(i);
 								if (player && (player.Allegiance == Allegiance.Neutral || player.Allegiance != Allegiance)) {
+									Sounds.sfx_chaliceGhostKill.Play();
 									if (player.HasShield) {
 										player.shield.Lose();
 									} else {
