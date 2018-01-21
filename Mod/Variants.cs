@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 using TowerFall;
 using Microsoft.Xna.Framework;
 using Patcher;
@@ -62,6 +63,20 @@ namespace Mod
 			if (((MyMatchVariants)this.session.MatchSettings.Variants).GottaBustGhosts) {
 				this.ghostWaitCounter = 1;
 			}
+		}
+	}
+
+	[Patch]
+	public class MyLevel : Level
+	{
+		public MyLevel (Session session, XmlElement xml) : base(session, xml)
+		{
+
+		}
+
+		public override void ScreenShake(int frames)
+		{
+			// Disable screen shake to fix glitched-out replay gifs
 		}
 	}
 
