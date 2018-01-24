@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\MyChalice.cs" />
+    <Compile Include="Classes\MyChalicePad.cs" />
+    <Compile Include="Classes\MyChaliceGhost.cs" />
     <Compile Include="Variants.cs" />
     <Compile Include="Other.cs" />
     <Compile Include="GameModes.cs" />

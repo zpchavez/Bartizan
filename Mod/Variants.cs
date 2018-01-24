@@ -164,25 +164,15 @@ namespace Mod
 					lastHatState = HatState.ToString();
 				} else if (lastHatState != HatState.ToString()) {
 					if (lastHatState != "Crown" && HatState.ToString() == "Crown") {
-						for (int i = 0; i < 8; i++) {
-							if (TFGame.Players[i] && i != PlayerIndex) {
-								Player player = Level.GetPlayer(i);
-								if (player && (player.Allegiance == Allegiance.Neutral || player.Allegiance != Allegiance)) {
-									Sounds.sfx_chaliceGhostKill.Play();
-									if (player.HasShield) {
-										player.shield.Lose();
-									} else {
-										player.Die(DeathCause.Chalice, PlayerIndex);
-									}
-								}
-							}
-						}
+						MyChalicePad chalicePad = new MyChalicePad(ActualPosition, 4);
+						MyChalice chalice = new MyChalice(chalicePad);
+						MyChaliceGhost chaliceGhost = new MyChaliceGhost(PlayerIndex, chalice);
+						Level.Layers[chaliceGhost.LayerIndex].Add(chaliceGhost, false);
 					}
 					lastHatState = HatState.ToString();
 				}
 			}
 		}
-
 	}
 
 	[Patch]
