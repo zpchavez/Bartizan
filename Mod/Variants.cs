@@ -33,7 +33,7 @@ namespace Mod
 		public Variant GottaBustGhosts;
 
 		[CanRandom]
-		public Variant KillerCrowns;
+		public Variant CrownSummonsChaliceGhost;
 
 		[CanRandom]
 		public Variant FastGhosts;
@@ -170,7 +170,7 @@ namespace Mod
 		public override void Update()
 		{
 			base.Update();
-			if (((MyMatchVariants)Level.Session.MatchSettings.Variants).KillerCrowns) {
+			if (((MyMatchVariants)Level.Session.MatchSettings.Variants).CrownSummonsChaliceGhost) {
 				if (lastHatState == "UNSET") {
 					lastHatState = HatState.ToString();
 				} else if (lastHatState != HatState.ToString()) {
