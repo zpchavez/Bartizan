@@ -85,6 +85,8 @@ namespace Mod
 	{
 		private string lastHatState = "UNSET";
 
+		MyChaliceGhost summonedChaliceGhost;
+
 		public MyPlayer(int playerIndex, Vector2 position, Allegiance allegiance, Allegiance teamColor, PlayerInventory inventory, Player.HatStates hatState, bool frozen, bool flash, bool indicator)
 			: base(playerIndex, position, allegiance, teamColor, inventory, hatState, frozen, flash, indicator)
 		{
@@ -156,6 +158,15 @@ namespace Mod
 				base.HurtBouncedOn(bouncerIndex);
 		}
 
+		public override PlayerCorpse Die (DeathCause deathCause, int killerIndex, bool brambled = false, bool laser = false)
+		{
+			if (summonedChaliceGhost) {
+				summonedChaliceGhost.Vanish();
+				summonedChaliceGhost = null;
+			}
+			return base.Die(deathCause, killerIndex, brambled, laser);
+		}
+
 		public override void Update()
 		{
 			base.Update();
@@ -166,8 +177,12 @@ namespace Mod
 					if (lastHatState != "Crown" && HatState.ToString() == "Crown") {
 						MyChalicePad chalicePad = new MyChalicePad(ActualPosition, 4);
 						MyChalice chalice = new MyChalice(chalicePad);
-						MyChaliceGhost chaliceGhost = new MyChaliceGhost(PlayerIndex, chalice);
-						Level.Layers[chaliceGhost.LayerIndex].Add(chaliceGhost, false);
+						summonedChaliceGhost = new MyChaliceGhost(PlayerIndex, chalice);
+						Level.Layers[summonedChaliceGhost.LayerIndex].Add(summonedChaliceGhost, false);
+					} else if (summonedChaliceGhost && lastHatState == "Crown" && HatState.ToString() != "Crown") {
+						// Ghost vanishes when player loses the crown
+						summonedChaliceGhost.Vanish();
+						summonedChaliceGhost = null;
 					}
 					lastHatState = HatState.ToString();
 				}
