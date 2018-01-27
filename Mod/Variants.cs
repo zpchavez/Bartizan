@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml;
 using TowerFall;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Patcher;
 using Monocle;
 
@@ -67,16 +68,13 @@ namespace Mod
 	}
 
 	[Patch]
-	public class MyLevel : Level
+	public class MyReplayFrame : ReplayFrame
 	{
-		public MyLevel (Session session, XmlElement xml) : base(session, xml)
+		public override void Record (float timeSinceLastFrame, long ticksSinceLastFrame)
 		{
-
-		}
-
-		public override void ScreenShake(int frames)
-		{
-			// Disable screen shake to fix glitched-out replay gifs
+			base.Record(timeSinceLastFrame, ticksSinceLastFrame);
+			// Undo screen offset to fix glitched out frames during screen shake
+			this.ScreenOffsetAdd = new Vector2(0, 0);
 		}
 	}
 
