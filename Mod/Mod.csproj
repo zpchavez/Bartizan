@@ -43,8 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\New\ArcherColor.cs" />
     <Compile Include="Classes\New\MobRoundLogic.cs" />
     <Compile Include="Classes\New\RespawnRoundLogic.cs" />
+    <Compile Include="Classes\New\TrackerMatchStats.cs" />
     <Compile Include="Classes\Patched\MyArrow.cs" />
     <Compile Include="Classes\Patched\MyMatchSettings.cs" />
     <Compile Include="Classes\Patched\MyMatchVariants.cs" />
@@ -55,6 +57,7 @@
     <Compile Include="Classes\Patched\MyRoundEndCounter.cs" />
     <Compile Include="Classes\Patched\MyRoundLogic.cs" />
     <Compile Include="Classes\Patched\MyVersusCoinButton.cs" />
+    <Compile Include="Classes\Patched\MyVersusMatchResults.cs" />
     <Compile Include="Classes\Patched\MyVersusModeButton.cs" />
     <Compile Include="Classes\Patched\MyVersusPlayerMatchResults.cs" />
     <Compile Include="Classes\Patched\MyVersusRoundResults.cs" />
