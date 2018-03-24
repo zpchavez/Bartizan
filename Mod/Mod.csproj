@@ -43,12 +43,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\MyChalice.cs" />
-    <Compile Include="Classes\MyChalicePad.cs" />
-    <Compile Include="Classes\MyChaliceGhost.cs" />
-    <Compile Include="Variants.cs" />
-    <Compile Include="Other.cs" />
-    <Compile Include="GameModes.cs" />
+    <Compile Include="Classes\New\MobRoundLogic.cs" />
+    <Compile Include="Classes\New\RespawnRoundLogic.cs" />
+    <Compile Include="Classes\Patched\MyArrow.cs" />
+    <Compile Include="Classes\Patched\MyMatchSettings.cs" />
+    <Compile Include="Classes\Patched\MyMatchVariants.cs" />
+    <Compile Include="Classes\Patched\MyPlayer.cs" />
+    <Compile Include="Classes\Patched\MyPlayerGhost.cs" />
+    <Compile Include="Classes\Patched\MyReplayFrame.cs" />
+    <Compile Include="Classes\Patched\MyRollcallElement.cs" />
+    <Compile Include="Classes\Patched\MyRoundEndCounter.cs" />
+    <Compile Include="Classes\Patched\MyRoundLogic.cs" />
+    <Compile Include="Classes\Patched\MyVersusCoinButton.cs" />
+    <Compile Include="Classes\Patched\MyVersusModeButton.cs" />
+    <Compile Include="Classes\Patched\MyVersusPlayerMatchResults.cs" />
+    <Compile Include="Classes\Patched\MyVersusRoundResults.cs" />
+    <Compile Include="Classes\Replaced\MyChalice.cs" />
+    <Compile Include="Classes\Replaced\MyChalicePad.cs" />
+    <Compile Include="Classes\Replaced\MyChaliceGhost.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
