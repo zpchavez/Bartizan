@@ -30,7 +30,10 @@ namespace Mod
       for (int index = 0; index < this.session.MatchStats.Length; index++) {
         if (TFGame.Players[index]) {
           stats.kills[index] = (int)this.session.MatchStats[index].Kills.Kills;
-          stats.deaths[index] = (int)this.session.MatchStats[index].Deaths.Kills;
+          stats.deaths[index] =
+            (int)this.session.MatchStats[index].Deaths.Kills +
+            (int)this.session.MatchStats[index].Deaths.SelfKills +
+            (int)this.session.MatchStats[index].Deaths.TeamKills;
           stats.wins[index] = this.session.MatchStats[index].Won ? 1 : 0;
         }
       }
