@@ -44,7 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\New\ArcherColor.cs" />
-    <Compile Include="Classes\New\CustomMatchStats.cs" />
     <Compile Include="Classes\New\MobRoundLogic.cs" />
     <Compile Include="Classes\New\RespawnRoundLogic.cs" />
     <Compile Include="Classes\New\TrackerMatchStats.cs" />
