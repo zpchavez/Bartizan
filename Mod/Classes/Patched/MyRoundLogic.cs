@@ -8,12 +8,21 @@ using System.Linq;
 
 namespace Mod
 {
-  [Patch]
+	[Patch]
 	public class MyRoundLogic : RoundLogic
 	{
 		protected MyRoundLogic(Session session, bool canHaveMiasma)
 			: base(session, canHaveMiasma)
 		{
+		}
+
+		public override void OnLevelLoadFinish ()
+		{
+			if (!this.Session.MatchSettings.SoloMode) {
+				SaveData.Instance.Stats.RoundsPlayed++;
+				SessionStats.RoundsPlayed++;
+				((MySession)this.Session).RoundsPlayedThisMatch++;
+			}
 		}
 
 		public override void OnPlayerDeath (Player player, PlayerCorpse corpse, int playerIndex, DeathCause cause, Vector2 position, int killerIndex)

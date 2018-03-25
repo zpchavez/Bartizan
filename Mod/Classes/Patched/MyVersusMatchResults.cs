@@ -30,6 +30,7 @@ namespace Mod
       TrackerMatchStats stats = new TrackerMatchStats();
 
       TFGame.Log(new Exception("Results"), false);
+      TFGame.Log(new Exception("ROUND PLAYED " + ((MySession)this.session).RoundsPlayedThisMatch.ToString()), false);
 
       if (PrevRoundsPlayed == 0) {
         stats.rounds = SessionStats.RoundsPlayed;
