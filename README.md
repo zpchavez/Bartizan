@@ -1,4 +1,37 @@
-# Bartizan
+# Bartizan TowerFall Modding Framework
+
+This is a fork of Bartizan, the mod framework for TowerFall. The additions
+I've made are listed below. The original README stated that the patcher
+didn't work on mac, but I've exclusively been using this on the mac version
+with no problem.
+
+## General changes
+
+- Modified to work with (and only with) 8-player TowerFall
+- Fixed glitched replay gifs by removing screen shake from replays
+- Added Free Aim to the tournament ruleset
+- Integrated with my stat tracker API which is currently a private repo so don't worry about it
+
+## Variants
+
+### Crown Summons Chalice Ghost
+
+In this mode, putting on someone's fallen crowd summons the chalice ghost.
+If the crown is knocked off or the player dies, the chalice ghost vanishes.
+
+### Gotta Bust Ghosts
+
+The round won't end until all ghosts have been busted.
+
+### Variety Pack
+
+Start with one of every arrow type
+
+### Fast Ghosts
+
+Ghost are faster
+
+# Original Readme
 
 A mod framework for [TowerFall Ascension](http://www.towerfall-game.com/) (copyright 2013 Matt Thorson, obviously).
 
