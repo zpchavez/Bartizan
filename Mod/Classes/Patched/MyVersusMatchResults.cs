@@ -13,6 +13,12 @@ namespace Mod
   {
     public MyVersusMatchResults (Session session, VersusRoundResults roundResults) : base(session, roundResults)
     {
+      System.Net.ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications);
+    }
+
+    private static bool AcceptAllCertifications(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certification, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
+    {
+      return true;
     }
 
     // This SHOULD be accessible from TFGame but isn't so I copy/pasted it
