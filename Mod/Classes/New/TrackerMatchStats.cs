@@ -10,9 +10,9 @@ namespace Mod
     public int[] deaths = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
     public int[] wins = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
 
-    public override string ToString()
+    public string ToJSON(string apiKey)
     {
-      string json = "{\"api_token\": \"12345\",\"rounds\": " + rounds.ToString();
+      string json = "{\"api_token\": \"" + apiKey + "\",\"rounds\": " + rounds.ToString();
 
       json += ",\"kills\": {";
       string[] killStrings = new string[TFGame.PlayerAmount];
