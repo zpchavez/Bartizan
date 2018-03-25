@@ -12,54 +12,29 @@ namespace Mod
   [Patch]
   public class MyVersusMatchResults : VersusMatchResults
   {
-    public int PrevRoundsPlayed = 0;
-    public int[] PrevArcherPlays;
-    public int[] PrevArcherKills;
-    public int[] PrevArcherDeaths;
-    public int[] PrevArcherWins;
-
     public MyVersusMatchResults (Session session, VersusRoundResults roundResults) : base(session, roundResults)
     {
     }
 
     public override void Added ()
     {
-      // Check for tf-tracker-api.json
-
       base.Added();
+
+      // Check for tf-tracker-api.json
       TrackerMatchStats stats = new TrackerMatchStats();
 
       TFGame.Log(new Exception("Results"), false);
       TFGame.Log(new Exception("ROUND PLAYED " + ((MySession)this.session).RoundsPlayedThisMatch.ToString()), false);
 
-      if (PrevRoundsPlayed == 0) {
-        stats.rounds = SessionStats.RoundsPlayed;
-        for (int index = 0; index < SessionStats.ArcherPlays.Length; index++) {
-          if (SessionStats.ArcherPlays[index] > 0) {
-            ArcherColor color = (ArcherColor)index;
-            stats.kills[index] = SessionStats.ArcherKills[index];
-            stats.deaths[index] = SessionStats.ArcherDeaths[index];
-            stats.wins[index] = SessionStats.ArcherWins[index];
-          }
-        }
-      } else {
-        for (int index = 0; index < SessionStats.ArcherPlays.Length; index++) {
-          if (SessionStats.ArcherPlays[index] > 0) {
-            ArcherColor color = (ArcherColor)index;
-            stats.kills[index] = SessionStats.ArcherKills[index] - PrevArcherKills[index];
-            stats.deaths[index] = SessionStats.ArcherDeaths[index] - PrevArcherDeaths[index];
-            stats.wins[index] = SessionStats.ArcherWins[index] - PrevArcherWins[index];
-          }
+      stats.rounds = ((MySession)this.session).RoundsPlayedThisMatch;
+      for (int index = 0; index < this.session.MatchStats.Length; index++) {
+        if (TFGame.Players[index]) {
+          stats.kills[index] = (int)this.session.MatchStats[index].Kills.Kills;
+          stats.deaths[index] = (int)this.session.MatchStats[index].Deaths.Kills;
+          stats.wins[index] = this.session.MatchStats[index].Won ? 1 : 0;
         }
       }
-
       TFGame.Log(new Exception(stats.ToString()), false);
-
-      PrevRoundsPlayed = SessionStats.RoundsPlayed;
-      PrevArcherPlays = SessionStats.ArcherPlays;
-      PrevArcherKills = SessionStats.ArcherKills;
-      PrevArcherDeaths = SessionStats.ArcherDeaths;
-      PrevArcherWins = SessionStats.ArcherWins;
     }
   }
 }
