@@ -1,4 +1,3 @@
-using Patcher;
 using TowerFall;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;

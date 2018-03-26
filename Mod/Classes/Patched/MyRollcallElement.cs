@@ -1,8 +1,5 @@
 using TowerFall;
-using Monocle;
-using Microsoft.Xna.Framework;
 using Patcher;
-using System.Collections.Generic;
 
 namespace Mod
 {
