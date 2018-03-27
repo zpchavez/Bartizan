@@ -16,7 +16,7 @@ with no problem.
 
 ### Crown Summons Chalice Ghost
 
-In this mode, putting on someone's fallen crowd summons the chalice ghost.
+In this mode, putting on someone's fallen crown summons the chalice ghost.
 If the crown is knocked off or the player dies, the chalice ghost vanishes.
 
 ### Gotta Bust Ghosts
