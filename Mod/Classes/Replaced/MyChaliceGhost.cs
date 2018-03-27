@@ -192,6 +192,9 @@ namespace TowerFall
 
 		public override void Update ()
 		{
+			if (this.dead) {
+				return;
+			}
 			base.Update ();
 			if (base.Scene.OnInterval (5)) {
 				this.flash = !this.flash;
