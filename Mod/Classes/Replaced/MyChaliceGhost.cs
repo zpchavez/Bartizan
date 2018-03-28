@@ -247,6 +247,8 @@ namespace TowerFall
 				if (!flag) {
 					this.Vanish ();
 				}
+			} else if (this.dead && this.sprite.CurrentAnimID == "idle") {
+				this.Vanish ();
 			}
 		}
 
