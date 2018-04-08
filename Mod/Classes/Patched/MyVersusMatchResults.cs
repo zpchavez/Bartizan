@@ -90,6 +90,9 @@ namespace Mod
               (int)this.session.MatchStats[index].Deaths.SelfKills +
               (int)this.session.MatchStats[index].Deaths.TeamKills;
             stats.wins[index] = this.session.MatchStats[index].Won ? 1 : 0;
+            stats.selfs[index] = (int)this.session.MatchStats[index].Kills.SelfKills;
+            stats.teamKills[index] = (int)this.session.MatchStats[index].Kills.TeamKills;
+            stats.revives[index] = (int)this.session.MatchStats[index].Revives;
           }
         }
 
