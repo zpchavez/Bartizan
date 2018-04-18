@@ -53,10 +53,12 @@ namespace TowerFall
 
 		public int ownerIndex;
 
+		public bool huntsGhosts;
+
 		//
 		// Constructors
 		//
-		public MyChaliceGhost (int ownerIndex, MyChalice source)
+		public MyChaliceGhost (int ownerIndex, MyChalice source, bool huntsGhosts=false)
 		{
 			base.Depth = -1000000;
 			base.Tag (new GameTags[] {
@@ -66,6 +68,7 @@ namespace TowerFall
 			});
 			base.Collider = new WrapHitbox (14f, 14f, -7f, -7f);
 			this.Collidable = false;
+			this.huntsGhosts = huntsGhosts;
 			this.ownerIndex = ownerIndex;
 			this.source = source;
 			this.ScreenWrap = true;
@@ -193,8 +196,7 @@ namespace TowerFall
 			float num = maxDistSq;
 			Random rand = new Random();
 
-			// if (((MyMatchVariants)base.Level.Session.MatchSettings.Variants).ChaliceGhostsKillGhosts) {
-			if (true) {
+			if (this.huntsGhosts) {
 				// flip a coin to determine whether to check for ghosts first or players first
 				if (rand.Next(2) == 0) {
 					result = getPlayerTarget(maxDistSq);
