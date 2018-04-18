@@ -310,7 +310,7 @@ namespace TowerFall
 
 				if (this.targetIsGhost && this.ghostTarget.State == 3) {
 					this.target = null;
-				} else if (this.playerTarget.Dead) {
+				} else if (this.playerTarget != null && this.playerTarget.Dead) {
 					this.target = null;
 				}
 			}
