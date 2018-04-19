@@ -15,10 +15,6 @@ namespace Mod
       this.corpse = corpse;
     }
 
-    public bool isDead() {
-      return base.dead;
-    }
-
     public override void Die(int killerIndex, Arrow arrow, Explosion explosion, ShockCircle circle)
     {
       base.Die(killerIndex, arrow, explosion, circle);

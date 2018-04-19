@@ -245,7 +245,6 @@ namespace TowerFall
 
 		public override void OnPlayerGhostCollide (PlayerGhost ghost)
 		{
-			TFGame.Log(new Exception("Collided with ghost"), false);
 			if (this.CanAttackGhost (ghost)) {
 				this.sprite.Play ("attack", true);
 				this.speed = (ghost.Position - this.Position).SafeNormalize (2f);
@@ -331,7 +330,6 @@ namespace TowerFall
 			if (!this.dead && this.sprite.CurrentAnimID == "idle") {
 				bool flag = this.GetClosestTarget() != null;
 				if (!flag) {
-					TFGame.Log(new Exception("No target so vanish"), false);
 					this.Vanish ();
 				}
 			} else if (this.dead && this.sprite.CurrentAnimID == "idle") {
