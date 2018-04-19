@@ -29,8 +29,8 @@ namespace Mod
 		[CanRandom]
 		public Variant CrownSummonsChaliceGhost;
 
-    [CanRandom]
-    public Variant ChaliceGhostsHuntGhosts;
+		[CanRandom]
+		public Variant ChaliceGhostsHuntGhosts;
 
 		[CanRandom]
 		public Variant FastGhosts;
