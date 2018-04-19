@@ -30,7 +30,7 @@ namespace Mod
 		public Variant CrownSummonsChaliceGhost;
 
     [CanRandom]
-    public Variant ChaliceGhostsKillGhosts;
+    public Variant ChaliceGhostsHuntGhosts;
 
 		[CanRandom]
 		public Variant FastGhosts;

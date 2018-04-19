@@ -105,7 +105,7 @@ namespace Mod
             summonedChaliceGhost = new MyChaliceGhost(
               PlayerIndex,
               chalice,
-              ((MyMatchVariants)Level.Session.MatchSettings.Variants).ChaliceGhostsKillGhosts
+              ((MyMatchVariants)Level.Session.MatchSettings.Variants).ChaliceGhostsHuntGhosts
             );
             Level.Layers[summonedChaliceGhost.LayerIndex].Add(summonedChaliceGhost, false);
           } else if (summonedChaliceGhost && lastHatState == "Crown" && HatState.ToString() != "Crown") {

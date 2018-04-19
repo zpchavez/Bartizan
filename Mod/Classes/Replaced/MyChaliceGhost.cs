@@ -304,12 +304,6 @@ namespace TowerFall
 			this.cloak.CurrentFrame = this.sprite.CurrentFrame;
 			this.cloak.FlipX = this.sprite.FlipX;
 			if (this.target != null) {
-				// if (this.targetIsGhost && ((MyPlayerGhost)this.target).isDead()) {
-				// 	this.target = null;
-				// } else if (((Player)this.target).Dead) {
-				// 	this.target = null;
-				// }
-
 				if (this.targetIsGhost && this.ghostTarget.State == 3) {
 					this.target = null;
 				} else if (this.playerTarget != null && this.playerTarget.Dead) {
@@ -336,20 +330,6 @@ namespace TowerFall
 			this.Position += this.speed * Engine.TimeMult;
 			if (!this.dead && this.sprite.CurrentAnimID == "idle") {
 				bool flag = this.GetClosestTarget() != null;
-				// using (List<Entity>.Enumerator enumerator = base.Level.Players.GetEnumerator ()) {
-				// 	while (enumerator.MoveNext ()) {
-				// 		Player player = (Player)enumerator.Current;
-				// 		if (base.Level.Session.MatchSettings.TeamMode) {
-				// 			if (player.Allegiance != this.team) {
-				// 				flag = true;
-				// 				break;
-				// 			}
-				// 		} else if (player.PlayerIndex != this.ownerIndex) {
-				// 			flag = true;
-				// 			break;
-				// 		}
-				// 	}
-				// }
 				if (!flag) {
 					TFGame.Log(new Exception("No target so vanish"), false);
 					this.Vanish ();
