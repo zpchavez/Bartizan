@@ -30,6 +30,9 @@ namespace Mod
 		public Variant CrownSummonsChaliceGhost;
 
 		[CanRandom]
+		public Variant ChaliceGhostsHuntGhosts;
+
+		[CanRandom]
 		public Variant FastGhosts;
 
 		public MyMatchVariants(bool noPerPlayer = false) : base(noPerPlayer)

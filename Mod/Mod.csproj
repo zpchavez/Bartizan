@@ -102,6 +102,9 @@
     <None Include="Content\Atlas\menuAtlas\variants\crownSummonsChaliceGhost.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Content\Atlas\menuAtlas\variants\chaliceGhostsHuntGhosts.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Content\Atlas\menuAtlas\variants\fastGhosts.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
