@@ -65,6 +65,7 @@
     <Compile Include="Classes\Replaced\MyChalice.cs" />
     <Compile Include="Classes\Replaced\MyChalicePad.cs" />
     <Compile Include="Classes\Replaced\MyChaliceGhost.cs" />
+    <Compile Include="Classes\Replaced\MyTeamReviver.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

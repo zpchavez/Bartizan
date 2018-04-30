@@ -1,6 +1,8 @@
 using Patcher;
 using TowerFall;
 using Microsoft.Xna.Framework;
+using Monocle;
+using System.Collections.Generic;
 
 namespace Mod
 {
@@ -83,5 +85,34 @@ namespace Mod
 					return RoundLogic.GetRoundLogic(session);
 			}
 		}
+
+		// public override bool CoOpCheckForAllDead ()
+		// {
+		// 	bool result;
+		// 	if (this.Session.CurrentLevel.LivingPlayers == 0) {
+		// 		using (List<Entity>.Enumerator enumerator = this.Session.CurrentLevel [GameTags.Corpse].GetEnumerator ()) {
+		// 			while (enumerator.MoveNext ()) {
+		// 				PlayerCorpse playerCorpse = (PlayerCorpse)enumerator.Current;
+		// 				if (playerCorpse.Revived) {
+		// 					result = false;
+		// 					return result;
+		// 				}
+		// 			}
+		// 		}
+		// 		using (List<Entity>.Enumerator enumerator = this.Session.CurrentLevel [GameTags.TeamReviver].GetEnumerator ()) {
+		// 			while (enumerator.MoveNext ()) {
+		// 				MyTeamReviver teamReviver = (MyTeamReviver)enumerator.Current;
+		// 				if (teamReviver.AutoRevive && !teamReviver.Finished) {
+		// 					result = false;
+		// 					return result;
+		// 				}
+		// 			}
+		// 		}
+		// 		result = true;
+		// 	} else {
+		// 		result = false;
+		// 	}
+		// 	return result;
+		// }
 	}
 }
