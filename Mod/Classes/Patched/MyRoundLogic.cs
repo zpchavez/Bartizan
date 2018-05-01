@@ -86,33 +86,32 @@ namespace Mod
 			}
 		}
 
-		// public override bool CoOpCheckForAllDead ()
-		// {
-		// 	bool result;
-		// 	if (this.Session.CurrentLevel.LivingPlayers == 0) {
-		// 		using (List<Entity>.Enumerator enumerator = this.Session.CurrentLevel [GameTags.Corpse].GetEnumerator ()) {
-		// 			while (enumerator.MoveNext ()) {
-		// 				PlayerCorpse playerCorpse = (PlayerCorpse)enumerator.Current;
-		// 				if (playerCorpse.Revived) {
-		// 					result = false;
-		// 					return result;
-		// 				}
-		// 			}
-		// 		}
-		// 		using (List<Entity>.Enumerator enumerator = this.Session.CurrentLevel [GameTags.TeamReviver].GetEnumerator ()) {
-		// 			while (enumerator.MoveNext ()) {
-		// 				MyTeamReviver teamReviver = (MyTeamReviver)enumerator.Current;
-		// 				if (teamReviver.AutoRevive && !teamReviver.Finished) {
-		// 					result = false;
-		// 					return result;
-		// 				}
-		// 			}
-		// 		}
-		// 		result = true;
-		// 	} else {
-		// 		result = false;
-		// 	}
-		// 	return result;
-		// }
+		public override bool CoOpCheckForAllDead ()
+		{
+			bool result;
+			if (this.Session.CurrentLevel.LivingPlayers == 0) {
+				// List<Entity> playerCorpses = this.Session.CurrentLevel[GameTags.Corpse];
+				// for (int i = 0; i < playerCorpses.Count; i++) {
+				// 	PlayerCorpse playerCorpse = (PlayerCorpse)playerCorpses[i];
+				// 	if (playerCorpse.Revived) {
+				// 		result = false;
+				// 		return result;
+				// 	}
+				// }
+				//
+				// List<Entity> teamRevivers = this.Session.CurrentLevel[GameTags.TeamReviver];
+				// for (int i = 0; i < teamRevivers.Count; i++) {
+				// 	MyTeamReviver teamReviver = (MyTeamReviver)teamRevivers[i];
+				// 	if (teamReviver.AutoRevive && !teamReviver.Finished) {
+				// 		result = false;
+				// 		return result;
+				// 	}
+				// }
+				result = true;
+			} else {
+				result = false;
+			}
+			return result;
+		}
 	}
 }

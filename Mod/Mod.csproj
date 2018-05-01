@@ -51,6 +51,7 @@
     <Compile Include="Classes\Patched\MyMatchSettings.cs" />
     <Compile Include="Classes\Patched\MyMatchVariants.cs" />
     <Compile Include="Classes\Patched\MyPlayer.cs" />
+    <Compile Include="Classes\Patched\MyPlayerCorpse.cs" />
     <Compile Include="Classes\Patched\MyPlayerGhost.cs" />
     <Compile Include="Classes\Patched\MyReplayFrame.cs" />
     <Compile Include="Classes\Patched\MyRollcallElement.cs" />

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace TowerFall
 {
-	public class MyTeamReviver : TeamReviver
+	public class MyTeamReviver : LevelEntity
 	{
 		//
 		// Static Fields
@@ -71,22 +71,22 @@ namespace TowerFall
 		//
 		// Properties
 		//
-		public override PlayerCorpse Corpse {
+		public PlayerCorpse Corpse {
 			get;
 			set;
 		}
 
-		public override bool Finished {
+		public bool Finished {
 			get;
 			set;
 		}
 
-		public override bool PlayerCanRevive {
+		public bool PlayerCanRevive {
 			get;
 			set;
 		}
 
-		public override int ReviveTime {
+		public int ReviveTime {
 			get {
 				return TEAM_DEATHMATCH_REVIVE_TIME;
 				// switch (this.Mode) {
@@ -107,7 +107,7 @@ namespace TowerFall
 		//
 		// Constructors
 		//
-		public MyTeamReviver (PlayerCorpse corpse, TeamReviver.Modes mode) : base (corpse, mode)
+		public MyTeamReviver (PlayerCorpse corpse, TeamReviver.Modes mode) : base (corpse.BottomCenter)
 		{
 			this.Mode = mode;
 			this.Corpse = corpse;
@@ -154,7 +154,7 @@ namespace TowerFall
 		//
 		// Methods
 		//
-		public override bool CanReviveAtThisPosition (ref Vector2 revivePoint)
+		public bool CanReviveAtThisPosition (ref Vector2 revivePoint)
 		{
 			Collider collider = base.Collider;
 			Vector2 position = this.Position;
@@ -178,7 +178,7 @@ namespace TowerFall
 			return result;
 		}
 
-		public override bool CanReviveAtThisPosition ()
+		public bool CanReviveAtThisPosition ()
 		{
 			Vector2 zero = Vector2.Zero;
 			return this.CanReviveAtThisPosition (ref zero);
@@ -192,7 +192,7 @@ namespace TowerFall
 			this.Position = position;
 		}
 
-		public override Player FinishReviving ()
+		public Player FinishReviving ()
 		{
 			Vector2 zero = Vector2.Zero;
 			Player result;
@@ -264,7 +264,7 @@ namespace TowerFall
 			return result;
 		}
 
-		public override void HUDRender ()
+		public void HUDRender ()
 		{
 			if (!this.Finished && !base.Level.Ending && !this.Corpse.PrismHit && this.Mode != TeamReviver.Modes.Quest) {
 				float num = MathHelper.Lerp (-1f, this.arrowSine.Value, this.reviveCounter / (float)this.ReviveTime) * 2f;
@@ -273,12 +273,12 @@ namespace TowerFall
 			}
 		}
 
-		public override void ResetCounter ()
+		public void ResetCounter ()
 		{
 			this.reviveCounter = (float)this.ReviveTime;
 		}
 
-		public override IEnumerator ReviveSequence ()
+		public IEnumerator ReviveSequence ()
 		{
 			using (List<Entity>.Enumerator enumerator = base.Level [GameTags.PlayerGhost].GetEnumerator ()) {
 				while (enumerator.MoveNext ()) {
@@ -317,7 +317,7 @@ namespace TowerFall
 			yield break;
 		}
 
-		public override void ReviveUpdate ()
+		public void ReviveUpdate ()
 		{
 			this.LightAlpha = Calc.Approach (this.LightAlpha, this.targetLightAlpha, 0.1f * Engine.TimeMult);
 			base.Update ();
@@ -420,7 +420,7 @@ namespace TowerFall
 			}
 		}
 
-		public override void StartReviving ()
+		public void StartReviving ()
 		{
 			this.reviving = true;
 			base.Collider = this.revivingHitbox;
@@ -438,7 +438,7 @@ namespace TowerFall
 			}
 		}
 
-		public override void StopReviving ()
+		public void StopReviving ()
 		{
 			this.reviving = false;
 			this.reviver = -1;
