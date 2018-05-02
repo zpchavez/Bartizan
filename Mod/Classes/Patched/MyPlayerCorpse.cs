@@ -27,7 +27,7 @@ namespace Mod
 					TeamReviver teamReviver = (TeamReviver)(teamRevivers[teamRevivers.Count - 1]);
 					base.Level.Layers[teamReviver.LayerIndex].Remove(teamReviver);
 					MyTeamReviver myTeamReviver = new MyTeamReviver (this, TeamReviver.Modes.TeamDeathmatch);
-					base.Level.Layers[myTeamReviver.LayerIndex].Add(teamReviver, false);
+					base.Level.Layers[myTeamReviver.LayerIndex].Add(myTeamReviver, false);
 				}
 			}
 		}

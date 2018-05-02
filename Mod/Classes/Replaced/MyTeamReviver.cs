@@ -109,12 +109,14 @@ namespace TowerFall
 		//
 		public MyTeamReviver (PlayerCorpse corpse, TeamReviver.Modes mode) : base (corpse.BottomCenter)
 		{
+			TFGame.Log(new Exception("Custom Team Reviver Here!"), false);
+
 			this.Mode = mode;
 			this.Corpse = corpse;
 			this.ScreenWrap = true;
 			base.Tag (new GameTags[] {
 				GameTags.LightSource,
-				GameTags.TeamReviver
+				GameTags.Dummy // Using this tag because it doesn't appear in 8-player
 			});
 			this.LightRadius = 60f;
 			this.LightAlpha = 1f;
@@ -319,6 +321,7 @@ namespace TowerFall
 
 		public void ReviveUpdate ()
 		{
+			TFGame.Log(new Exception("Revive Update!"), false);
 			this.LightAlpha = Calc.Approach (this.LightAlpha, this.targetLightAlpha, 0.1f * Engine.TimeMult);
 			base.Update ();
 			if (this.levitateCorpse) {
@@ -382,6 +385,27 @@ namespace TowerFall
 										}
 									}
 								}
+
+								TFGame.Log(new Exception("Here 1"), false);
+
+								using (List<Entity>.Enumerator enumerator = base.Level[GameTags.PlayerGhost].GetEnumerator ()) {
+									while (enumerator.MoveNext ()) {
+										PlayerGhost ghost = (PlayerGhost)enumerator.Current;
+										TFGame.Log(new Exception("Checking Ghost"), false);
+										if (ghost.Allegiance == this.Corpse.Allegiance && base.CollideCheck (ghost)) {
+											TFGame.Log(new Exception("Ghost is colliding"), false);
+											flag = true;
+											if (num2 != this.reviver) {
+												if (ghost.PlayerIndex == this.reviver) {
+													num2 = this.reviver;
+												} else if (num2 == -1) {
+													num2 = ghost.PlayerIndex;
+												}
+											}
+										}
+									}
+								}
+
 								if (num2 != this.reviver && num2 != -1) {
 									this.reviver = num2;
 								}
@@ -408,6 +432,21 @@ namespace TowerFall
 										Player player2 = (Player)enumerator.Current;
 										if (player2.Allegiance == this.Corpse.Allegiance && !player2.Dead && base.CollideCheck (player2)) {
 											this.reviver = player2.PlayerIndex;
+											this.StartReviving ();
+											break;
+										}
+									}
+								}
+
+								TFGame.Log(new Exception("Here 2"), false);
+
+								using (List<Entity>.Enumerator enumerator = base.Level[GameTags.PlayerGhost].GetEnumerator ()) {
+									while (enumerator.MoveNext ()) {
+										PlayerGhost ghost = (PlayerGhost)enumerator.Current;
+										TFGame.Log(new Exception("Checking Ghost 2"), false);
+										if (ghost.Allegiance == this.Corpse.Allegiance && ghost.State != 3 && base.CollideCheck (ghost)) {
+											TFGame.Log(new Exception("Ghost is Colliding 2"), false);
+											this.reviver = ghost.PlayerIndex;
 											this.StartReviving ();
 											break;
 										}
