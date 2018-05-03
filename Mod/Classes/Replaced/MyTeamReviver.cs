@@ -267,7 +267,7 @@ namespace TowerFall
 
 		public void HUDRender ()
 		{
-			if (!this.Finished && !base.Level.Ending && !this.Corpse.PrismHit && this.Mode != TeamReviver.Modes.Quest) {
+			if (!this.Finished && /*!base.Level.Ending &&*/ !this.Corpse.PrismHit && this.Mode != TeamReviver.Modes.Quest) {
 				float num = MathHelper.Lerp (-1f, this.arrowSine.Value, this.reviveCounter / (float)this.ReviveTime) * 2f;
 				Draw.OutlineTextureCentered (TFGame.Atlas ["versus/playerIndicator"], this.Position + new Vector2 (0f, -18f + num), this.arrowColor);
 				Draw.OutlineTextureCentered (TFGame.Atlas ["versus/teamRevive"], this.Position + new Vector2 (0f, -28f + num), this.arrowColor);
