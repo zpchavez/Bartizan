@@ -48,9 +48,12 @@
     <Compile Include="Classes\New\RespawnRoundLogic.cs" />
     <Compile Include="Classes\New\TrackerMatchStats.cs" />
     <Compile Include="Classes\Patched\MyArrow.cs" />
+    <Compile Include="Classes\Patched\MyGameplayLayer.cs" />
+    <Compile Include="Classes\Patched\MyLevel.cs" />
     <Compile Include="Classes\Patched\MyMatchSettings.cs" />
     <Compile Include="Classes\Patched\MyMatchVariants.cs" />
     <Compile Include="Classes\Patched\MyPlayer.cs" />
+    <Compile Include="Classes\Patched\MyPlayerCorpse.cs" />
     <Compile Include="Classes\Patched\MyPlayerGhost.cs" />
     <Compile Include="Classes\Patched\MyReplayFrame.cs" />
     <Compile Include="Classes\Patched\MyRollcallElement.cs" />
@@ -65,6 +68,7 @@
     <Compile Include="Classes\Replaced\MyChalice.cs" />
     <Compile Include="Classes\Replaced\MyChalicePad.cs" />
     <Compile Include="Classes\Replaced\MyChaliceGhost.cs" />
+    <Compile Include="Classes\Replaced\MyTeamReviver.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -109,6 +113,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\Atlas\menuAtlas\variants\gottaGoFast.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Atlas\menuAtlas\variants\ghostRevives.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\Atlas\menuAtlas\gameModes\crawl.png">

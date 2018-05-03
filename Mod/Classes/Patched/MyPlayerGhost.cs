@@ -1,6 +1,8 @@
+using Microsoft.Xna.Framework;
 using Patcher;
 using TowerFall;
 using Monocle;
+using System;
 
 namespace Mod
 {
@@ -25,6 +27,22 @@ namespace Mod
           null, this.corpse, this.PlayerIndex, DeathCause.Arrow, // FIXME
           this.Position, killerIndex
         );
+      }
+    }
+
+    public override void Hurt (Vector2 force, int damage, int killerIndex, Arrow arrow = null, Explosion explosion = null, ShockCircle shock = null)
+    {
+      if (shock && killerIndex == this.PlayerIndex) {
+        // ShockCircle shouldn't kill friendly ghosts
+        return;
+      }
+
+      this.Speed = force;
+      if (this.Alive && this.CanHurt) {
+        this.Health -= damage;
+        if (this.Health <= 0) {
+          this.Die (killerIndex, arrow, explosion, shock);
+        }
       }
     }
 
