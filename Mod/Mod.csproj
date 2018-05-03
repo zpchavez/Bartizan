@@ -48,6 +48,7 @@
     <Compile Include="Classes\New\RespawnRoundLogic.cs" />
     <Compile Include="Classes\New\TrackerMatchStats.cs" />
     <Compile Include="Classes\Patched\MyArrow.cs" />
+    <Compile Include="Classes\Patched\MyGameplayLayer.cs" />
     <Compile Include="Classes\Patched\MyLevel.cs" />
     <Compile Include="Classes\Patched\MyMatchSettings.cs" />
     <Compile Include="Classes\Patched\MyMatchVariants.cs" />
