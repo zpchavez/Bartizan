@@ -3,6 +3,7 @@ using Monocle;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mod;
 
 namespace TowerFall
 {
@@ -109,8 +110,6 @@ namespace TowerFall
 		//
 		public MyTeamReviver (PlayerCorpse corpse, TeamReviver.Modes mode) : base (corpse.BottomCenter)
 		{
-			TFGame.Log(new Exception("Custom Team Reviver Here!"), false);
-
 			this.Mode = mode;
 			this.Corpse = corpse;
 			this.ScreenWrap = true;
@@ -200,7 +199,7 @@ namespace TowerFall
 			Player result;
 			if (this.Corpse.Squished == Vector2.Zero && this.CanReviveAtThisPosition (ref zero)) {
 				PlayerInventory inventory = new PlayerInventory (false, false, false, false, new ArrowList (this.Corpse.Arrows));
-				this.Corpse.Arrows.Clear ();
+				// this.Corpse.Arrows.Clear (); // I don't know what this line does, but it was causing an accessibility exception
 				if (this.Corpse.ArrowCushion.Count > 0) {
 					Arrow arrow = this.Corpse.ArrowCushion.ArrowDatas [0].Arrow;
 					if (inventory.Arrows.CanAddArrow (arrow.ArrowType) && arrow.Scene != null && !arrow.MarkedForRemoval) {
@@ -321,7 +320,6 @@ namespace TowerFall
 
 		public void ReviveUpdate ()
 		{
-			TFGame.Log(new Exception("Revive Update!"), false);
 			this.LightAlpha = Calc.Approach (this.LightAlpha, this.targetLightAlpha, 0.1f * Engine.TimeMult);
 			base.Update ();
 			if (this.levitateCorpse) {
@@ -386,14 +384,10 @@ namespace TowerFall
 									}
 								}
 
-								TFGame.Log(new Exception("Here 1"), false);
-
 								using (List<Entity>.Enumerator enumerator = base.Level[GameTags.PlayerGhost].GetEnumerator ()) {
 									while (enumerator.MoveNext ()) {
 										PlayerGhost ghost = (PlayerGhost)enumerator.Current;
-										TFGame.Log(new Exception("Checking Ghost"), false);
-										if (ghost.Allegiance == this.Corpse.Allegiance && base.CollideCheck (ghost)) {
-											TFGame.Log(new Exception("Ghost is colliding"), false);
+										if (ghost.Allegiance == this.Corpse.Allegiance && base.CollideCheck (ghost) && ghost.PlayerIndex != this.Corpse.PlayerIndex) {
 											flag = true;
 											if (num2 != this.reviver) {
 												if (ghost.PlayerIndex == this.reviver) {
@@ -438,14 +432,10 @@ namespace TowerFall
 									}
 								}
 
-								TFGame.Log(new Exception("Here 2"), false);
-
 								using (List<Entity>.Enumerator enumerator = base.Level[GameTags.PlayerGhost].GetEnumerator ()) {
 									while (enumerator.MoveNext ()) {
 										PlayerGhost ghost = (PlayerGhost)enumerator.Current;
-										TFGame.Log(new Exception("Checking Ghost 2"), false);
-										if (ghost.Allegiance == this.Corpse.Allegiance && ghost.State != 3 && base.CollideCheck (ghost)) {
-											TFGame.Log(new Exception("Ghost is Colliding 2"), false);
+										if (ghost.Allegiance == this.Corpse.Allegiance && ghost.State != 3 && base.CollideCheck (ghost) && ghost.PlayerIndex != this.Corpse.PlayerIndex) {
 											this.reviver = ghost.PlayerIndex;
 											this.StartReviving ();
 											break;
