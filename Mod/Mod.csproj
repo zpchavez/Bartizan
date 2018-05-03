@@ -115,6 +115,9 @@
     <None Include="Content\Atlas\menuAtlas\variants\gottaGoFast.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Content\Atlas\menuAtlas\variants\ghostRevives.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Content\Atlas\menuAtlas\gameModes\crawl.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

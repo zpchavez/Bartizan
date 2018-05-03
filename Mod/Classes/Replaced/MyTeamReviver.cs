@@ -69,6 +69,8 @@ namespace TowerFall
 
 		public Vector2 targetPosition;
 
+		public bool ghostRevives;
+
 		//
 		// Properties
 		//
@@ -108,8 +110,9 @@ namespace TowerFall
 		//
 		// Constructors
 		//
-		public MyTeamReviver (PlayerCorpse corpse, TeamReviver.Modes mode) : base (corpse.BottomCenter)
+		public MyTeamReviver (PlayerCorpse corpse, TeamReviver.Modes mode, bool ghostRevives=false) : base (corpse.BottomCenter)
 		{
+			this.ghostRevives = ghostRevives;
 			this.Mode = mode;
 			this.Corpse = corpse;
 			this.ScreenWrap = true;
@@ -384,16 +387,18 @@ namespace TowerFall
 									}
 								}
 
-								using (List<Entity>.Enumerator enumerator = base.Level[GameTags.PlayerGhost].GetEnumerator ()) {
-									while (enumerator.MoveNext ()) {
-										PlayerGhost ghost = (PlayerGhost)enumerator.Current;
-										if (ghost.Allegiance == this.Corpse.Allegiance && base.CollideCheck (ghost) && ghost.PlayerIndex != this.Corpse.PlayerIndex) {
-											flag = true;
-											if (num2 != this.reviver) {
-												if (ghost.PlayerIndex == this.reviver) {
-													num2 = this.reviver;
-												} else if (num2 == -1) {
-													num2 = ghost.PlayerIndex;
+								if (this.ghostRevives) {
+									using (List<Entity>.Enumerator enumerator = base.Level[GameTags.PlayerGhost].GetEnumerator ()) {
+										while (enumerator.MoveNext ()) {
+											PlayerGhost ghost = (PlayerGhost)enumerator.Current;
+											if (ghost.Allegiance == this.Corpse.Allegiance && base.CollideCheck (ghost) && ghost.PlayerIndex != this.Corpse.PlayerIndex) {
+												flag = true;
+												if (num2 != this.reviver) {
+													if (ghost.PlayerIndex == this.reviver) {
+														num2 = this.reviver;
+													} else if (num2 == -1) {
+														num2 = ghost.PlayerIndex;
+													}
 												}
 											}
 										}
@@ -432,13 +437,15 @@ namespace TowerFall
 									}
 								}
 
-								using (List<Entity>.Enumerator enumerator = base.Level[GameTags.PlayerGhost].GetEnumerator ()) {
-									while (enumerator.MoveNext ()) {
-										PlayerGhost ghost = (PlayerGhost)enumerator.Current;
-										if (ghost.Allegiance == this.Corpse.Allegiance && ghost.State != 3 && base.CollideCheck (ghost) && ghost.PlayerIndex != this.Corpse.PlayerIndex) {
-											this.reviver = ghost.PlayerIndex;
-											this.StartReviving ();
-											break;
+								if (this.ghostRevives) {
+									using (List<Entity>.Enumerator enumerator = base.Level[GameTags.PlayerGhost].GetEnumerator ()) {
+										while (enumerator.MoveNext ()) {
+											PlayerGhost ghost = (PlayerGhost)enumerator.Current;
+											if (ghost.Allegiance == this.Corpse.Allegiance && ghost.State != 3 && base.CollideCheck (ghost) && ghost.PlayerIndex != this.Corpse.PlayerIndex) {
+												this.reviver = ghost.PlayerIndex;
+												this.StartReviving ();
+												break;
+											}
 										}
 									}
 								}
