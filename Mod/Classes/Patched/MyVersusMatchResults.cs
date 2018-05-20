@@ -106,7 +106,8 @@ namespace Mod
         Stream dataStream = request.GetRequestStream ();
         dataStream.Write (byteArray, 0, byteArray.Length);
         dataStream.Close ();
-        WebResponse response = request.GetResponse ();
+        // Started getting crashes with "Error getting response stream" so stop doing that
+        // WebResponse response = request.GetResponse ();
       }
     }
   }
