@@ -35,6 +35,10 @@ Start with one of every arrow type
 
 Ghost are faster
 
+### CalvinFall
+
+New random variants every round!
+
 # Original Readme
 
 A mod framework for [TowerFall Ascension](http://www.towerfall-game.com/) (copyright 2013 Matt Thorson, obviously).

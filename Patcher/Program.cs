@@ -209,7 +209,7 @@ namespace Patcher
 
 				string[] files = Directory.GetFiles(atlasPath, "*.png", SearchOption.AllDirectories);
 				int x = 1720;
-				int y = 1700;
+				int y = 1200;
 
 				using (var baseImage = Bitmap.FromFile(Path.Combine("Original", atlasPath + ".png"))) {
 					using (var g = Graphics.FromImage(baseImage))

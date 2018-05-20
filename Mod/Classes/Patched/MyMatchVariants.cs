@@ -38,6 +38,8 @@ namespace Mod
 		[CanRandom]
 		public Variant GhostRevives;
 
+		public Variant CalvinFall;
+
 		public MyMatchVariants(bool noPerPlayer = false) : base(noPerPlayer)
 		{
 			// mutually exclusive variants
