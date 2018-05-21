@@ -38,6 +38,7 @@ namespace Mod
 		[CanRandom]
 		public Variant GhostRevives;
 
+		[Description ("NEW RANDOM VARIANTS EVERY ROUND")]
 		public Variant CalvinFall;
 
 		public MyMatchVariants(bool noPerPlayer = false) : base(noPerPlayer)
