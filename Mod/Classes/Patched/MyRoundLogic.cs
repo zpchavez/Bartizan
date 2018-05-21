@@ -112,39 +112,32 @@ namespace Mod
 
 		public override bool TeamCheckForRoundOver (out Allegiance surviving)
 		{
-			TFGame.Log(new Exception("Checking if round over"), false);
 			bool[] array = new bool[2];
+			bool gottaBustGhosts = ((MyMatchVariants)(this.Session.MatchSettings.Variants)).GottaBustGhosts;
 			List<Entity> players = this.Session.CurrentLevel[GameTags.Player];
 			for (int i = 0; i < players.Count; i++) {
 				TFGame.Log(new Exception("Checking player"), false);
 				MyPlayer player = (MyPlayer) players[i];
-				if (player.spawningGhost) {
-					TFGame.Log(new Exception("Player spawning ghost"), false);
-				}
-				if (!player.Dead || player.spawningGhost) {
+				if (!player.Dead || (gottaBustGhosts && player.spawningGhost)) {
 					array [(int)player.Allegiance] = true;
 				}
 			}
 
 			List<Entity> playerCorpses = this.Session.CurrentLevel[GameTags.Corpse];
-			TFGame.Log(new Exception("Corpse count"), false);
-			TFGame.Log(new Exception(playerCorpses.Count.ToString()), false);
 			for (int i = 0; i < playerCorpses.Count; i++) {
-				TFGame.Log(new Exception("Checking corpse"), false);
 				MyPlayerCorpse playerCorpse = (MyPlayerCorpse) playerCorpses[i];
-				if (playerCorpse.Revived || playerCorpse.spawningGhost) {
-					TFGame.Log(new Exception("Corpse is revives or spawning a ghost"), false);
+				if (playerCorpse.Revived || (gottaBustGhosts && playerCorpse.spawningGhost)) {
 					array [(int)playerCorpse.Allegiance] = true;
 				}
 			}
 
-			List<Entity> playerGhosts = this.Session.CurrentLevel[GameTags.PlayerGhost];
-			for (int i = 0; i < playerGhosts.Count; i++) {
-				TFGame.Log(new Exception("Checking ghost"), false);
-				PlayerGhost playerGhost = (PlayerGhost) playerGhosts[i];
-				if (playerGhost.State != 3) { // Ghost not dead
-					TFGame.Log(new Exception("A ghost is still alive"), false);
-					array [(int)playerGhost.Allegiance] = true;
+			if (gottaBustGhosts) {
+				List<Entity> playerGhosts = this.Session.CurrentLevel[GameTags.PlayerGhost];
+				for (int i = 0; i < playerGhosts.Count; i++) {
+					PlayerGhost playerGhost = (PlayerGhost) playerGhosts[i];
+					if (playerGhost.State != 3) { // Ghost not dead
+						array [(int)playerGhost.Allegiance] = true;
+					}
 				}
 			}
 
