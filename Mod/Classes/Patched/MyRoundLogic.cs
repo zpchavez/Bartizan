@@ -114,6 +114,23 @@ namespace Mod
 				if (this.Session.CurrentLevel.LivingPlayers == 0) {
 					return true;
 				}
+				// Round not over if ghost spawning
+				List<Entity> players = this.Session.CurrentLevel[GameTags.Player];
+				for (int i = 0; i < players.Count; i++) {
+					MyPlayer player = (MyPlayer) players[i];
+					if (player.spawningGhost) {
+						return false;
+					}
+				}
+				List<Entity> playerCorpses = this.Session.CurrentLevel[GameTags.Corpse];
+				for (int i = 0; i < playerCorpses.Count; i++) {
+					MyPlayerCorpse playerCorpse = (MyPlayerCorpse) playerCorpses[i];
+					if (playerCorpse.spawningGhost) {
+						return false;
+					}
+				}
+
+				// Round not over if ghosts alive
 				List<Entity> playerGhosts = this.Session.CurrentLevel[GameTags.PlayerGhost];
 				int livingGhostCount = 0;
 				for (int i = 0; i < playerGhosts.Count; i++) {
