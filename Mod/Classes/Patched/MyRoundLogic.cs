@@ -30,7 +30,6 @@ namespace Mod
 		public override void OnPlayerDeath (Player player, PlayerCorpse corpse, int playerIndex, DeathCause cause, Vector2 position, int killerIndex)
 		{
 			if (this.Session.MatchSettings.Variants.ReturnAsGhosts[playerIndex]) {
-				TFGame.Log(new Exception("Setting spawningGhost to true on both things"), false);
 				((MyPlayerCorpse)(corpse)).spawningGhost = true;
 				((MyPlayer)(player)).spawningGhost = true;
 			}
@@ -85,7 +84,6 @@ namespace Mod
 		}
 
 		public void OnGhostDeath() {
-			TFGame.Log(new Exception("On Ghost Death"), false);
 			if (base.Session.MatchSettings.Mode == Modes.TeamDeathmatch) {
 				Allegiance allegiance;
 				if (this.TeamCheckForRoundOver(out allegiance)) {
@@ -110,13 +108,32 @@ namespace Mod
 			}
 		}
 
+		public override bool FFACheckForAllButOneDead ()
+		{
+			if (((MyMatchVariants)(this.Session.MatchSettings.Variants)).GottaBustGhosts) {
+				if (this.Session.CurrentLevel.LivingPlayers == 0) {
+					return true;
+				}
+				List<Entity> playerGhosts = this.Session.CurrentLevel[GameTags.PlayerGhost];
+				int livingGhostCount = 0;
+				for (int i = 0; i < playerGhosts.Count; i++) {
+					MyPlayerGhost ghost = (MyPlayerGhost) playerGhosts[i];
+					if (ghost.State != 3) {
+						livingGhostCount += 1;
+					}
+				}
+				return livingGhostCount == 0 && this.Session.CurrentLevel.LivingPlayers <= 1;
+			} else {
+				return this.Session.CurrentLevel.LivingPlayers <= 1;
+			}
+		}
+
 		public override bool TeamCheckForRoundOver (out Allegiance surviving)
 		{
 			bool[] array = new bool[2];
 			bool gottaBustGhosts = ((MyMatchVariants)(this.Session.MatchSettings.Variants)).GottaBustGhosts;
 			List<Entity> players = this.Session.CurrentLevel[GameTags.Player];
 			for (int i = 0; i < players.Count; i++) {
-				TFGame.Log(new Exception("Checking player"), false);
 				MyPlayer player = (MyPlayer) players[i];
 				if (!player.Dead || (gottaBustGhosts && player.spawningGhost)) {
 					array [(int)player.Allegiance] = true;
