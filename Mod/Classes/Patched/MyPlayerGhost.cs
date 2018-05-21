@@ -51,6 +51,7 @@ namespace Mod
     public override void Added()
     {
       base.Added();
+      TFGame.Log(new Exception("Setting spawningGhost to false on ghost"), false);
       ((MyPlayerCorpse)(this.corpse)).spawningGhost = false;
     }
 

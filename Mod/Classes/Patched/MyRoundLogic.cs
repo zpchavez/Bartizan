@@ -29,6 +29,12 @@ namespace Mod
 
 		public override void OnPlayerDeath (Player player, PlayerCorpse corpse, int playerIndex, DeathCause cause, Vector2 position, int killerIndex)
 		{
+			if (this.Session.MatchSettings.Variants.ReturnAsGhosts[playerIndex]) {
+				TFGame.Log(new Exception("Setting spawningGhost to true on both things"), false);
+				((MyPlayerCorpse)(corpse)).spawningGhost = true;
+				((MyPlayer)(player)).spawningGhost = true;
+			}
+
 			if (this.Session.CurrentLevel.KingIntro) {
 				this.Session.CurrentLevel.KingIntro.Laugh ();
 			}
@@ -106,27 +112,38 @@ namespace Mod
 
 		public override bool TeamCheckForRoundOver (out Allegiance surviving)
 		{
+			TFGame.Log(new Exception("Checking if round over"), false);
 			bool[] array = new bool[2];
 			List<Entity> players = this.Session.CurrentLevel[GameTags.Player];
 			for (int i = 0; i < players.Count; i++) {
-				Player player = (Player) players[i];
-				if (!player.Dead) {
+				TFGame.Log(new Exception("Checking player"), false);
+				MyPlayer player = (MyPlayer) players[i];
+				if (player.spawningGhost) {
+					TFGame.Log(new Exception("Player spawning ghost"), false);
+				}
+				if (!player.Dead || player.spawningGhost) {
 					array [(int)player.Allegiance] = true;
 				}
 			}
 
 			List<Entity> playerCorpses = this.Session.CurrentLevel[GameTags.Corpse];
+			TFGame.Log(new Exception("Corpse count"), false);
+			TFGame.Log(new Exception(playerCorpses.Count.ToString()), false);
 			for (int i = 0; i < playerCorpses.Count; i++) {
+				TFGame.Log(new Exception("Checking corpse"), false);
 				MyPlayerCorpse playerCorpse = (MyPlayerCorpse) playerCorpses[i];
 				if (playerCorpse.Revived || playerCorpse.spawningGhost) {
+					TFGame.Log(new Exception("Corpse is revives or spawning a ghost"), false);
 					array [(int)playerCorpse.Allegiance] = true;
 				}
 			}
 
 			List<Entity> playerGhosts = this.Session.CurrentLevel[GameTags.PlayerGhost];
 			for (int i = 0; i < playerGhosts.Count; i++) {
+				TFGame.Log(new Exception("Checking ghost"), false);
 				PlayerGhost playerGhost = (PlayerGhost) playerGhosts[i];
 				if (playerGhost.State != 3) { // Ghost not dead
+					TFGame.Log(new Exception("A ghost is still alive"), false);
 					array [(int)playerGhost.Allegiance] = true;
 				}
 			}
