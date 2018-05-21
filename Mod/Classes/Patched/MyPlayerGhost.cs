@@ -28,6 +28,8 @@ namespace Mod
           this.Position, killerIndex
         );
       }
+
+      ((MyRoundLogic)(base.Level.Session.RoundLogic)).OnGhostDeath();
     }
 
     public override void Hurt (Vector2 force, int damage, int killerIndex, Arrow arrow = null, Explosion explosion = null, ShockCircle shock = null)
@@ -44,6 +46,12 @@ namespace Mod
           this.Die (killerIndex, arrow, explosion, shock);
         }
       }
+    }
+
+    public override void Added()
+    {
+      base.Added();
+      ((MyPlayerCorpse)(this.corpse)).spawningGhost = false;
     }
 
     public override void Update()

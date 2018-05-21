@@ -3,6 +3,7 @@ using TowerFall;
 using Microsoft.Xna.Framework;
 using Monocle;
 using System.Collections.Generic;
+using System;
 
 namespace Mod
 {
@@ -77,6 +78,20 @@ namespace Mod
 			}
 		}
 
+		public void OnGhostDeath() {
+			TFGame.Log(new Exception("On Ghost Death"), false);
+			if (base.Session.MatchSettings.Mode == Modes.TeamDeathmatch) {
+				Allegiance allegiance;
+				if (this.TeamCheckForRoundOver(out allegiance)) {
+					base.Session.CurrentLevel.Ending = true;
+				}
+			} else {
+				if (this.FFACheckForAllButOneDead()) {
+					base.Session.CurrentLevel.Ending = true;
+				}
+			}
+		}
+
 		public new static RoundLogic GetRoundLogic(Session session)
 		{
 			switch (session.MatchSettings.Mode) {
@@ -87,6 +102,43 @@ namespace Mod
 				default:
 					return RoundLogic.GetRoundLogic(session);
 			}
+		}
+
+		public override bool TeamCheckForRoundOver (out Allegiance surviving)
+		{
+			bool[] array = new bool[2];
+			List<Entity> players = this.Session.CurrentLevel[GameTags.Player];
+			for (int i = 0; i < players.Count; i++) {
+				Player player = (Player) players[i];
+				if (!player.Dead) {
+					array [(int)player.Allegiance] = true;
+				}
+			}
+
+			List<Entity> playerCorpses = this.Session.CurrentLevel[GameTags.Corpse];
+			for (int i = 0; i < playerCorpses.Count; i++) {
+				MyPlayerCorpse playerCorpse = (MyPlayerCorpse) playerCorpses[i];
+				if (playerCorpse.Revived || playerCorpse.spawningGhost) {
+					array [(int)playerCorpse.Allegiance] = true;
+				}
+			}
+
+			List<Entity> playerGhosts = this.Session.CurrentLevel[GameTags.PlayerGhost];
+			for (int i = 0; i < playerGhosts.Count; i++) {
+				PlayerGhost playerGhost = (PlayerGhost) playerGhosts[i];
+				if (playerGhost.State != 3) { // Ghost not dead
+					array [(int)playerGhost.Allegiance] = true;
+				}
+			}
+
+			if (array [0] == array [1]) {
+				surviving = Allegiance.Neutral;
+			} else if (array [0]) {
+				surviving = Allegiance.Blue;
+			} else {
+				surviving = Allegiance.Red;
+			}
+			return !array [0] || !array [1];
 		}
 
 		public override bool CoOpCheckForAllDead ()

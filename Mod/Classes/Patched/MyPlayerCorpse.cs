@@ -12,6 +12,8 @@ namespace Mod
 	{
 		public bool reviverAdded;
 
+		public bool spawningGhost = true;
+
 		public MyPlayerCorpse (PlayerCorpse.EnemyCorpses enemyCorpse, Vector2 position, Facing facing, int killerIndex) : base (enemyCorpse.ToString (), Allegiance.Neutral, position, facing, -1, killerIndex)
 		{
 		}
@@ -39,6 +41,10 @@ namespace Mod
 		public override void Added ()
 		{
 			base.Added();
+
+			if (base.Level.Session.MatchSettings.Variants.ReturnAsGhosts) {
+				this.spawningGhost = true;
+			}
 
 			if (this.PlayerIndex != -1) {
 				if (base.Level.Session.MatchSettings.Mode == Modes.TeamDeathmatch && base.Level.Session.MatchSettings.Variants.TeamRevive) {
