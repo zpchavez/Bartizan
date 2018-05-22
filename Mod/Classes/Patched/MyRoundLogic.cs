@@ -165,7 +165,7 @@ namespace Mod
 				}
 			}
 
-			if (gottaBustGhosts) {
+			if (gottaBustGhosts && players.Count > 1) {
 				List<Entity> playerGhosts = this.Session.CurrentLevel[GameTags.PlayerGhost];
 				for (int i = 0; i < playerGhosts.Count; i++) {
 					PlayerGhost playerGhost = (PlayerGhost) playerGhosts[i];
