@@ -89,7 +89,10 @@ namespace Mod
 				if (this.TeamCheckForRoundOver(out allegiance)) {
 					base.Session.CurrentLevel.Ending = true;
 				}
-			} else {
+			} else if (
+				base.Session.MatchSettings.Mode == Modes.LastManStanding ||
+				base.Session.MatchSettings.Mode == Modes.HeadHunters
+			) {
 				if (this.FFACheckForAllButOneDead()) {
 					base.Session.CurrentLevel.Ending = true;
 				}

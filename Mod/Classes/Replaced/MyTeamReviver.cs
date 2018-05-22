@@ -265,6 +265,26 @@ namespace TowerFall
 			} else {
 				result = null;
 			}
+
+			// If ghost revives is on, then a revive can cancel a level ending
+			if (this.ghostRevives) {
+				if (base.Level.Session.MatchSettings.Mode == Modes.TeamDeathmatch) {
+					Allegiance allegiance;
+					if (!base.Level.Session.RoundLogic.TeamCheckForRoundOver(out allegiance)) {
+						TFGame.Log(new Exception("Canceling Ending"), false);
+						base.Level.Session.CurrentLevel.Ending = false;
+					}
+				} else if (
+					base.Level.Session.MatchSettings.Mode == Modes.LastManStanding ||
+					base.Level.Session.MatchSettings.Mode == Modes.HeadHunters
+				) {
+					if (!base.Level.Session.RoundLogic.FFACheckForAllButOneDead()) {
+						TFGame.Log(new Exception("Canceling Ending"), false);
+						base.Level.Session.CurrentLevel.Ending = false;
+					}
+				}
+			}
+
 			return result;
 		}
 
