@@ -265,6 +265,15 @@ namespace TowerFall
 			} else {
 				result = null;
 			}
+
+			// If ghost revives is on, then a revive can cancel a level ending
+			if (this.ghostRevives && base.Level.Session.MatchSettings.Mode == Modes.TeamDeathmatch) {
+				Allegiance allegiance;
+				if (!base.Level.Session.RoundLogic.TeamCheckForRoundOver(out allegiance)) {
+					base.Level.Session.CurrentLevel.Ending = false;
+				}
+			}
+
 			return result;
 		}
 
