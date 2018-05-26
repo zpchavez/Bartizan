@@ -10,6 +10,8 @@ namespace Mod
   [Patch]
   public class MyVersusMatchResults : VersusMatchResults
   {
+    static WebClient client = new WebClient();
+
     public MyVersusMatchResults (Session session, VersusRoundResults roundResults) : base(session, roundResults)
     {
       System.Net.ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications);
@@ -95,7 +97,6 @@ namespace Mod
           }
         }
 
-        WebClient client = new WebClient();
         client.Headers[HttpRequestHeader.ContentType] = "application/json";
         client.UploadString(apiUrl + "/matches", stats.ToJSON(apiKey));
       }
