@@ -4,7 +4,6 @@ using SDL2;
 using System;
 using System.IO;
 using System.Net;
-using System.Text;
 
 namespace Mod
 {
@@ -96,18 +95,9 @@ namespace Mod
           }
         }
 
-        // POST the stats
-        WebRequest request = WebRequest.Create (apiUrl + "/matches");
-        request.Method = "POST";
-        string postData = stats.ToJSON(apiKey);
-        byte[] byteArray = Encoding.UTF8.GetBytes (postData);
-        request.ContentType = "application/json";
-        request.ContentLength = byteArray.Length;
-        Stream dataStream = request.GetRequestStream ();
-        dataStream.Write (byteArray, 0, byteArray.Length);
-        dataStream.Close ();
-        // Started getting crashes with "Error getting response stream" so stop doing that
-        // WebResponse response = request.GetResponse ();
+        WebClient client = new WebClient();
+        client.Headers[HttpRequestHeader.ContentType] = "application/json";
+        client.UploadString(apiUrl + "/matches", stats.ToJSON(apiKey));
       }
     }
   }
