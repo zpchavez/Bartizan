@@ -12,6 +12,8 @@ namespace Mod
 	{
 		public bool reviverAdded;
 
+		public bool spawningGhost;
+
 		public MyPlayerCorpse (PlayerCorpse.EnemyCorpses enemyCorpse, Vector2 position, Facing facing, int killerIndex) : base (enemyCorpse.ToString (), Allegiance.Neutral, position, facing, -1, killerIndex)
 		{
 		}
