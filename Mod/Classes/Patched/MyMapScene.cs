@@ -22,7 +22,7 @@ namespace Mod
 		public override void InitVersusButtons()
 		{			         
 			this.Buttons.Add(new VersusRandomSelect());
-            string[] defaultMaps;
+            string[] disabledMaps;
 
 			for(int i = 0; i < GameData.VersusTowers.Count; i++) {
                 if (SaveData.Instance.Unlocks.GetTowerUnlocked(i))
@@ -31,19 +31,19 @@ namespace Mod
                 }
 			}
 
-			string defaultMapsFile = Path.Combine(MyVersusMatchResults.GetSavePath(), "tf_disabled_maps.txt");
-            if (initialLoad && File.Exists(defaultMapsFile))
+			string disabledMapsFile = Path.Combine(MyVersusMatchResults.GetSavePath(), "tf_disabled_maps.txt");
+            if (initialLoad && File.Exists(disabledMapsFile))
             {
 				initialLoad = false;
-                defaultMaps = File.ReadAllLines(defaultMapsFile);
+                disabledMaps = File.ReadAllLines(disabledMapsFile);
 
-				if (defaultMaps.Length != 0)
+				if (disabledMaps.Length != 0)
 				{
-					for (int i = 0; i < defaultMaps.Length; i++)
+					for (int i = 0; i < disabledMaps.Length; i++)
 					{                
 						for (int k = 0; k < this.Buttons.Count; k++) 
 						{
-							if (this.Buttons[k].Title.Equals(defaultMaps[i]))
+							if (this.Buttons[k].Title.Equals(disabledMaps[i]))
 							{
 								if (!((VersusMapButton)this.Buttons[k]).NoRandom)
                                 {
