@@ -15,7 +15,7 @@ namespace Mod
     public MyVersusMatchResults (Session session, VersusRoundResults roundResults) : base(session, roundResults)
     {
       ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications);
-      ServicePointManager.SecurityProtocol = (SecurityProtocolType) 3072; //TLS 1.2
+      ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
     }
 
     private static bool AcceptAllCertifications(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certification, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
