@@ -9,7 +9,7 @@ namespace Mod
 {
   [Patch]
   public class MyVersusMatchResults : VersusMatchResults
-  {
+  {3
     static WebClient client = new WebClient();
 
     public MyVersusMatchResults (Session session, VersusRoundResults roundResults) : base(session, roundResults)
@@ -25,43 +25,43 @@ namespace Mod
 
     // This SHOULD be accessible from TFGame but isn't so I copy/pasted it
     public static string GetSavePath ()
-		{
-			string text = SDL.SDL_GetPlatform ();
-			string result;
-			if (text.Equals ("Linux")) {
-				string text2 = Environment.GetEnvironmentVariable ("XDG_DATA_HOME");
-				if (string.IsNullOrEmpty (text2)) {
-					text2 = Environment.GetEnvironmentVariable ("HOME");
-					if (string.IsNullOrEmpty (text2)) {
-						result = ".";
-						return result;
-					}
-					text2 += "/.local/share";
-				}
-				text2 += "/TowerFall";
-				if (!Directory.Exists (text2)) {
-					Directory.CreateDirectory (text2);
-				}
-				result = text2;
-			} else if (text.Equals ("Mac OS X")) {
-				string text2 = Environment.GetEnvironmentVariable ("HOME");
-				if (string.IsNullOrEmpty (text2)) {
-					result = ".";
-				} else {
-					text2 += "/Library/Application Support/TowerFall";
-					if (!Directory.Exists (text2)) {
-						Directory.CreateDirectory (text2);
-					}
-					result = text2;
-				}
-			} else {
-				if (!text.Equals ("Windows")) {
-					throw new Exception ("SDL2 platform not handled!");
-				}
-				result = AppDomain.CurrentDomain.BaseDirectory;
-			}
-			return result;
-		}
+    {
+      string text = SDL.SDL_GetPlatform ();
+      string result;
+      if (text.Equals ("Linux")) {
+        string text2 = Environment.GetEnvironmentVariable ("XDG_DATA_HOME");
+        if (string.IsNullOrEmpty (text2)) {
+          text2 = Environment.GetEnvironmentVariable ("HOME");
+          if (string.IsNullOrEmpty (text2)) {
+            result = ".";
+            return result;
+          }
+          text2 += "/.local/share";
+        }
+        text2 += "/TowerFall";
+        if (!Directory.Exists (text2)) {
+          Directory.CreateDirectory (text2);
+        }
+        result = text2;
+      } else if (text.Equals ("Mac OS X")) {
+        string text2 = Environment.GetEnvironmentVariable ("HOME");
+        if (string.IsNullOrEmpty (text2)) {
+          result = ".";
+        } else {
+          text2 += "/Library/Application Support/TowerFall";
+          if (!Directory.Exists (text2)) {
+            Directory.CreateDirectory (text2);
+          }
+          result = text2;
+        }
+      } else {
+        if (!text.Equals ("Windows")) {
+          throw new Exception ("SDL2 platform not handled!");
+        }
+        result = AppDomain.CurrentDomain.BaseDirectory;
+      }
+      return result;
+    }
 
     private static void RespCallback(IAsyncResult ar)
     {
