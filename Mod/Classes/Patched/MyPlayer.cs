@@ -102,7 +102,11 @@ namespace Mod
           if (lastHatState != "Crown" && HatState.ToString() == "Crown") {
             MyChalicePad chalicePad = new MyChalicePad(ActualPosition, 4);
             MyChalice chalice = new MyChalice(chalicePad);
-            summonedChaliceGhost = new MyChaliceGhost(PlayerIndex, chalice);
+            summonedChaliceGhost = new MyChaliceGhost(
+              PlayerIndex,
+              chalice,
+              ((MyMatchVariants)Level.Session.MatchSettings.Variants).ChaliceGhostsHuntGhosts
+            );
             Level.Layers[summonedChaliceGhost.LayerIndex].Add(summonedChaliceGhost, false);
           } else if (summonedChaliceGhost && lastHatState == "Crown" && HatState.ToString() != "Crown") {
             // Ghost vanishes when player loses the crown

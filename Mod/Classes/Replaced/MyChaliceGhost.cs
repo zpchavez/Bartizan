@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Monocle;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -27,6 +28,12 @@ namespace TowerFall
 
 		public bool spawned;
 
+		public bool targetIsGhost;
+
+		public PlayerGhost ghostTarget;
+
+		public Player playerTarget;
+
 		public bool dead;
 
 		public Sprite<string> sprite;
@@ -35,7 +42,7 @@ namespace TowerFall
 
 		public Vector2 speed;
 
-		public Player target;
+		public Actor target;
 
 		public MyChalice source;
 
@@ -45,18 +52,22 @@ namespace TowerFall
 
 		public int ownerIndex;
 
+		public bool huntsGhosts;
+
 		//
 		// Constructors
 		//
-		public MyChaliceGhost (int ownerIndex, MyChalice source)
+		public MyChaliceGhost (int ownerIndex, MyChalice source, bool huntsGhosts=false)
 		{
 			base.Depth = -1000000;
 			base.Tag (new GameTags[] {
 				GameTags.PlayerCollider,
+				GameTags.PlayerGhostCollider,
 				GameTags.LightSource
 			});
 			base.Collider = new WrapHitbox (14f, 14f, -7f, -7f);
 			this.Collidable = false;
+			this.huntsGhosts = huntsGhosts;
 			this.ownerIndex = ownerIndex;
 			this.source = source;
 			this.ScreenWrap = true;
@@ -121,7 +132,41 @@ namespace TowerFall
 			return result;
 		}
 
-		public Player GetClosestTarget (float maxDistSq)
+		public bool CanAttackGhost (PlayerGhost ghost)
+		{
+			bool result;
+			if (this.team != Allegiance.Neutral) {
+				result = (ghost.Allegiance != this.team);
+			} else {
+				result = (ghost.PlayerIndex != this.ownerIndex);
+			}
+			return result;
+		}
+
+		public Actor getGhostTarget(float maxDistSq)
+		{
+			PlayerGhost result = null;
+			float num = maxDistSq;
+			using (List<Entity>.Enumerator enumerator = base.Level [GameTags.PlayerGhost].GetEnumerator ()) {
+				while (enumerator.MoveNext ()) {
+					PlayerGhost ghost = (PlayerGhost)enumerator.Current;
+					if (this.CanAttackGhost (ghost)) {
+						float num2 = WrapMath.WrapDistanceSquared (this.Position, ghost.Position);
+						if (num2 < num) {
+							num = num2;
+							result = ghost;
+						}
+					}
+				}
+			}
+			if (result != null) {
+				targetIsGhost = true;
+				ghostTarget = result;
+			}
+			return result;
+		}
+
+		public Actor getPlayerTarget(float maxDistSq)
 		{
 			Player result = null;
 			float num = maxDistSq;
@@ -137,10 +182,40 @@ namespace TowerFall
 					}
 				}
 			}
+			if (result != null) {
+				targetIsGhost = false;
+				playerTarget = result;
+			}
 			return result;
 		}
 
-		public Player GetClosestTarget ()
+		public Actor GetClosestTarget (float maxDistSq)
+		{
+			Actor result = null;
+			float num = maxDistSq;
+			Random rand = new Random();
+
+			if (this.huntsGhosts) {
+				// flip a coin to determine whether to check for ghosts first or players first
+				if (rand.Next(2) == 0) {
+					result = getPlayerTarget(maxDistSq);
+					if (result == null) {
+						result = getGhostTarget(maxDistSq);
+					}
+				} else {
+					result = getGhostTarget(maxDistSq);
+					if (result == null) {
+						result = getPlayerTarget(maxDistSq);
+					}
+				}
+			} else {
+				return getPlayerTarget(maxDistSq);
+			}
+
+			return result;
+		}
+
+		public Actor GetClosestTarget ()
 		{
 			return this.GetClosestTarget (3.40282347E+38f);
 		}
@@ -158,6 +233,25 @@ namespace TowerFall
 				player.Hurt (DeathCause.Chalice, this.Position, this.ownerIndex, null);
 				this.canFindTarget = false;
 				this.target = null;
+				this.playerTarget = null;
+				Alarm.Set (this, 30, delegate {
+					this.canFindTarget = true;
+				}, Alarm.AlarmMode.Oneshot);
+				Sounds.sfx_chaliceGhostKill.Play (210f, 1f);
+				this.wiggler.Start ();
+			}
+		}
+
+		public override void OnPlayerGhostCollide (PlayerGhost ghost)
+		{
+			if (this.CanAttackGhost (ghost)) {
+				this.sprite.Play ("attack", true);
+				this.speed = (ghost.Position - this.Position).SafeNormalize (2f);
+				ghost.Die (this.ownerIndex);
+				this.canFindTarget = false;
+				this.target = null;
+				this.ghostTarget = null;
+				this.targetIsGhost = false;
 				Alarm.Set (this, 30, delegate {
 					this.canFindTarget = true;
 				}, Alarm.AlarmMode.Oneshot);
@@ -207,8 +301,12 @@ namespace TowerFall
 			this.cloak.Scale = this.sprite.Scale;
 			this.cloak.CurrentFrame = this.sprite.CurrentFrame;
 			this.cloak.FlipX = this.sprite.FlipX;
-			if (this.target != null && this.target.Dead) {
-				this.target = null;
+			if (this.target != null) {
+				if (this.targetIsGhost && this.ghostTarget.State == 3) {
+					this.target = null;
+				} else if (this.playerTarget != null && this.playerTarget.Dead) {
+					this.target = null;
+				}
 			}
 			if (this.canFindTarget) {
 				if (this.target == null) {
@@ -216,7 +314,7 @@ namespace TowerFall
 				} else {
 					float num = (this.target.Position - this.Position).LengthSquared ();
 					num -= 400f;
-					Player closestTarget = this.GetClosestTarget (num);
+					Actor closestTarget = this.GetClosestTarget (num);
 					if (closestTarget != null) {
 						this.target = closestTarget;
 					}
@@ -229,24 +327,12 @@ namespace TowerFall
 			}
 			this.Position += this.speed * Engine.TimeMult;
 			if (!this.dead && this.sprite.CurrentAnimID == "idle") {
-				bool flag = false;
-				using (List<Entity>.Enumerator enumerator = base.Level.Players.GetEnumerator ()) {
-					while (enumerator.MoveNext ()) {
-						Player player = (Player)enumerator.Current;
-						if (base.Level.Session.MatchSettings.TeamMode) {
-							if (player.Allegiance != this.team) {
-								flag = true;
-								break;
-							}
-						} else if (player.PlayerIndex != this.ownerIndex) {
-							flag = true;
-							break;
-						}
-					}
-				}
+				bool flag = this.GetClosestTarget() != null;
 				if (!flag) {
 					this.Vanish ();
 				}
+			} else if (this.dead && this.sprite.CurrentAnimID == "idle") {
+				this.Vanish ();
 			}
 		}
 

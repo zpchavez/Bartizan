@@ -4,16 +4,18 @@ using SDL2;
 using System;
 using System.IO;
 using System.Net;
-using System.Text;
 
 namespace Mod
 {
   [Patch]
   public class MyVersusMatchResults : VersusMatchResults
-  {
+  {3
+    static WebClient client = new WebClient();
+
     public MyVersusMatchResults (Session session, VersusRoundResults roundResults) : base(session, roundResults)
     {
-      System.Net.ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications);
+      ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications);
+      ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
     }
 
     private static bool AcceptAllCertifications(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certification, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
@@ -23,43 +25,43 @@ namespace Mod
 
     // This SHOULD be accessible from TFGame but isn't so I copy/pasted it
     public static string GetSavePath ()
-		{
-			string text = SDL.SDL_GetPlatform ();
-			string result;
-			if (text.Equals ("Linux")) {
-				string text2 = Environment.GetEnvironmentVariable ("XDG_DATA_HOME");
-				if (string.IsNullOrEmpty (text2)) {
-					text2 = Environment.GetEnvironmentVariable ("HOME");
-					if (string.IsNullOrEmpty (text2)) {
-						result = ".";
-						return result;
-					}
-					text2 += "/.local/share";
-				}
-				text2 += "/TowerFall";
-				if (!Directory.Exists (text2)) {
-					Directory.CreateDirectory (text2);
-				}
-				result = text2;
-			} else if (text.Equals ("Mac OS X")) {
-				string text2 = Environment.GetEnvironmentVariable ("HOME");
-				if (string.IsNullOrEmpty (text2)) {
-					result = ".";
-				} else {
-					text2 += "/Library/Application Support/TowerFall";
-					if (!Directory.Exists (text2)) {
-						Directory.CreateDirectory (text2);
-					}
-					result = text2;
-				}
-			} else {
-				if (!text.Equals ("Windows")) {
-					throw new Exception ("SDL2 platform not handled!");
-				}
-				result = AppDomain.CurrentDomain.BaseDirectory;
-			}
-			return result;
-		}
+    {
+      string text = SDL.SDL_GetPlatform ();
+      string result;
+      if (text.Equals ("Linux")) {
+        string text2 = Environment.GetEnvironmentVariable ("XDG_DATA_HOME");
+        if (string.IsNullOrEmpty (text2)) {
+          text2 = Environment.GetEnvironmentVariable ("HOME");
+          if (string.IsNullOrEmpty (text2)) {
+            result = ".";
+            return result;
+          }
+          text2 += "/.local/share";
+        }
+        text2 += "/TowerFall";
+        if (!Directory.Exists (text2)) {
+          Directory.CreateDirectory (text2);
+        }
+        result = text2;
+      } else if (text.Equals ("Mac OS X")) {
+        string text2 = Environment.GetEnvironmentVariable ("HOME");
+        if (string.IsNullOrEmpty (text2)) {
+          result = ".";
+        } else {
+          text2 += "/Library/Application Support/TowerFall";
+          if (!Directory.Exists (text2)) {
+            Directory.CreateDirectory (text2);
+          }
+          result = text2;
+        }
+      } else {
+        if (!text.Equals ("Windows")) {
+          throw new Exception ("SDL2 platform not handled!");
+        }
+        result = AppDomain.CurrentDomain.BaseDirectory;
+      }
+      return result;
+    }
 
     private static void RespCallback(IAsyncResult ar)
     {
@@ -90,20 +92,14 @@ namespace Mod
               (int)this.session.MatchStats[index].Deaths.SelfKills +
               (int)this.session.MatchStats[index].Deaths.TeamKills;
             stats.wins[index] = this.session.MatchStats[index].Won ? 1 : 0;
+            stats.selfs[index] = (int)this.session.MatchStats[index].Kills.SelfKills;
+            stats.teamKills[index] = (int)this.session.MatchStats[index].Kills.TeamKills;
+            stats.revives[index] = (int)this.session.MatchStats[index].Revives;
           }
         }
 
-        // POST the stats
-        WebRequest request = WebRequest.Create (apiUrl + "/matches");
-        request.Method = "POST";
-        string postData = stats.ToJSON(apiKey);
-        byte[] byteArray = Encoding.UTF8.GetBytes (postData);
-        request.ContentType = "application/json";
-        request.ContentLength = byteArray.Length;
-        Stream dataStream = request.GetRequestStream ();
-        dataStream.Write (byteArray, 0, byteArray.Length);
-        dataStream.Close ();
-        WebResponse response = request.GetResponse ();
+        client.Headers[HttpRequestHeader.ContentType] = "application/json";
+        client.UploadString(apiUrl + "/matches", stats.ToJSON(apiKey));
       }
     }
   }

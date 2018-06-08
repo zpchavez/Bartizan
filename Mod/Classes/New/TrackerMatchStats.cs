@@ -9,42 +9,60 @@ namespace Mod
     public int[] kills = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
     public int[] deaths = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
     public int[] wins = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
+    public int[] selfs = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
+    public int[] teamKills = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
+    public int[] revives = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
+
+    public string FieldToJSON(string field)
+    {
+      int[] stat;
+      switch(field) {
+        case "kills":
+          stat = kills;
+          break;
+        case "deaths":
+          stat = deaths;
+          break;
+        case "wins":
+          stat = wins;
+          break;
+        case "selfs":
+          stat = selfs;
+          break;
+        case "team_kills":
+          stat = teamKills;
+          break;
+        case "revives":
+          stat = revives;
+          break;
+        default:
+          throw new Exception("Invalid field: " + field);
+      }
+
+      string jsonPart = ",\"" + field + "\": {";
+
+      string[] stringParts = new string[TFGame.PlayerAmount];
+      int counter = 0;
+      for (int index = 0; index < stat.Length; index++) {
+        if (stat[index] > -1) {
+          stringParts[counter] = "\"" + ((ArcherColor)TFGame.Characters[index]).ToString() + "\": " + stat[index].ToString();
+          counter++;
+        }
+      }
+      jsonPart += String.Join(",", stringParts) + "}";
+      return jsonPart;
+    }
 
     public string ToJSON(string apiKey)
     {
       string json = "{\"api_token\": \"" + apiKey + "\",\"rounds\": " + rounds.ToString();
 
-      json += ",\"kills\": {";
-      string[] killStrings = new string[TFGame.PlayerAmount];
-      int counter = 0;
-      for (int index = 0; index < kills.Length; index++) {
-        if (kills[index] > -1) {
-          killStrings[counter] = "\"" + ((ArcherColor)index).ToString() + "\": " + kills[index].ToString();
-          counter++;
-        }
-      }
-      json += String.Join(",", killStrings) + "}";
-
-      json += ",\"deaths\": {";
-      string[] deathStrings = new string[TFGame.PlayerAmount];
-      counter = 0;
-      for (int index = 0; index < deaths.Length; index++) {
-        if (deaths[index] > -1) {
-          deathStrings[counter] = "\"" + ((ArcherColor)index).ToString() + "\": " + deaths[index].ToString();
-          counter++;
-        }
-      }
-      json += String.Join(",", deathStrings) + "}";
-
-      json += ",\"wins\": {";
-      string[] winStrings = new string[TFGame.PlayerAmount];
-      counter = 0;
-      for (int index = 0; index < wins.Length; index++) {
-        if (wins[index] > -1) {
-          winStrings[counter++] = "\"" + ((ArcherColor)index).ToString() + "\": " + wins[index].ToString();
-        }
-      }
-      json += String.Join(",", winStrings) + "}";
+      json += FieldToJSON("kills");
+      json += FieldToJSON("deaths");
+      json += FieldToJSON("wins");
+      json += FieldToJSON("selfs");
+      json += FieldToJSON("team_kills");
+      json += FieldToJSON("revives");
 
       json += "}";
 

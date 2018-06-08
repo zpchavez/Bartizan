@@ -19,6 +19,10 @@ with no problem.
 In this mode, putting on someone's fallen crown summons the chalice ghost.
 If the crown is knocked off or the player dies, the chalice ghost vanishes.
 
+### Chalice Ghosts Hunt Ghosts
+
+Chalice ghosts will go after player ghosts in addition to players.
+
 ### Gotta Bust Ghosts
 
 The round won't end until all ghosts have been busted.
@@ -30,6 +34,14 @@ Start with one of every arrow type
 ### Fast Ghosts
 
 Ghost are faster
+
+### CalvinFall
+
+New random variants every round!
+
+### Ghost Revives
+
+Ghosts can revive, but you can't revive yourself. A little buggy at the moment.
 
 # Original Readme
 

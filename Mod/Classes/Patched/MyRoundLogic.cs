@@ -1,6 +1,8 @@
 using Patcher;
 using TowerFall;
 using Microsoft.Xna.Framework;
+using Monocle;
+using System.Collections.Generic;
 
 namespace Mod
 {
@@ -10,6 +12,9 @@ namespace Mod
 		protected MyRoundLogic(Session session, bool canHaveMiasma)
 			: base(session, canHaveMiasma)
 		{
+			if (((MyMatchVariants)(session.MatchSettings.Variants)).CalvinFall) {
+				session.MatchSettings.Variants.Randomize();
+			}
 		}
 
 		public override void OnLevelLoadFinish ()

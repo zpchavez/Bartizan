@@ -3,7 +3,7 @@ using Patcher;
 
 namespace Mod
 {
-  [Patch]
+	[Patch]
 	public class MyMatchVariants : MatchVariants
 	{
 		[Header("MODS")]
@@ -30,7 +30,16 @@ namespace Mod
 		public Variant CrownSummonsChaliceGhost;
 
 		[CanRandom]
+		public Variant ChaliceGhostsHuntGhosts;
+
+		[CanRandom]
 		public Variant FastGhosts;
+
+		[CanRandom]
+		public Variant GhostRevives;
+
+		[Description ("NEW RANDOM VARIANTS EVERY ROUND")]
+		public Variant CalvinFall;
 
 		public MyMatchVariants(bool noPerPlayer = false) : base(noPerPlayer)
 		{
