@@ -72,6 +72,9 @@
     <Compile Include="Classes\Replaced\MyChaliceGhost.cs" />
     <Compile Include="Classes\Patched\MyOrbPickup.cs" />
     <Compile Include="Classes\Replaced\MyTeamReviver.cs" />
+    <Compile Include="Classes\New\PlayerGhostInventory.cs" />
+    <Compile Include="Classes\New\PlayerGhostShield.cs" />
+    <Compile Include="Classes\Patched\MyShieldPickup.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
