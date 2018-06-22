@@ -16,20 +16,23 @@ namespace Mod
 		public PlayerGhostShield shield;
 		public WrapHitbox shieldHitbox;
 		public Counter shieldRegenCounter;
+		public float InvisOpacity = 1f;
 
 		public Scheduler scheduler;
 
         public MyPlayerGhost(PlayerCorpse corpse)
           : base(corpse)
         {
-    		this.corpse = corpse;
+			this.corpse = corpse;
+            this.Allegiance = corpse.Allegiance;
 			this.shield = new PlayerGhostShield(this);
+			this.shieldHitbox = new WrapHitbox(16f, 18f, -8f, -10f);
+			base.Add(this.shield);
         }
 
     	public MyPlayerGhost(PlayerCorpse corpse, PlayerGhostInventory inventory)
             : base(corpse)
 		{
-            TFGame.Log(new Exception("new ghost with inventory"), false);
             this.corpse = corpse;
 
 			this.shieldHitbox = new WrapHitbox(16f, 18f, -8f, -10f);
@@ -80,7 +83,6 @@ namespace Mod
             }
 			if (this.HasShield)
 			{
-                TFGame.Log(new Exception("ghost lost shield from arrow"), false);
 				this.HasShield = false;
 				this.Speed = arrow.Speed;
 				arrow.EnterFallMode(true, false, true);
@@ -110,7 +112,6 @@ namespace Mod
                 {
 					if (this.HasShield)
 					{
-                        TFGame.Log(new Exception("ghost lost shield on bounce"), false);
                         this.HasShield = false;
 						base.Speed.Y = 3f;
                         this.sprite.Scale.X = 1.5f;
@@ -131,23 +132,27 @@ namespace Mod
             // ShockCircle shouldn't kill friendly ghosts
                 return;
             }
-           
-            if (this.HasShield)
+
+			if (this.HasShield)
 			{
-                TFGame.Log(new Exception("ghost lost shield via explosion"), false);
-                this.HasShield = false;
-                if (explosion && explosion.PlayerIndex != -1)
-                {
-                    base.Level.Session.MatchStats[explosion.PlayerIndex].ShieldsBroken += 1u;
-                }
-            }
+				this.HasShield = false;
+				if (explosion && explosion.PlayerIndex != -1)
+				{
+					base.Level.Session.MatchStats[explosion.PlayerIndex].ShieldsBroken += 1u;
+				}
+			}
+			else
+			{
+				if (this.Alive && this.CanHurt)
+				{
+					this.Health -= damage;
+					if (this.Health <= 0)
+					{
+						this.Die(killerIndex, arrow, explosion, shock);
+					}
+				}
+			}
             this.Speed = force;
-                if (this.Alive && this.CanHurt) {
-                this.Health -= damage;
-                if (this.Health <= 0) {
-                    this.Die (killerIndex, arrow, explosion, shock);
-                }
-            }
         }
 
         public override void Update()
@@ -167,13 +172,34 @@ namespace Mod
                     }
                 }
             }
-            if (((MyMatchVariants)Level.Session.MatchSettings.Variants).FastGhosts) {
-                typeof(Engine).GetProperty("TimeMult").SetValue(null, Engine.TimeMult * 1.5f, null);
-                base.Update();
-                typeof(Engine).GetProperty("TimeMult").SetValue(null, Engine.TimeMult / 1.5f, null);
-            } else {
-                base.Update();
+
+			if (this.Invisible)
+            {
+                this.InvisOpacity = Math.Max(this.InvisOpacity - 0.02f * Engine.TimeMult, 0.2f);
             }
+            else
+            {
+                this.InvisOpacity = Math.Min(this.InvisOpacity + 0.05f * Engine.TimeMult, 1f);
+            }
+
+			float ghostSpeed = 1f;
+			if (((MyMatchVariants)Level.Session.MatchSettings.Variants).FastGhosts)
+			{
+				ghostSpeed *= 1.4f;
+			}
+			if (((MyMatchVariants)Level.Session.MatchSettings.Variants).GhostItems && this.HasSpeedBoots)
+			{
+				ghostSpeed *= 1.4f;
+			}
+
+			if (ghostSpeed > 1f)
+			{
+				typeof(Engine).GetProperty("TimeMult").SetValue(null, Engine.TimeMult * ghostSpeed, null);
+				base.Update();
+				typeof(Engine).GetProperty("TimeMult").SetValue(null, Engine.TimeMult / ghostSpeed, null);
+			} else {
+				base.Update();
+			}
         }
 
     	public bool HasShield
@@ -188,19 +214,24 @@ namespace Mod
                 {
                     if (value)
                     {
-                        //base.TargetCollider = this.shieldHitbox;
+                        base.TargetCollider = this.shieldHitbox;
 						this.shield.Gain();
-                        TFGame.Log(new Exception("ghost has shield"), false);
                     }
                     else
                     {
-                        //base.TargetCollider = null;
+                        base.TargetCollider = null;
                         this.shield.Lose();
-                        //base.Flash(30, null);
-                        //TFGame.PlayerInputs[this.PlayerIndex].Rumble(0.5f, 20);
+                        base.Flash(30, null);
+                        TFGame.PlayerInputs[this.PlayerIndex].Rumble(0.5f, 20);
                     }
                 }
             }
+        }
+
+		public override void Render()
+		{
+			base.Render();
+            this.sprite.Color = this.blendColor * (0.9f + this.alphaSine.Value * 0.1f) * this.InvisOpacity;
         }
 	}
 }
