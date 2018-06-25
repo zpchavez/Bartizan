@@ -28,34 +28,7 @@ namespace Mod
 			this.shield = new PlayerGhostShield(this);
 			this.shieldHitbox = new WrapHitbox(16f, 18f, -8f, -10f);
 			base.Add(this.shield);
-        }
-
-    	public MyPlayerGhost(PlayerCorpse corpse, PlayerGhostInventory inventory)
-            : base(corpse)
-		{
-            this.corpse = corpse;
-
-			this.shieldHitbox = new WrapHitbox(16f, 18f, -8f, -10f);
             this.shieldRegenCounter = new Counter(240);
-			this.shield = new PlayerGhostShield(this);
-
-    		if (inventory.Shield)
-            {
-                this.scheduler.ScheduleAction(delegate {
-                    this.HasShield = true;
-                }, 20 + 10 * this.PlayerIndex, false);
-            }
-            if (inventory.Invisible)
-            {
-                this.scheduler.ScheduleAction(delegate {
-                    this.Invisible = true;
-                }, 60, false);
-            }
-            if (inventory.SpeedBoots)
-            {
-                this.HasSpeedBoots = true;
-            }
-
         }
 
         public override void Die(int killerIndex, Arrow arrow, Explosion explosion, ShockCircle circle)
