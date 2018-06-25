@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using TowerFall;
 using Patcher;
 
@@ -24,7 +23,6 @@ namespace Mod
             {
 				if (((MyMatchVariants)Level.Session.MatchSettings.Variants).GhostItems)
 				{
-					TFGame.Log(new Exception(this.pickups[0].ToString()), false);
 					MyPlayerGhost g = (MyPlayerGhost)ghost;
 					if (this.pickups[0].ToString() == "SpeedBoots" && !g.HasSpeedBoots ||
 					    this.pickups[0].ToString() == "Shield" && !g.HasShield)

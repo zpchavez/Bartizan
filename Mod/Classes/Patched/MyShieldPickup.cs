@@ -1,11 +1,9 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Mod;
+﻿using Microsoft.Xna.Framework;
 using Monocle;
 using TowerFall;
 using Patcher;
 
-namespace Patched
+namespace Mod
 {
 	[Patch]
 	public class MyShieldPickup : ShieldPickup

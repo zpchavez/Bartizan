@@ -1,7 +1,6 @@
 ﻿using TowerFall;
 using Monocle;
 using Microsoft.Xna.Framework;
-using System;
 using Patcher;
 
 namespace Mod

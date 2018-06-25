@@ -1,11 +1,9 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Mod;
+﻿using Microsoft.Xna.Framework;
 using Monocle;
 using TowerFall;
 using Patcher;
 
-namespace Patched
+namespace Mod
 {
     [Patch]
 	public class MyMirrorPickup : MirrorPickup
@@ -23,7 +21,6 @@ namespace Patched
     			MyPlayerGhost g = (MyPlayerGhost)ghost;
     			if (!g.Invisible)
     			{
-    				TFGame.Log(new Exception("Make Ghost invisible"), false);
     				base.Level.Layers[g.LayerIndex].Add(new LightFade().Init(this, null));
     				g.Invisible = true;
     				Sounds.pu_invisible.Play(base.X, 1f);
