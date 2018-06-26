@@ -25,7 +25,8 @@ namespace Mod
 				{
 					MyPlayerGhost g = (MyPlayerGhost)ghost;
 					if (this.pickups[0].ToString() == "SpeedBoots" && !g.HasSpeedBoots ||
-					    this.pickups[0].ToString() == "Shield" && !g.HasShield)
+					    this.pickups[0].ToString() == "Shield" && !g.HasShield ||
+					    this.pickups[0].ToString().Contains("Orb"))
 					{
 						this.OpenChest(ghost.PlayerIndex);
 					} else

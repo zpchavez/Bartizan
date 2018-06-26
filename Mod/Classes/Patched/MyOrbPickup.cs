@@ -41,20 +41,6 @@ namespace Mod
 					base.Level.OrbLogic.DoSpaceOrb();
                     base.Level.Particles.Emit(Particles.SpaceOrbCollect, 12, base.Position, Vector2.One * 4f);
                     break;
-                case OrbTypes.Chaos:
-                    {
-                        Sounds.pu_darkOrbCollect.Play(base.X, 1f);
-                        base.Level.OrbLogic.DoDarkOrb();
-                        base.Level.OrbLogic.DoTimeOrb(true);
-						base.Level.OrbLogic.DoLavaOrb(ghost.PlayerIndex);
-                        if (!SaveData.Instance.Options.RemoveScrollEffects)
-                        {
-                            base.Level.OrbLogic.DoSpaceOrbDelayed();
-                        }
-                        ParticleType type = Calc.GiveMe(this.chaosIndex, Particles.DarkOrbCollect, Particles.TimeOrbCollect, Particles.LavaOrbCollect, Particles.SpaceOrbCollect);
-                        base.Level.Particles.Emit(type, 12, base.Position, Vector2.One * 4f);
-                        break;
-                    }
             }
             base.RemoveSelf();
 		}
