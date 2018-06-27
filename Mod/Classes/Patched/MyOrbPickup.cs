@@ -21,9 +21,9 @@ namespace Mod
             switch (this.orbType)
             {
                 case OrbTypes.Dark:
-                    Sounds.pu_darkOrbCollect.Play(base.X, 1f);
+					Sounds.pu_darkOrbCollect.Play(base.X, 1f);
                     base.Level.OrbLogic.DoDarkOrb();
-					base.Level.Particles.Emit(Particles.DarkOrbCollect, 12, base.Position, Vector2.One * 4f);
+                    base.Level.Particles.Emit(Particles.DarkOrbCollect, 12, base.Position, Vector2.One * 4f);
                     break;
                 case OrbTypes.Time:
                     Sounds.pu_darkOrbCollect.Play(base.X, 1f);
