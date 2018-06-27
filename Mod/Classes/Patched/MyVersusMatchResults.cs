@@ -9,7 +9,7 @@ namespace Mod
 {
   [Patch]
   public class MyVersusMatchResults : VersusMatchResults
-  {3
+  {
     static WebClient client = new WebClient();
 
     public MyVersusMatchResults (Session session, VersusRoundResults roundResults) : base(session, roundResults)

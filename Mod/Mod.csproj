@@ -70,7 +70,13 @@
     <Compile Include="Classes\Replaced\MyChalice.cs" />
     <Compile Include="Classes\Replaced\MyChalicePad.cs" />
     <Compile Include="Classes\Replaced\MyChaliceGhost.cs" />
+    <Compile Include="Classes\Patched\MyOrbPickup.cs" />
     <Compile Include="Classes\Replaced\MyTeamReviver.cs" />
+    <Compile Include="Classes\New\PlayerGhostShield.cs" />
+    <Compile Include="Classes\Patched\MyShieldPickup.cs" />
+    <Compile Include="Classes\Patched\MyTreasureChest.cs" />
+    <Compile Include="Classes\Patched\MySpeedBootsPickup.cs" />
+    <Compile Include="Classes\Patched\MyMirrorPickup.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -129,6 +135,7 @@
     <None Include="Content\Atlas\menuAtlas\variants\calvinFall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Content\Atlas\menuAtlas\variants\GhostItems.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Patcher\Patcher.csproj">
