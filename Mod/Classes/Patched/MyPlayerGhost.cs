@@ -44,6 +44,18 @@ namespace Mod
           }
         }
 
+		public override void OnPlayerGhostCollide(PlayerGhost ghost)
+		{
+			if (base.State == ST_DODGE && (base.Allegiance == Allegiance.Neutral || ghost.Allegiance != base.Allegiance))
+			{
+				this.Die(-1, null, null, null);
+				ghost.Die(this.PlayerIndex, null, null, null);
+			} else 
+			{
+				base.OnPlayerGhostCollide(ghost);
+			}
+		}
+
 		public override bool OnArrowHit(Arrow arrow)
         {
             if (base.State == 0)
