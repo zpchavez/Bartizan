@@ -2,6 +2,7 @@ using Patcher;
 using TowerFall;
 using SDL2;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 
@@ -9,18 +10,10 @@ namespace Mod
 {
   [Patch]
   public class MyVersusMatchResults : VersusMatchResults
-  {3
-    static WebClient client = new WebClient();
+  {
 
     public MyVersusMatchResults (Session session, VersusRoundResults roundResults) : base(session, roundResults)
     {
-      ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications);
-      ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-    }
-
-    private static bool AcceptAllCertifications(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certification, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
-    {
-      return true;
     }
 
     // This SHOULD be accessible from TFGame but isn't so I copy/pasted it
@@ -98,8 +91,14 @@ namespace Mod
           }
         }
 
-        client.Headers[HttpRequestHeader.ContentType] = "application/json";
-        client.UploadString(apiUrl + "/matches", stats.ToJSON(apiKey));
+        string payload = stats.ToJSON(apiKey).Replace("\"", "\\\"");
+
+        Process.Start(
+          "/bin/bash",
+          "-c \"curl '" + apiUrl + "matches' " +
+          "-X POST -H 'Content-Type: application/json' -H 'Accept: application/json' " +
+          "--data-binary '" + payload + "' --compressed\""
+        );
       }
     }
   }
