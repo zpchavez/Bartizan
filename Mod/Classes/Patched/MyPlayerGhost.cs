@@ -46,11 +46,28 @@ namespace Mod
 
 		public override void OnPlayerGhostCollide(PlayerGhost ghost)
 		{
-			if (base.State == ST_DODGE && (base.Allegiance == Allegiance.Neutral || ghost.Allegiance != base.Allegiance))
+			if (((MyMatchVariants)base.Level.Session.MatchSettings.Variants).GhostJoust)
 			{
-				this.Die(-1, null, null, null);
-				ghost.Die(this.PlayerIndex, null, null, null);
-			} else 
+				if (base.State == ST_DODGE && (base.Allegiance == Allegiance.Neutral || ghost.Allegiance != base.Allegiance))
+				{
+					if (ghost.State == ST_DODGE)
+					{
+						if (this.HasSpeedBoots && !((MyPlayerGhost)ghost).HasSpeedBoots)
+						{
+						}
+						else
+						{
+							this.Die(-1, null, null, null);
+						}
+					}
+					ghost.Die(this.PlayerIndex, null, null, null);
+				}
+				else
+				{
+					base.OnPlayerGhostCollide(ghost);
+				}
+			}
+			else
 			{
 				base.OnPlayerGhostCollide(ghost);
 			}
