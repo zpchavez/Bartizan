@@ -134,7 +134,12 @@
     <None Include="Content\Atlas\menuAtlas\variants\calvinFall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Content\Atlas\menuAtlas\variants\GhostItems.png" />
+    <None Include="Content\Atlas\menuAtlas\variants\GhostItems.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Atlas\menuAtlas\variants\ghostJoust.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Patcher\Patcher.csproj">
