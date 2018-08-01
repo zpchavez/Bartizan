@@ -170,15 +170,8 @@ namespace Mod
         }
 
 
-		public void OnPlayerDeath(Player player, PlayerCorpse corpse, int playerIndex, DeathCause cause, Vector2 position, int killerIndex)
+		public override void OnPlayerDeath(Player player, PlayerCorpse corpse, int playerIndex, DeathCause cause, Vector2 position, int killerIndex)
 		{
-            
-            if (this.Session.MatchSettings.Variants.ReturnAsGhosts[playerIndex])
-			{
-				((MyPlayerCorpse)(corpse)).spawningGhost = true;
-				((MyPlayer)(player)).spawningGhost = true;
-			}
-
 			if (this.Session.CurrentLevel.KingIntro)
 			{
 				this.Session.CurrentLevel.KingIntro.Laugh();
