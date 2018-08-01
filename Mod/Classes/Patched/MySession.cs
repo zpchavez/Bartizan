@@ -23,11 +23,6 @@ namespace Mod
             this.RoundRandomArrowType = this.TreasureSpawner.GetRandomArrowType (true);
         }
     }
-    
-    public override void OnPlayerDeath (Player player, PlayerCorpse corpse, int playerIndex, DeathCause deathType, Vector2 position, int killerIndex)
-    {
-        this.RoundLogic.OnPlayerDeath (player, corpse, playerIndex, deathType, position, killerIndex);
-    }
         
     public void OnPlayerGhostDeath(PlayerGhost ghost, PlayerCorpse corpse)
     {

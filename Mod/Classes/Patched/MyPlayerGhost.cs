@@ -54,6 +54,7 @@ namespace Mod
 			{
 				if (base.State == ST_DODGE && (base.Allegiance == Allegiance.Neutral || ghost.Allegiance != base.Allegiance))
 				{
+                    Vector2 value = Calc.SafeNormalize (ghost.Position - base.Position);
 					if (ghost.State == ST_DODGE)
 					{
 						if (this.HasSpeedBoots && !((MyPlayerGhost)ghost).HasSpeedBoots)
@@ -61,10 +62,10 @@ namespace Mod
 						}
 						else
 						{
-							this.Die(-1, null, null, null);
+                            this.Hurt (-value * 4f, 1, ghost.PlayerIndex, null, null, null);
 						}
 					}
-					ghost.Die(this.PlayerIndex, null, null, null);
+                    ghost.Hurt (value * 4f, 1, this.PlayerIndex, null, null, null);
 				}
 				else
 				{
@@ -209,11 +210,11 @@ namespace Mod
 			float ghostSpeed = 1f;
 			if (((MyMatchVariants)Level.Session.MatchSettings.Variants).FastGhosts)
 			{
-				ghostSpeed *= 1.4f;
+				ghostSpeed *= 1.5f;
 			}
 			if (((MyMatchVariants)Level.Session.MatchSettings.Variants).GhostItems && this.HasSpeedBoots)
 			{
-				ghostSpeed *= 1.4f;
+				ghostSpeed *= 1.5f;
 			}
 
 			if (ghostSpeed > 1f)
