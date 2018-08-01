@@ -47,6 +47,7 @@
     <Compile Include="Classes\New\MobRoundLogic.cs" />
     <Compile Include="Classes\New\RespawnRoundLogic.cs" />
     <Compile Include="Classes\New\TrackerMatchStats.cs" />
+    <Compile Include="Classes\New\GhostDeathInterface.cs" />
     <Compile Include="Classes\Patched\MyArrow.cs" />
     <Compile Include="Classes\Patched\MyGameplayLayer.cs" />
     <Compile Include="Classes\Patched\MyLevel.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Classes\Patched\MyTreasureChest.cs" />
     <Compile Include="Classes\Patched\MySpeedBootsPickup.cs" />
     <Compile Include="Classes\Patched\MyMirrorPickup.cs" />
+    <Compile Include="Classes\Patched\MyTeamDeathmatchRoundLogic.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

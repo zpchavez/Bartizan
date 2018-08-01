@@ -9,6 +9,7 @@ namespace Mod
   public class MyPlayer : Player
   {
     private string lastHatState = "UNSET";
+	public bool spawningGhost;
 
     MyChaliceGhost summonedChaliceGhost;
 
@@ -20,6 +21,7 @@ namespace Mod
     public override void Added()
     {
       base.Added();
+	  this.spawningGhost = false;
       if (((MyMatchVariants)Level.Session.MatchSettings.Variants).VarietyPack[this.PlayerIndex]) {
         this.Arrows.Clear();
         this.Arrows.SetMaxArrows(10);
