@@ -4,13 +4,14 @@ using TowerFall;
 using Monocle;
 using System;
 using New;
+using System.Collections.Generic;
 
 namespace Mod
 {
   [Patch]
   public class MyPlayerGhost : PlayerGhost
   {
-        PlayerCorpse corpse;
+        public PlayerCorpse corpse;
 		public bool HasSpeedBoots;
 		public bool Invisible;
 		public PlayerGhostShield shield;
@@ -42,6 +43,9 @@ namespace Mod
               this.Position, killerIndex
             );
           }
+		  if (((MyMatchVariants)base.Level.Session.MatchSettings.Variants).GottaBustGhosts) {
+			   ((MySession)base.Level.Session).OnPlayerGhostDeath(this, this.corpse);
+		  }
         }
 
 		public override void OnPlayerGhostCollide(PlayerGhost ghost)
@@ -50,6 +54,7 @@ namespace Mod
 			{
 				if (base.State == ST_DODGE && (base.Allegiance == Allegiance.Neutral || ghost.Allegiance != base.Allegiance))
 				{
+                    Vector2 value = Calc.SafeNormalize (ghost.Position - base.Position);
 					if (ghost.State == ST_DODGE)
 					{
 						if (this.HasSpeedBoots && !((MyPlayerGhost)ghost).HasSpeedBoots)
@@ -57,10 +62,10 @@ namespace Mod
 						}
 						else
 						{
-							this.Die(-1, null, null, null);
+                            this.Hurt (-value * 4f, 1, ghost.PlayerIndex, null, null, null);
 						}
 					}
-					ghost.Die(this.PlayerIndex, null, null, null);
+                    ghost.Hurt (value * 4f, 1, this.PlayerIndex, null, null, null);
 				}
 				else
 				{
@@ -157,6 +162,24 @@ namespace Mod
             this.Speed = force;
         }
 
+		public override void Added()
+        {
+          base.Added();
+          
+          ((MyPlayerCorpse)(this.corpse)).spawningGhost = false;
+
+		  List<Entity> players = Level.Session.CurrentLevel[GameTags.Player];
+          for (int i = 0; i < players.Count; i++)
+          {
+            MyPlayer player = (MyPlayer)players[i];
+			  if (player.PlayerIndex == this.PlayerIndex) 
+			  {
+				player.spawningGhost = false;
+			    i = players.Count;
+		      }
+          }
+        }
+
         public override void Update()
         {
 			if (((MyMatchVariants)Level.Session.MatchSettings.Variants).RegeneratingShields[this.PlayerIndex])
@@ -187,11 +210,11 @@ namespace Mod
 			float ghostSpeed = 1f;
 			if (((MyMatchVariants)Level.Session.MatchSettings.Variants).FastGhosts)
 			{
-				ghostSpeed *= 1.4f;
+				ghostSpeed *= 1.5f;
 			}
 			if (((MyMatchVariants)Level.Session.MatchSettings.Variants).GhostItems && this.HasSpeedBoots)
 			{
-				ghostSpeed *= 1.4f;
+				ghostSpeed *= 1.5f;
 			}
 
 			if (ghostSpeed > 1f)
