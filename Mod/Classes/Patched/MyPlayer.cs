@@ -11,6 +11,7 @@ namespace Mod
   {
     private string lastHatState = "UNSET";
 	public bool spawningGhost;
+	public bool diedFromPrism = false;
 
     MyChaliceGhost summonedChaliceGhost;
 
@@ -23,6 +24,7 @@ namespace Mod
     {
       base.Added();
 	  this.spawningGhost = false;
+      this.diedFromPrism = false;
       if (((MyMatchVariants)Level.Session.MatchSettings.Variants).VarietyPack[this.PlayerIndex]) {
         this.Arrows.Clear();
         this.Arrows.SetMaxArrows(10);
@@ -87,37 +89,37 @@ namespace Mod
     }
     
     public override void Die (Arrow arrow)
-        {
-            Vector2 value = Calc.SafeNormalize (arrow.Speed);
-            int ledge = (int)((this.state.PreviousState == 1 && Vector2.Dot (Vector2.UnitX * (float)this.Facing, value) > 0.8f) ? this.Facing : ((Facing)0));
-            int playerIndex = arrow.PlayerIndex;
-            if (playerIndex == this.PlayerIndex && arrow is LaserArrow) {
-                base.Level.Session.MatchStats [this.PlayerIndex].SelfLaserKills += 1u;
-            }
-            if (arrow.State == Arrow.ArrowStates.Falling && arrow.PlayerIndex != -1 && arrow.PlayerIndex != this.PlayerIndex) {
-                base.Level.Session.MatchStats [arrow.PlayerIndex].DroppedArrowKills += 1u;
-            }
-            if (arrow.FromHyper) {
-                if (playerIndex == this.PlayerIndex) {
-                    base.Level.Session.MatchStats [this.PlayerIndex].HyperSelfKills += 1u;
-                } else {
-                    base.Level.Session.MatchStats [arrow.PlayerIndex].HyperArrowKills += 1u;
-                }
-            }
-            
-            this.Die (DeathCause.Arrow, playerIndex, arrow is BrambleArrow, arrow is LaserArrow, arrow is PrismArrow).DieByArrow (arrow, ledge);
+    {
+        Vector2 value = Calc.SafeNormalize (arrow.Speed);
+        int ledge = (int)((this.state.PreviousState == 1 && Vector2.Dot (Vector2.UnitX * (float)this.Facing, value) > 0.8f) ? this.Facing : ((Facing)0));
+        int playerIndex = arrow.PlayerIndex;
+        if (playerIndex == this.PlayerIndex && arrow is LaserArrow) {
+            base.Level.Session.MatchStats [this.PlayerIndex].SelfLaserKills += 1u;
         }
+        if (arrow.State == Arrow.ArrowStates.Falling && arrow.PlayerIndex != -1 && arrow.PlayerIndex != this.PlayerIndex) {
+            base.Level.Session.MatchStats [arrow.PlayerIndex].DroppedArrowKills += 1u;
+        }
+        if (arrow.FromHyper) {
+            if (playerIndex == this.PlayerIndex) {
+                base.Level.Session.MatchStats [this.PlayerIndex].HyperSelfKills += 1u;
+            } else {
+                base.Level.Session.MatchStats [arrow.PlayerIndex].HyperArrowKills += 1u;
+            }
+        }
+		this.diedFromPrism = arrow is PrismArrow;
+        
+        this.Die (DeathCause.Arrow, playerIndex, arrow is BrambleArrow, arrow is LaserArrow).DieByArrow (arrow, ledge);
+    }
 
-    public PlayerCorpse Die (DeathCause deathCause, int killerIndex, bool brambled = false, bool laser = false, bool prism = false)
+    public override PlayerCorpse Die (DeathCause deathCause, int killerIndex, bool brambled = false, bool laser = false)
     {
         if (summonedChaliceGhost) {
             summonedChaliceGhost.Vanish();
             summonedChaliceGhost = null;
         }
       
-        if (Level.Session.MatchSettings.Variants.ReturnAsGhosts[this.PlayerIndex] && !prism)
+        if (Level.Session.MatchSettings.Variants.ReturnAsGhosts[this.PlayerIndex] && !this.diedFromPrism)
         {
-            ((MyPlayerCorpse)this.corpse).spawningGhost = true;
             this.spawningGhost = true;
         }
       

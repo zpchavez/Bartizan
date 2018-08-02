@@ -60,6 +60,26 @@ namespace Mod
                 }
             }
         }
+        
+        public override void OnPlayerDeath(Player player, PlayerCorpse corpse, int playerIndex, DeathCause deathType, Vector2 position, int killerIndex)
+        {
+            base.OnPlayerDeath(player, corpse, playerIndex, deathType, position, killerIndex);
+            Allegiance allegiance = default(Allegiance);
+            if (this.wasFinalKill && base.Session.CurrentLevel.LivingPlayers == 0)
+            {
+                this.wasFinalKill = false;
+                base.CancelFinalKill();
+            }
+            else if (base.TeamCheckForRoundOver(out allegiance))
+            {
+                base.Session.CurrentLevel.Ending = true;
+                if (allegiance != Allegiance.Neutral && base.Session.Scores[(int)allegiance] >= base.Session.MatchSettings.GoalScore - 1)
+                {
+                    this.wasFinalKill = true;
+                    base.FinalKillTeams(corpse, allegiance);
+                }
+            }
+        }
 
         public void CheckForWin()
         {
