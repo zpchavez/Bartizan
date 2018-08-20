@@ -226,6 +226,9 @@ namespace TowerFall
 					player.Flash (135, null);
 				}
 				base.Level.Add<Player> (player);
+                //if (((MyMatchVariants)base.Level.Session.MatchSettings.Variants).GottaBustGhosts) {
+                //   ((MySession)base.Level.Session).OnTeamRevive(player);
+                //}
 				int playerIndex = this.reviver;
 				if (playerIndex == -1) {
 					playerIndex = player.PlayerIndex;
@@ -267,6 +270,7 @@ namespace TowerFall
 			}
 
 			// If ghost revives is on, then a revive can cancel a level ending
+            
 			if (this.ghostRevives && base.Level.Session.MatchSettings.Mode == Modes.TeamDeathmatch) {
 				Allegiance allegiance;
 				if (!base.Level.Session.RoundLogic.TeamCheckForRoundOver(out allegiance)) {
@@ -279,7 +283,7 @@ namespace TowerFall
 
 		public void HUDRender ()
 		{
-			if (!this.Finished && /*!base.Level.Ending &&*/ !this.Corpse.PrismHit && this.Mode != TeamReviver.Modes.Quest) {
+			if (!this.Finished && !base.Level.Ending && !this.Corpse.PrismHit && this.Mode != TeamReviver.Modes.Quest) {
 				float num = MathHelper.Lerp (-1f, this.arrowSine.Value, this.reviveCounter / (float)this.ReviveTime) * 2f;
 				Draw.OutlineTextureCentered (TFGame.Atlas ["versus/playerIndicator"], this.Position + new Vector2 (0f, -18f + num), this.arrowColor);
 				Draw.OutlineTextureCentered (TFGame.Atlas ["versus/teamRevive"], this.Position + new Vector2 (0f, -28f + num), this.arrowColor);

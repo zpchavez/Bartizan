@@ -37,7 +37,7 @@ namespace Mod
                 case Modes.HeadHunters:
                     return new HeadhuntersRoundLogic(session);
                 case Modes.TeamDeathmatch:
-                    return new MyTeamDeathmatchRoundLogic(session);
+                    return new TeamDeathmatchRoundLogic(session);
                 case Modes.Warlord:
                     return new WarlordRoundLogic(session);
                 case Modes.LevelTest:
@@ -228,24 +228,13 @@ namespace Mod
         
 		public void OnPlayerGhostDeath(PlayerGhost ghost, PlayerCorpse corpse)
 		{
-			if (base.Session.MatchSettings.Mode == Modes.TeamDeathmatch)
-			{
-				Allegiance allegiance;
-				if (this.TeamCheckForRoundOver(out allegiance))
-				{
-					base.Session.CurrentLevel.Ending = true;
-				}
-			}
-			else if (
-			  base.Session.MatchSettings.Mode == Modes.LastManStanding ||
-			  base.Session.MatchSettings.Mode == Modes.HeadHunters
-		  )
-			{
-				if (this.FFACheckForAllButOneDead())
-				{
-					base.Session.CurrentLevel.Ending = true;
-				}
-			}
+            if (
+                this.miasma &&
+                this.FFACheckForAllButOneDead()
+            )
+            {
+                this.miasma.Dissipate();
+            }
 		}
         
         public new void FinalKillTeams (PlayerCorpse corpse, Allegiance otherSpotlightTeam)

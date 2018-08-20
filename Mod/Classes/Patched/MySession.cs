@@ -23,18 +23,34 @@ namespace Mod
             this.RoundRandomArrowType = this.TreasureSpawner.GetRandomArrowType (true);
         }
     }
-    
-    public override void OnPlayerDeath (Player player, PlayerCorpse corpse, int playerIndex, DeathCause deathType, Vector2 position, int killerIndex)
-    {
-        this.RoundLogic.OnPlayerDeath (player, corpse, playerIndex, deathType, position, killerIndex);
-    }
         
     public void OnPlayerGhostDeath(PlayerGhost ghost, PlayerCorpse corpse)
     {
-		if ((this.RoundLogic).GetType().Name.Contains("My"))
+        String logicName = this.RoundLogic.GetType().Name;
+            TFGame.Log(new Exception(logicName), false);
+		switch (logicName)
 		{
-			((GhostDeathInterface)this.RoundLogic).OnPlayerGhostDeath(ghost, corpse);
+            case "TeamDeathmatchRoundLogic":
+                ((MyTeamDeathmatchRoundLogic)this.RoundLogic).OnPlayerGhostDeath(ghost, corpse);
+                break;
+            case "HeadhuntersRoundLogic":
+                ((MyHeadhuntersRoundLogic)this.RoundLogic).OnPlayerGhostDeath(ghost, corpse);
+			    break;  
+            case "LastManStandingRoundLogic":
+                ((MyLastManStandingRoundLogic)this.RoundLogic).OnPlayerGhostDeath(ghost, corpse);
+                break;  
 		}
+    }
+    
+    public void OnTeamRevive(Player player)
+    {
+        String logicName = this.RoundLogic.GetType().Name;
+        switch (logicName)
+        {
+            case "TeamDeathmatchRoundLogic":
+                ((MyTeamDeathmatchRoundLogic)this.RoundLogic).OnTeamRevive(player);
+                break;
+        }
     }
   }
 }
