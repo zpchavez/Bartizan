@@ -78,6 +78,8 @@
     <Compile Include="Classes\Patched\MySpeedBootsPickup.cs" />
     <Compile Include="Classes\Patched\MyMirrorPickup.cs" />
     <Compile Include="Classes\Patched\MyTeamDeathmatchRoundLogic.cs" />
+    <Compile Include="Classes\Patched\MyHeadhuntersRoundLogic.cs" />
+    <Compile Include="Classes\Patched\MyLastManStandingRoundLogic.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

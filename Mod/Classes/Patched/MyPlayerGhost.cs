@@ -14,6 +14,7 @@ namespace Mod
         public PlayerCorpse corpse;
 		public bool HasSpeedBoots;
 		public bool Invisible;
+		public bool dodging;
 		public PlayerGhostShield shield;
 		public WrapHitbox shieldHitbox;
 		public Counter shieldRegenCounter;
@@ -35,6 +36,18 @@ namespace Mod
         public override void Die(int killerIndex, Arrow arrow, Explosion explosion, ShockCircle circle)
         {
           base.Die(killerIndex, arrow, explosion, circle);
+          ((MyPlayerCorpse)(this.corpse)).hasGhost = false;
+          
+          List<Entity> players = Level.Session.CurrentLevel[GameTags.Player];
+          for (int i = 0; i < players.Count; i++)
+          {
+            MyPlayer player = (MyPlayer)players[i];
+              if (player.PlayerIndex == this.PlayerIndex) 
+              {
+                i = players.Count;
+              }
+          }
+          
           var mobLogic = this.Level.Session.RoundLogic as MobRoundLogic;
           if (mobLogic != null) {
             // Ghosts treated as players in crawl mode
@@ -52,10 +65,10 @@ namespace Mod
 		{
 			if (((MyMatchVariants)base.Level.Session.MatchSettings.Variants).GhostJoust)
 			{
-				if (base.State == ST_DODGE && (base.Allegiance == Allegiance.Neutral || ghost.Allegiance != base.Allegiance))
+				if (this.dodging && (base.Allegiance == Allegiance.Neutral || ghost.Allegiance != base.Allegiance))
 				{
                     Vector2 value = Calc.SafeNormalize (ghost.Position - base.Position);
-					if (ghost.State == ST_DODGE)
+					if (((MyPlayerGhost)ghost).dodging)
 					{
 						if (this.HasSpeedBoots && !((MyPlayerGhost)ghost).HasSpeedBoots)
 						{
@@ -167,6 +180,7 @@ namespace Mod
           base.Added();
           
           ((MyPlayerCorpse)(this.corpse)).spawningGhost = false;
+          ((MyPlayerCorpse)(this.corpse)).hasGhost = true;
 
 		  List<Entity> players = Level.Session.CurrentLevel[GameTags.Player];
           for (int i = 0; i < players.Count; i++)
@@ -178,6 +192,18 @@ namespace Mod
 			    i = players.Count;
 		      }
           }
+        }
+
+        public override void DodgeEnter ()
+        {
+			this.dodging = true;
+			base.DodgeEnter();
+        }
+
+        public override void DodgeLeave ()
+        {
+			this.dodging = false;
+			base.DodgeLeave();
         }
 
         public override void Update()
