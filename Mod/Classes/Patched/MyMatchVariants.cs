@@ -38,6 +38,12 @@ namespace Mod
 		[CanRandom]
 		public Variant GhostRevives;
 
+		[CanRandom]
+        public Variant GhostItems;
+
+        [CanRandom]
+        public Variant GhostJoust;
+
 		[Description ("NEW RANDOM VARIANTS EVERY ROUND")]
 		public Variant CalvinFall;
 
