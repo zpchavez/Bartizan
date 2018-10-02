@@ -47,11 +47,9 @@ namespace Mod
             }
             if (allegiances[0] && allegiances[1]) {
               // There are ghosts from the opposing team
-              this.ghostWaitCounter = 1;
+              this.ghostWaitCounter = 90f;
             }
           }
-        } else {
-          this.ghostWaitCounter = 1;
         }
       }
     }
