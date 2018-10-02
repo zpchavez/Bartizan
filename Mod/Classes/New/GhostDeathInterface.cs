@@ -4,6 +4,6 @@ namespace Mod
 {
     public interface GhostDeathInterface
     {
-		void OnPlayerGhostDeath(PlayerGhost ghost, PlayerCorpse corpse);
+        void OnPlayerGhostDeath(PlayerGhost ghost, PlayerCorpse corpse);
     }
 }

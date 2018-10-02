@@ -6,9 +6,9 @@ using TowerFall;
 
 namespace New
 {
-	public class PlayerGhostShield : CompositeComponent
+    public class PlayerGhostShield : CompositeComponent
     {
-		public LevelEntity owner;
+        public LevelEntity owner;
 
         public SpritePart<int> sprite;
 
@@ -16,21 +16,21 @@ namespace New
 
         public ParticleType particleType;
 
-		public PlayerGhostShield(LevelEntity owner) :base(false, false)
-		{
+        public PlayerGhostShield(LevelEntity owner) :base(false, false)
+        {
             this.owner = owner;
-			this.sprite = TFGame.SpriteData.GetSpritePartInt("Shield");
+            this.sprite = TFGame.SpriteData.GetSpritePartInt("Shield");
             if (owner is PlayerGhost)
-			{
-				PlayerGhost ghost = owner as PlayerGhost;
-				this.sprite.Color = ArcherData.GetColorB(ghost.PlayerIndex, ghost.Allegiance);
-				if (ghost.Allegiance != Allegiance.Neutral)
+            {
+                PlayerGhost ghost = owner as PlayerGhost;
+                this.sprite.Color = ArcherData.GetColorB(ghost.PlayerIndex, ghost.Allegiance);
+                if (ghost.Allegiance != Allegiance.Neutral)
                 {
-					this.particleType = Particles.TeamDash[(int)ghost.Allegiance];
+                    this.particleType = Particles.TeamDash[(int)ghost.Allegiance];
                 }
                 else
                 {
-					this.particleType = Particles.Dash[ghost.PlayerIndex];
+                    this.particleType = Particles.Dash[ghost.PlayerIndex];
                 }
             }
             else
@@ -44,8 +44,8 @@ namespace New
             base.Add(this.sine);
         }
 
-		public override void Update()
-		{
+        public override void Update()
+        {
             this.sprite.Scale.X = 0.7f + this.sine.Value * 0.1f;
             this.sprite.Scale.Y = 0.7f - this.sine.Value * 0.1f;
             base.Update();
@@ -64,7 +64,7 @@ namespace New
         }
 
         public void Lose()
-		{
+        {
             base.Active = (base.Visible = false);
             for (int i = 0; i < 360; i += 15)
             {

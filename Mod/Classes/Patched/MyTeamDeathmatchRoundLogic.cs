@@ -14,7 +14,7 @@ namespace Mod
             : base(session)
         {
         }
-        
+
         public void OnPlayerGhostDeath(PlayerGhost ghost, PlayerCorpse corpse)
         {
             ((MyRoundLogic)base.Session.RoundLogic).OnPlayerGhostDeath(ghost, corpse);
@@ -35,13 +35,13 @@ namespace Mod
             }
         }
 
-		public void OnTeamRevive(Player player)
-		{
+        public void OnTeamRevive(Player player)
+        {
             Allegiance allegiance = default(Allegiance);
             if (!((MyRoundLogic)base.Session.RoundLogic).TeamCheckForRoundOver(out allegiance))
             {
                 base.Session.CurrentLevel.Ending = false;
             }
-		}
+        }
     }
 }

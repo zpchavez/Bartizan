@@ -10,8 +10,8 @@ namespace Mod
   public class MyPlayer : Player
   {
     private string lastHatState = "UNSET";
-	public bool spawningGhost;
-	public bool diedFromPrism = false;
+    public bool spawningGhost;
+    public bool diedFromPrism = false;
 
     MyChaliceGhost summonedChaliceGhost;
 
@@ -23,7 +23,7 @@ namespace Mod
     public override void Added()
     {
       base.Added();
-	  this.spawningGhost = false;
+      this.spawningGhost = false;
       this.diedFromPrism = false;
       if (((MyMatchVariants)Level.Session.MatchSettings.Variants).VarietyPack[this.PlayerIndex]) {
         this.Arrows.Clear();
@@ -87,7 +87,7 @@ namespace Mod
       if (!((MyMatchVariants)Level.Session.MatchSettings.Variants).NoHeadBounce[this.PlayerIndex])
         base.HurtBouncedOn(bouncerIndex);
     }
-    
+
     public override void Die (Arrow arrow)
     {
         Vector2 value = Calc.SafeNormalize (arrow.Speed);
@@ -106,8 +106,8 @@ namespace Mod
                 base.Level.Session.MatchStats [arrow.PlayerIndex].HyperArrowKills += 1u;
             }
         }
-		this.diedFromPrism = arrow is PrismArrow;
-        
+        this.diedFromPrism = arrow is PrismArrow;
+
         this.Die (DeathCause.Arrow, playerIndex, arrow is BrambleArrow, arrow is LaserArrow).DieByArrow (arrow, ledge);
     }
 
@@ -117,12 +117,12 @@ namespace Mod
             summonedChaliceGhost.Vanish();
             summonedChaliceGhost = null;
         }
-      
+
         if (Level.Session.MatchSettings.Variants.ReturnAsGhosts[this.PlayerIndex] && !this.diedFromPrism)
         {
             this.spawningGhost = true;
         }
-      
+
         return base.Die(deathCause, killerIndex, brambled, laser);
     }
 

@@ -14,7 +14,7 @@ namespace Mod
     {
       RoundsPlayedThisMatch = 0;
     }
-    
+
     public override void LevelLoadStart (Level level)
     {
         this.CurrentLevel = level;
@@ -23,25 +23,24 @@ namespace Mod
             this.RoundRandomArrowType = this.TreasureSpawner.GetRandomArrowType (true);
         }
     }
-        
+
     public void OnPlayerGhostDeath(PlayerGhost ghost, PlayerCorpse corpse)
     {
         String logicName = this.RoundLogic.GetType().Name;
-            TFGame.Log(new Exception(logicName), false);
-		switch (logicName)
-		{
+        switch (logicName)
+        {
             case "TeamDeathmatchRoundLogic":
                 ((MyTeamDeathmatchRoundLogic)this.RoundLogic).OnPlayerGhostDeath(ghost, corpse);
                 break;
             case "HeadhuntersRoundLogic":
                 ((MyHeadhuntersRoundLogic)this.RoundLogic).OnPlayerGhostDeath(ghost, corpse);
-			    break;  
+                break;
             case "LastManStandingRoundLogic":
                 ((MyLastManStandingRoundLogic)this.RoundLogic).OnPlayerGhostDeath(ghost, corpse);
-                break;  
-		}
+                break;
+        }
     }
-    
+
     public void OnTeamRevive(Player player)
     {
         String logicName = this.RoundLogic.GetType().Name;
