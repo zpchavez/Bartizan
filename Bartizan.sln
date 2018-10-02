@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizard", "Wizard\Wizard.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevMod", "DevMod\DevMod.csproj", "{1491BA74-AF39-409E-A9BD-EB2D128C6DE2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FCB64487-7B0B-412B-BA18-6820B19EAF93}"
+	ProjectSection(SolutionItems) = preProject
+		Bartizan.sln = Bartizan.sln
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		DebugLinux|x86 = DebugLinux|x86
