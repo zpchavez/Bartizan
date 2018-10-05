@@ -59,7 +59,6 @@
     <Compile Include="Classes\Patched\MyPlayerGhost.cs" />
     <Compile Include="Classes\Patched\MyReplayFrame.cs" />
     <Compile Include="Classes\Patched\MyRollcallElement.cs" />
-    <Compile Include="Classes\Patched\MyRoundEndCounter.cs" />
     <Compile Include="Classes\Patched\MyRoundLogic.cs" />
     <Compile Include="Classes\Patched\MySession.cs" />
     <Compile Include="Classes\Patched\MyVersusCoinButton.cs" />
