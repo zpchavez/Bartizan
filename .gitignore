@@ -3,3 +3,5 @@ bin/
 DebugLinux
 Debug
 OriginalClasses
+.vs
+packages/

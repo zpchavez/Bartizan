@@ -47,6 +47,7 @@
     <Compile Include="Classes\New\MobRoundLogic.cs" />
     <Compile Include="Classes\New\RespawnRoundLogic.cs" />
     <Compile Include="Classes\New\TrackerMatchStats.cs" />
+    <Compile Include="Classes\New\GhostDeathInterface.cs" />
     <Compile Include="Classes\Patched\MyArrow.cs" />
     <Compile Include="Classes\Patched\MyGameplayLayer.cs" />
     <Compile Include="Classes\Patched\MyLevel.cs" />
@@ -69,7 +70,16 @@
     <Compile Include="Classes\Replaced\MyChalice.cs" />
     <Compile Include="Classes\Replaced\MyChalicePad.cs" />
     <Compile Include="Classes\Replaced\MyChaliceGhost.cs" />
+    <Compile Include="Classes\Patched\MyOrbPickup.cs" />
     <Compile Include="Classes\Replaced\MyTeamReviver.cs" />
+    <Compile Include="Classes\New\PlayerGhostShield.cs" />
+    <Compile Include="Classes\Patched\MyShieldPickup.cs" />
+    <Compile Include="Classes\Patched\MyTreasureChest.cs" />
+    <Compile Include="Classes\Patched\MySpeedBootsPickup.cs" />
+    <Compile Include="Classes\Patched\MyMirrorPickup.cs" />
+    <Compile Include="Classes\Patched\MyTeamDeathmatchRoundLogic.cs" />
+    <Compile Include="Classes\Patched\MyHeadhuntersRoundLogic.cs" />
+    <Compile Include="Classes\Patched\MyLastManStandingRoundLogic.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -126,6 +136,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\Atlas\menuAtlas\variants\calvinFall.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Atlas\menuAtlas\variants\ghostItems.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Atlas\menuAtlas\variants\ghostJoust.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
