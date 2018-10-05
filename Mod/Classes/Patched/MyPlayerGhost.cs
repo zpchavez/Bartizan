@@ -281,8 +281,40 @@ namespace Mod
 
         public override void Render()
         {
-            base.Render();
             this.sprite.Color = this.blendColor * (0.9f + this.alphaSine.Value * 0.1f) * this.InvisOpacity;
+            this.sprite.Scale.X = Math.Abs (this.sprite.Scale.X) * (float)this.Facing;
+            // From LevelEntity::Render(), base of base of base...
+            this.DoWrapRender ();
+            if (this.ScreenWrap) {
+                int num;
+                if (base.X > 210f) {
+                    base.X -= 420f;
+                    this.DoWrapRender ();
+                    base.X += 420f;
+                    num = -1;
+                } else {
+                    base.X += 420f;
+                    this.DoWrapRender ();
+                    base.X -= 420f;
+                    num = 1;
+                }
+                int num2;
+                if (base.Y > 120f) {
+                    base.Y -= 240f;
+                    this.DoWrapRender ();
+                    base.Y += 240f;
+                    num2 = -1;
+                } else {
+                    base.Y += 240f;
+                    this.DoWrapRender ();
+                    base.Y -= 240f;
+                    num2 = 1;
+                }
+                Vector2 position = base.Position;
+                base.Position += new Vector2 ((float)(420 * num), (float)(240 * num2));
+                this.DoWrapRender ();
+                base.Position = position;
+            }
         }
     }
 }
