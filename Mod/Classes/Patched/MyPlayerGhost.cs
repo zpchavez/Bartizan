@@ -283,6 +283,7 @@ namespace Mod
         {
             this.sprite.Color = this.blendColor * (0.9f + this.alphaSine.Value * 0.1f) * this.InvisOpacity;
             this.sprite.Scale.X = Math.Abs (this.sprite.Scale.X) * (float)this.Facing;
+            this.halo.Color = Color.White * this.InvisOpacity;
             // From LevelEntity::Render(), base of base of base...
             this.DoWrapRender ();
             if (this.ScreenWrap) {
