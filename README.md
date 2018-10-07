@@ -9,7 +9,6 @@ with no problem.
 
 - Modified to work with (and only with) 8-player TowerFall
 - Fixed glitched replay gifs by removing screen shake from replays
-- Added Free Aim to the tournament ruleset
 - Integrated with my stat tracker API which is currently a private repo so don't worry about it
 
 ## Variants
@@ -41,7 +40,15 @@ New random variants every round!
 
 ### Ghost Revives
 
-Ghosts can revive, but you can't revive yourself. A little buggy at the moment.
+Ghosts can revive, but you can't revive yourself.
+
+### Ghost Items
+
+Ghosts can get powerups (everything except arrows).
+
+### Ghost Joust
+
+Ghosts can kill other ghosts by dashing into them.
 
 # Original Readme
 
