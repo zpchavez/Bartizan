@@ -38,10 +38,10 @@ namespace Mod
         case "revives":
           stat = revives;
           break;
-        case "killsAsGhost":
+        case "kills_as_ghost":
           stat = revives;
           break;
-        case "ghostKills":
+        case "ghost_kills":
           stat = revives;
           break;
         case "miracles":
