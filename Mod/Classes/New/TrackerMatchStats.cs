@@ -39,13 +39,13 @@ namespace Mod
           stat = revives;
           break;
         case "kills_as_ghost":
-          stat = revives;
+          stat = killsAsGhost;
           break;
         case "ghost_kills":
-          stat = revives;
+          stat = ghostKills;
           break;
         case "miracles":
-          stat = revives;
+          stat = miracles;
           break;
         default:
           throw new Exception("Invalid field: " + field);
