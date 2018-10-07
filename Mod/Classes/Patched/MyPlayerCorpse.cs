@@ -24,15 +24,17 @@ namespace Mod
             if (this.reviverAdded == true) {
                 this.reviverAdded = false;
                 List<Entity> teamRevivers = base.Level[GameTags.TeamReviver];
-                if (teamRevivers.Count > 0) {
-                    TeamReviver teamReviver = (TeamReviver)(teamRevivers[teamRevivers.Count - 1]);
-                    base.Level.Layers[teamReviver.LayerIndex].Remove(teamReviver);
-                    MyTeamReviver myTeamReviver = new MyTeamReviver (
-                        this,
-                        TeamReviver.Modes.TeamDeathmatch,
-                        ((MyMatchVariants)(base.Level.Session.MatchSettings.Variants)).GhostRevives
-                    );
-                    base.Level.Layers[myTeamReviver.LayerIndex].Add(myTeamReviver, false);
+                for (int i = 0; i < teamRevivers.Count; i++) {
+                    TeamReviver teamReviver = (TeamReviver)(teamRevivers[i]);
+                    if (teamReviver.Corpse.PlayerIndex == this.PlayerIndex) {
+                      base.Level.Layers[teamReviver.LayerIndex].Remove(teamReviver);
+                      MyTeamReviver myTeamReviver = new MyTeamReviver (
+                      this,
+                      TeamReviver.Modes.TeamDeathmatch,
+                      ((MyMatchVariants)(base.Level.Session.MatchSettings.Variants)).GhostRevives
+                      );
+                      base.Level.Layers[myTeamReviver.LayerIndex].Add(myTeamReviver, false);
+                    }
                 }
             }
         }
