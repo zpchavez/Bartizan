@@ -75,8 +75,8 @@ namespace Mod
       json += FieldToJSON("selfs");
       json += FieldToJSON("team_kills");
       json += FieldToJSON("revives");
-      json += FieldToJSON("killsAsGhost");
-      json += FieldToJSON("ghostKills");
+      json += FieldToJSON("kills_as_ghost");
+      json += FieldToJSON("ghost_kills");
       json += FieldToJSON("miracles");
 
       json += "}";
