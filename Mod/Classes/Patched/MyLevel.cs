@@ -28,18 +28,5 @@ namespace Mod
 				}
 			}
 		}
-
-		public override void HandlePausing ()
-		{
-			if (((MyMatchVariants)this.Session.MatchSettings.Variants).GottaBustGhosts) {
-				// Let game be paused while ghost busting
-				bool wasEnding = this.Ending;
-				this.Ending = false;
-				base.HandlePausing();
-				this.Ending = wasEnding;
-			} else {
-				base.HandlePausing();
-			}
-		}
   }
 }
