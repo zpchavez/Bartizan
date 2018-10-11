@@ -159,7 +159,7 @@ namespace TowerFall
 					}
 				}
 			}
-			if (result != null) {
+			if (result != null && result.State != 3 /* Ghost not dead */) {
 				targetIsGhost = true;
 				ghostTarget = result;
 			}
@@ -182,7 +182,7 @@ namespace TowerFall
 					}
 				}
 			}
-			if (result != null) {
+			if (result != null && !result.Dead) {
 				targetIsGhost = false;
 				playerTarget = result;
 			}
