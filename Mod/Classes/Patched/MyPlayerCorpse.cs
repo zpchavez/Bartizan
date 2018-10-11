@@ -28,10 +28,11 @@ namespace Mod
                     TeamReviver teamReviver = (TeamReviver)(teamRevivers[i]);
                     if (teamReviver.Corpse.PlayerIndex == this.PlayerIndex) {
                       base.Level.Layers[teamReviver.LayerIndex].Remove(teamReviver);
-                      MyTeamReviver myTeamReviver = new MyTeamReviver (
-                      this,
-                      TeamReviver.Modes.TeamDeathmatch,
-                      ((MyMatchVariants)(base.Level.Session.MatchSettings.Variants)).GhostRevives
+                      MyTeamReviver myTeamReviver = new MyTeamReviver(
+                        this,
+                        TeamReviver.Modes.TeamDeathmatch,
+                        ((MyTeamDeathmatchRoundLogic)(base.Level.Session.RoundLogic)).GetRoundEndCounter(),
+                        ((MyMatchVariants)(base.Level.Session.MatchSettings.Variants)).GhostRevives
                       );
                       base.Level.Layers[myTeamReviver.LayerIndex].Add(myTeamReviver, false);
                     }
