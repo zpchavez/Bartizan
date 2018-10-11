@@ -205,7 +205,7 @@ namespace TowerFall
             Player result;
             if (this.Corpse.Squished == Vector2.Zero && this.CanReviveAtThisPosition (ref zero)) {
                 PlayerInventory inventory = new PlayerInventory (false, false, false, false, new ArrowList (this.Corpse.Arrows));
-                // this.Corpse.Arrows.Clear (); // I don't know what this line does, but it was causing an accessibility exception
+                this.Corpse.Arrows.Arrows.Clear(); // Calling Clear on ArrowList causes an accessibility exception for some reason, but this does the same thing
                 if (this.Corpse.ArrowCushion.Count > 0) {
                     Arrow arrow = this.Corpse.ArrowCushion.ArrowDatas [0].Arrow;
                     if (inventory.Arrows.CanAddArrow (arrow.ArrowType) && arrow.Scene != null && !arrow.MarkedForRemoval) {
