@@ -71,6 +71,8 @@ namespace TowerFall
 
         public bool ghostRevives;
 
+        public RoundEndCounter roundEndCounter;
+
         //
         // Properties
         //
@@ -110,8 +112,9 @@ namespace TowerFall
         //
         // Constructors
         //
-        public MyTeamReviver (PlayerCorpse corpse, TeamReviver.Modes mode, bool ghostRevives=false) : base (corpse.BottomCenter)
+        public MyTeamReviver (PlayerCorpse corpse, TeamReviver.Modes mode, RoundEndCounter roundEndCounter, bool ghostRevives=false) : base (corpse.BottomCenter)
         {
+            this.roundEndCounter = roundEndCounter;
             this.ghostRevives = ghostRevives;
             this.Mode = mode;
             this.Corpse = corpse;
@@ -202,7 +205,7 @@ namespace TowerFall
             Player result;
             if (this.Corpse.Squished == Vector2.Zero && this.CanReviveAtThisPosition (ref zero)) {
                 PlayerInventory inventory = new PlayerInventory (false, false, false, false, new ArrowList (this.Corpse.Arrows));
-                // this.Corpse.Arrows.Clear (); // I don't know what this line does, but it was causing an accessibility exception
+                this.Corpse.Arrows.Arrows.Clear(); // Calling Clear on ArrowList causes an accessibility exception for some reason, but this does the same thing
                 if (this.Corpse.ArrowCushion.Count > 0) {
                     Arrow arrow = this.Corpse.ArrowCushion.ArrowDatas [0].Arrow;
                     if (inventory.Arrows.CanAddArrow (arrow.ArrowType) && arrow.Scene != null && !arrow.MarkedForRemoval) {
@@ -267,12 +270,12 @@ namespace TowerFall
             }
 
             // If ghost revives is on, then a revive can cancel a level ending
-
             if (this.ghostRevives && base.Level.Session.MatchSettings.Mode == Modes.TeamDeathmatch) {
                 Allegiance allegiance;
                 if (!base.Level.Session.RoundLogic.TeamCheckForRoundOver(out allegiance)) {
                     base.Level.Session.CurrentLevel.Ending = false;
                 }
+                this.roundEndCounter.Reset();
             }
 
             return result;

@@ -10,9 +10,12 @@ namespace Mod
   {
     public int RoundsPlayedThisMatch;
 
+    public MyMatchStats[] MyMatchStats;
+
     public MySession (MatchSettings settings) : base(settings)
     {
       RoundsPlayedThisMatch = 0;
+      this.MyMatchStats = new MyMatchStats[8];
     }
 
     public override void LevelLoadStart (Level level)

@@ -126,6 +126,17 @@ namespace Mod
         return base.Die(deathCause, killerIndex, brambled, laser);
     }
 
+    public override int DodgingUpdate()
+    {
+      if (this.input.DodgePressed) {
+        this.canHyper = true;
+        if ((bool)this.dodgeCatchCounter && this.Speed.LengthSquared () >= 3.6f) {
+          ((MySession)(Level.Session)).MyMatchStats[this.PlayerIndex].MiracleCatches += 1u;
+        }
+      }
+      return base.DodgingUpdate();
+    }
+
     public override void Update()
     {
       base.Update();

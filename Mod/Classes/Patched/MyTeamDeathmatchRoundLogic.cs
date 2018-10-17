@@ -15,6 +15,11 @@ namespace Mod
         {
         }
 
+        public RoundEndCounter GetRoundEndCounter()
+        {
+            return this.roundEndCounter;
+        }
+
         public void OnPlayerGhostDeath(PlayerGhost ghost, PlayerCorpse corpse)
         {
             ((MyRoundLogic)base.Session.RoundLogic).OnPlayerGhostDeath(ghost, corpse);

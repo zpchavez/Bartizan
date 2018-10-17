@@ -12,6 +12,9 @@ namespace Mod
     public int[] selfs = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
     public int[] teamKills = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
     public int[] revives = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
+    public int[] killsAsGhost = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
+    public int[] ghostKills = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
+    public int[] miracles = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
 
     public string FieldToJSON(string field)
     {
@@ -34,6 +37,15 @@ namespace Mod
           break;
         case "revives":
           stat = revives;
+          break;
+        case "kills_as_ghost":
+          stat = killsAsGhost;
+          break;
+        case "ghost_kills":
+          stat = ghostKills;
+          break;
+        case "miracles":
+          stat = miracles;
           break;
         default:
           throw new Exception("Invalid field: " + field);
@@ -63,6 +75,9 @@ namespace Mod
       json += FieldToJSON("selfs");
       json += FieldToJSON("team_kills");
       json += FieldToJSON("revives");
+      json += FieldToJSON("kills_as_ghost");
+      json += FieldToJSON("ghost_kills");
+      json += FieldToJSON("miracles");
 
       json += "}";
 

@@ -88,6 +88,9 @@ namespace Mod
             stats.selfs[index] = (int)this.session.MatchStats[index].Kills.SelfKills;
             stats.teamKills[index] = (int)this.session.MatchStats[index].Kills.TeamKills;
             stats.revives[index] = (int)this.session.MatchStats[index].Revives;
+            stats.killsAsGhost[index] = (int)this.session.MatchStats[index].KillsAsGhost;
+            stats.ghostKills[index] = (int)this.session.MatchStats[index].GhostKills;
+            stats.miracles[index] = (int)((MySession)(this.session)).MyMatchStats[index].MiracleCatches;
           }
         }
 
