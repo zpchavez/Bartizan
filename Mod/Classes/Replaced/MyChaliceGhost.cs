@@ -150,7 +150,7 @@ namespace TowerFall
 			using (List<Entity>.Enumerator enumerator = base.Level [GameTags.PlayerGhost].GetEnumerator ()) {
 				while (enumerator.MoveNext ()) {
 					PlayerGhost ghost = (PlayerGhost)enumerator.Current;
-					if (this.CanAttackGhost (ghost)) {
+					if (this.CanAttackGhost (ghost) && ghost.State != 3 /* Ghost not dead */) {
 						float num2 = WrapMath.WrapDistanceSquared (this.Position, ghost.Position);
 						if (num2 < num) {
 							num = num2;
@@ -159,7 +159,7 @@ namespace TowerFall
 					}
 				}
 			}
-			if (result != null && result.State != 3 /* Ghost not dead */) {
+			if (result != null) {
 				targetIsGhost = true;
 				ghostTarget = result;
 			}
@@ -173,7 +173,7 @@ namespace TowerFall
 			using (List<Entity>.Enumerator enumerator = base.Level [GameTags.Player].GetEnumerator ()) {
 				while (enumerator.MoveNext ()) {
 					Player player = (Player)enumerator.Current;
-					if (this.CanAttack (player)) {
+					if (this.CanAttack (player) && !player.Dead) {
 						float num2 = WrapMath.WrapDistanceSquared (this.Position, player.Position);
 						if (num2 < num) {
 							num = num2;
@@ -182,7 +182,7 @@ namespace TowerFall
 					}
 				}
 			}
-			if (result != null && !result.Dead) {
+			if (result != null) {
 				targetIsGhost = false;
 				playerTarget = result;
 			}
