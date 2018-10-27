@@ -47,6 +47,9 @@ namespace Mod
         [Description ("NEW RANDOM VARIANTS EVERY ROUND")]
         public Variant CalvinFall;
 
+        [CanRandom]
+        public Variant MeanerMonsters;
+
         public MyMatchVariants(bool noPerPlayer = false) : base(noPerPlayer)
         {
             // mutually exclusive variants
