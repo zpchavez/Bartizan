@@ -50,6 +50,10 @@ Ghosts can get powerups (everything except arrows).
 
 Ghosts can kill other ghosts by dashing into them.
 
+### Meaner Monsters
+
+Enemies other than bats and green slimes will come out of dark portals.
+
 # Original Readme
 
 A mod framework for [TowerFall Ascension](http://www.towerfall-game.com/) (copyright 2013 Matt Thorson, obviously).
