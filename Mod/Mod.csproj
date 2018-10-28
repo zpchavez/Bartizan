@@ -80,6 +80,7 @@
     <Compile Include="Classes\Patched\MyTeamDeathmatchRoundLogic.cs" />
     <Compile Include="Classes\Patched\MyHeadhuntersRoundLogic.cs" />
     <Compile Include="Classes\Patched\MyLastManStandingRoundLogic.cs" />
+    <Compile Include="Classes\Patched\MyQuestSpawnPortal.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -142,6 +143,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\Atlas\menuAtlas\variants\ghostJoust.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Atlas\menuAtlas\variants\meanerMonsters.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
