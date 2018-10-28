@@ -1,8 +1,6 @@
 using Microsoft.Xna.Framework;
 using Monocle;
 using Patcher;
-using System;
-using System.Collections.Generic;
 using TowerFall;
 
 namespace Mod
@@ -60,17 +58,6 @@ namespace Mod
                     // "WingSkeleton",
                     // "TriggerSkeleton",
                     // "PrismSkeleton"
-
-                    // And their shielded versions
-
-                    // "SkeletonS",
-                    // "BombSkeletonS",
-                    // "LaserSkeletonS",
-                    // "DrillSkeletonS",
-                    // "BoltSkeletonS",
-                    // "PrismSkeletonS"
-                    // "WingSkeletonS",
-                    // "TriggerSkeletonS",
                 };
                 enemy = choices[Calc.Random.Next(choices.Length)];
             }

@@ -47,7 +47,7 @@ namespace Mod
         [Description ("NEW RANDOM VARIANTS EVERY ROUND")]
         public Variant CalvinFall;
 
-        [CanRandom]
+        [CanRandom, Description ("MORE TYPES OF MONSTERS SPAWN FROM PORTAL")]
         public Variant MeanerMonsters;
 
         public MyMatchVariants(bool noPerPlayer = false) : base(noPerPlayer)
