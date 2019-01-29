@@ -274,8 +274,8 @@ namespace TowerFall
                 Allegiance allegiance;
                 if (!base.Level.Session.RoundLogic.TeamCheckForRoundOver(out allegiance)) {
                     base.Level.Session.CurrentLevel.Ending = false;
+                    this.roundEndCounter.Reset();
                 }
-                this.roundEndCounter.Reset();
             }
 
             return result;
