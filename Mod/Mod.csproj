@@ -94,6 +94,9 @@
     <None Include="Content\Atlas\menuAtlas\variants\noHeadBounce.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Content\Atlas\menuAtlas\variants\noAirHeadBounce.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Content\Atlas\menuAtlas\variants\noLedgeGrab.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
