@@ -151,5 +151,16 @@ namespace Mod
         }
       }
     }
+
+	public override void HotCoalsBounce ()
+    {
+        if (this.Speed.Y >= 0f) {
+            Sounds.sfx_coalBurn.Play (base.X, 1f);
+            if (this.input.MoveX != 0) {
+                this.Speed.X += (float)this.input.MoveX * 0.3f;
+            }
+            this.Fire.Start ();
+        }
+    }
   }
 }
