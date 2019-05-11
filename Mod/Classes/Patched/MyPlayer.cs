@@ -84,13 +84,20 @@ namespace Mod
 
     public override void HurtBouncedOn(int bouncerIndex)
     {
-    	if (((MyMatchVariants)Level.Session.MatchSettings.Variants).NoAirHeadBounce[this.PlayerIndex] && !(this.OnGround || this.State == PlayerStates.LedgeGrab || Math.Abs (this.Speed.Y) < 1f))
-    	{
-			  return;
-    	}
+      if (
+        ((MyMatchVariants)Level.Session.MatchSettings.Variants).NoAirHeadBounce[this.PlayerIndex] &&
+        !(
+          this.OnGround ||
+          this.State == PlayerStates.LedgeGrab ||
+          Math.Abs (this.Speed.Y) < 1f)
+        )
+      {
+        return;
+      }
 
-      if (!((MyMatchVariants)Level.Session.MatchSettings.Variants).NoHeadBounce[this.PlayerIndex])
-          base.HurtBouncedOn(bouncerIndex);
+      if (!((MyMatchVariants)Level.Session.MatchSettings.Variants).NoHeadBounce[this.PlayerIndex]) {
+        base.HurtBouncedOn(bouncerIndex);
+      }
     }
 
     public override void Die (Arrow arrow)
