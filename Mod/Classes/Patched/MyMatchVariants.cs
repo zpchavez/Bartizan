@@ -10,6 +10,8 @@ namespace Mod
         [PerPlayer, CanRandom]
         public Variant NoHeadBounce;
         [PerPlayer, CanRandom]
+        public Variant NoAirHeadBounce;
+        [PerPlayer, CanRandom]
         public Variant NoLedgeGrab;
         [CanRandom]
         public Variant AwfullySlowArrows;
