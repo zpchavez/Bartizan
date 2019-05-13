@@ -19,7 +19,7 @@ namespace Mod
             if (base.Session.Scores [playerIndex] < base.Session.MatchSettings.GoalScore || base.Session.GetScoreLead (playerIndex) <= 0) {
                 return true;
             }
-            int num = base.Session.GetHighestScore () - (base.Session.CurrentLevel.LivingPlayers);
+            int num = base.Session.GetHighestScore () - (base.Session.CurrentLevel.LivingPlayers - 1);
             for (int i = 0; i < 8; i++) {
                 if (TFGame.Players [i] && i != playerIndex) {
                     Player player = base.Session.CurrentLevel.GetPlayer (i);
