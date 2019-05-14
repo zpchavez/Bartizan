@@ -9,6 +9,8 @@ namespace Mod
 		[Header("MODS")]
 		[PerPlayer, CanRandom]
 		public Variant NoHeadBounce;
+        [CanRandom]
+        public Variant NoCoalBounce;
 		[PerPlayer, CanRandom]
 		public Variant NoLedgeGrab;
 		[CanRandom]

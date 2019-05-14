@@ -87,6 +87,12 @@ namespace Mod
       if (!((MyMatchVariants)Level.Session.MatchSettings.Variants).NoHeadBounce[this.PlayerIndex])
         base.HurtBouncedOn(bouncerIndex);
     }
+
+    public override void HotCoalsBounce ()
+    {
+        if (!((MyMatchVariants)Level.Session.MatchSettings.Variants).NoCoalBounce)
+          base.HotCoalsBounce();
+    }
     
     public override void Die (Arrow arrow)
     {
@@ -150,17 +156,6 @@ namespace Mod
           lastHatState = HatState.ToString();
         }
       }
-    }
-
-	public override void HotCoalsBounce ()
-    {
-        if (this.Speed.Y >= 0f) {
-            Sounds.sfx_coalBurn.Play (base.X, 1f);
-            if (this.input.MoveX != 0) {
-                this.Speed.X += (float)this.input.MoveX * 0.3f;
-            }
-            this.Fire.Start ();
-        }
     }
   }
 }
