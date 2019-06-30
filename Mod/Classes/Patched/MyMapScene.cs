@@ -24,7 +24,7 @@ namespace Mod
     {
       base.InitVersusButtons();
 
-      string disabledMapsFile = Path.Combine(MyVersusMatchResults.GetSavePath(), "tf-disabled-maps.txt");
+      string disabledMapsFile = Path.Combine(TrackerApiClient.GetSavePath(), "tf-disabled-maps.txt");
 
       if (initialLoad && File.Exists(disabledMapsFile)) {
         initialLoad = false;
