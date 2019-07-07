@@ -26,11 +26,11 @@ namespace Mod
       value.Y = Math.Max (10f, value.Y);
       value.Y += this.sine.Value * 3f;
       Vector2 vector = TFGame.Font.MeasureString (this.text) * 2f;
-			if (this.crown) {
-				Draw.OutlineTextureCentered (TFGame.Atlas ["versus/crown"], value + new Vector2 (0f, -12f), Color.White);
-			}
-			Draw.OutlineTextCentered (TFGame.Font, this.text, value + new Vector2 (1f, 0f), color, 1f);
-			Draw.OutlineTextureCentered (TFGame.Atlas ["versus/playerIndicator"], value + new Vector2 (0f, 8f), color);
+      if (this.crown) {
+        Draw.OutlineTextureCentered (TFGame.Atlas ["versus/crown"], value + new Vector2 (0f, -12f), Color.White);
+      }
+      Draw.OutlineTextCentered (TFGame.Font, this.text, value + new Vector2 (1f, 0f), color, 1.0f);
+      Draw.OutlineTextureCentered (TFGame.Atlas ["versus/playerIndicator"], value + new Vector2 (0f, 8f), color);
     }
   }
 }
