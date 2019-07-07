@@ -20,7 +20,7 @@ namespace Mod
     };
 
     public PlayerNames(JObject playerNamesJObject) {
-      for (int i = 0; i < MyGlobals.MaxPlayers(); i++) {
+      for (int i = 0; i < MyGlobals.MAX_PLAYERS; i++) {
         if (TFGame.Players[i]) {
           string playerColor = ((ArcherColor)TFGame.Characters[i]).ToString();
           if (playerNamesJObject.ContainsKey(playerColor)) {

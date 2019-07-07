@@ -4,8 +4,6 @@ namespace Mod
   {
     public static PlayerNames playerNames;
 
-    public static int MaxPlayers() {
-      return 8;
-    }
+    public const int MAX_PLAYERS = 8;
   }
 }
