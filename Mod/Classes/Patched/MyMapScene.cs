@@ -12,12 +12,14 @@ namespace Mod
 
     public MyMapScene(MainMenu.RollcallModes mode) : base(mode)
     {
+      TrackerApiClient client = new TrackerApiClient();
+      client.GetPlayerNames();
     }
 
     static MyMapScene()
     {
-        MyMapScene.lastRandomVersusTower = -1;
-        MyMapScene.NoRandomStates = new bool[GameData.VersusTowers.Count];
+      MyMapScene.lastRandomVersusTower = -1;
+      MyMapScene.NoRandomStates = new bool[GameData.VersusTowers.Count];
     }
 
     public override void InitVersusButtons()

@@ -1,10 +1,11 @@
-// using System;
 using TowerFall;
 using System;
-using System.IO;
-// using System.Net;
-using SDL2;
 using System.Diagnostics;
+using System.IO;
+using System.Net;
+using System.Text;
+using SDL2;
+using Newtonsoft.Json.Linq;
 
 namespace Mod
 {
@@ -28,11 +29,6 @@ namespace Mod
         this.apiKey = trackerApiSettings[1];
       }
     }
-
-    // private static void RespCallback(IAsyncResult ar)
-    // {
-    //   TFGame.Log(new Exception("Result Callback"), false);
-    // }
 
     // This SHOULD be accessible from TFGame but isn't so I copy/pasted it
     public static string GetSavePath ()
@@ -79,21 +75,66 @@ namespace Mod
       return this.isSetup;
     }
 
-    public void SaveStats(TrackerMatchStats stats) {
-      string payload = stats.ToJSON(this.apiKey).Replace("\"", "\\\"");
-      this.MakeRequest("POST", payload);
+    public void GetPlayerNames() {
+      Action<string> callback = (response) => {
+        JObject playerNames = JObject.Parse(response);
+        for (int i = 0; i < MyGlobals.MaxPlayers(); i++) {
+          if (TFGame.Players[i]) {
+            string playerColor = ((ArcherColor)TFGame.Characters[i]).ToString();
+            if (playerNames.ContainsKey(playerColor)) {
+              MyGlobals.playerNames[i] = playerNames.Value<string>(playerColor);
+            } else {
+              MyGlobals.playerNames[i] = MyGlobals.unassignedPlayerName;
+            }
+          }
+        }
+      };
+      this.MakeRequest("GET", "group/1/active-names", "", callback);
     }
 
-    public void MakeRequest(string method, string payload)
-    {
-      string trackerApiSettingsFile = Path.Combine (TrackerApiClient.GetSavePath(), "tf-tracker-api.txt");
+    public void SaveStats(TrackerMatchStats stats) {
+      string payload = stats.ToJSON(this.apiKey).Replace("\"", "\\\"");
+      this.MakeRequest("POST", "matches", payload);
+    }
 
-      Process.Start(
-        "/bin/bash",
-        "-c \"curl '" + apiUrl + "matches' " +
-        "-X" + method + " -H 'Content-Type: application/json' -H 'Accept: application/json' " +
-        "--data-binary '" + payload + "' --compressed\""
-      );
+    public void MakeRequest(string method, string path, string payload="", Action<string> callback=null)
+    {
+      try {
+        using (Process process = new Process())
+        {
+          var commandString = "";
+          commandString += (
+            "-c \"curl '" + apiUrl + path + "' " +
+            "-X" + method + " -H 'Content-Type: application/json' -H 'Accept: application/json' "
+          );
+          if (payload != "") {
+            commandString += "--data-binary '" + payload + "'";
+          }
+          commandString += " --compressed\"";
+          process.StartInfo.FileName = "/bin/bash";
+          process.StartInfo.Arguments = commandString;
+          process.StartInfo.UseShellExecute = false;
+          process.StartInfo.RedirectStandardOutput = true;
+          process.Start();
+
+          if (callback != null) {
+            StringBuilder response = new StringBuilder();
+            process.OutputDataReceived += (sender, args) => {
+              if (String.IsNullOrEmpty(args.Data)) {
+                callback(response.ToString());
+              } else {
+                response.AppendLine(args.Data);
+              }
+            };
+
+            process.BeginOutputReadLine();
+          }
+
+          process.WaitForExit();
+        }
+      } catch (Exception e) {
+        TFGame.Log(new Exception(e.Message), false);
+      }
     }
   }
 }
