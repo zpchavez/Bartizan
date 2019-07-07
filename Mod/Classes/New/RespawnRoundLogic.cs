@@ -11,14 +11,14 @@ namespace Mod
   {
     public const Modes Mode = (Modes)42;
 
-    private KillCountHUD[] killCountHUDs = new KillCountHUD[8];
+    private KillCountHUD[] killCountHUDs = new KillCountHUD[MyGlobals.MAX_PLAYERS];
     private bool wasFinalKill;
     private Counter endDelay;
 
     public RespawnRoundLogic(Session session)
       : base(session, canHaveMiasma: false)
     {
-      for (int i = 0; i < 8; i++) {
+      for (int i = 0; i < MyGlobals.MAX_PLAYERS; i++) {
         if (TFGame.Players[i]) {
           killCountHUDs[i] = new KillCountHUD(i);
           this.Session.CurrentLevel.Add(killCountHUDs[i]);

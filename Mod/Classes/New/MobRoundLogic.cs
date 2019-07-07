@@ -10,7 +10,7 @@ namespace Mod
   {
     public new const Modes Mode = (Modes)43;
 
-    PlayerGhost[] activeGhosts = new PlayerGhost[8];
+    PlayerGhost[] activeGhosts = new PlayerGhost[MyGlobals.MAX_PLAYERS];
 
     public MobRoundLogic(Session session)
       : base(session)

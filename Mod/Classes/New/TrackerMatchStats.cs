@@ -6,15 +6,15 @@ namespace Mod
   public class TrackerMatchStats
   {
     public int rounds;
-    public int[] kills = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
-    public int[] deaths = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
-    public int[] wins = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
-    public int[] selfs = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
-    public int[] teamKills = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
-    public int[] revives = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
-    public int[] killsAsGhost = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
-    public int[] ghostKills = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
-    public int[] miracles = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
+    public int[] kills = new int[MyGlobals.MAX_PLAYERS] { -1, -1, -1, -1, -1, -1, -1, -1 };
+    public int[] deaths = new int[MyGlobals.MAX_PLAYERS] { -1, -1, -1, -1, -1, -1, -1, -1 };
+    public int[] wins = new int[MyGlobals.MAX_PLAYERS] { -1, -1, -1, -1, -1, -1, -1, -1 };
+    public int[] selfs = new int[MyGlobals.MAX_PLAYERS] { -1, -1, -1, -1, -1, -1, -1, -1 };
+    public int[] teamKills = new int[MyGlobals.MAX_PLAYERS] { -1, -1, -1, -1, -1, -1, -1, -1 };
+    public int[] revives = new int[MyGlobals.MAX_PLAYERS] { -1, -1, -1, -1, -1, -1, -1, -1 };
+    public int[] killsAsGhost = new int[MyGlobals.MAX_PLAYERS] { -1, -1, -1, -1, -1, -1, -1, -1 };
+    public int[] ghostKills = new int[MyGlobals.MAX_PLAYERS] { -1, -1, -1, -1, -1, -1, -1, -1 };
+    public int[] miracles = new int[MyGlobals.MAX_PLAYERS] { -1, -1, -1, -1, -1, -1, -1, -1 };
 
     public string FieldToJSON(string field)
     {
