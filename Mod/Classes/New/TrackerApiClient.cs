@@ -78,16 +78,7 @@ namespace Mod
     public void GetPlayerNames() {
       Action<string> callback = (response) => {
         JObject playerNames = JObject.Parse(response);
-        for (int i = 0; i < MyGlobals.MaxPlayers(); i++) {
-          if (TFGame.Players[i]) {
-            string playerColor = ((ArcherColor)TFGame.Characters[i]).ToString();
-            if (playerNames.ContainsKey(playerColor)) {
-              MyGlobals.playerNames[i] = playerNames.Value<string>(playerColor);
-            } else {
-              MyGlobals.playerNames[i] = MyGlobals.unassignedPlayerName;
-            }
-          }
-        }
+        MyGlobals.playerNames = new PlayerNames(playerNames);
       };
       this.MakeRequest("GET", "group/1/active-names", "", callback);
     }
