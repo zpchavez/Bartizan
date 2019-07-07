@@ -80,7 +80,7 @@ namespace Mod
         JObject playerNames = JObject.Parse(response);
         MyGlobals.playerNames = new PlayerNames(playerNames);
       };
-      this.MakeRequest("GET", "group/1/active-names", "", callback);
+      this.MakeRequest("GET", "active-names", "", callback);
     }
 
     public void SaveStats(TrackerMatchStats stats) {
@@ -96,7 +96,8 @@ namespace Mod
           var commandString = "";
           commandString += (
             "-c \"curl '" + apiUrl + path + "' " +
-            "-X" + method + " -H 'Content-Type: application/json' -H 'Accept: application/json' "
+            "-X" + method + " -H 'Content-Type: application/json' -H 'Accept: application/json' " +
+            "-H 'Authorization: ApiKey " + apiKey + "'"
           );
           if (payload != "") {
             commandString += "--data-binary '" + payload + "'";
