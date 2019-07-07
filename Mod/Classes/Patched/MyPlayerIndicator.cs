@@ -13,7 +13,10 @@ namespace Mod
       : base (offset, playerIndex, crown)
     {
       if (MyGlobals.playerNames[playerIndex] is string) {
-        this.text = MyGlobals.playerNames[playerIndex].ToUpper();
+        this.text = MyGlobals.playerNames[playerIndex].ToUpper().Substring(
+          0,
+          Math.Min(MyGlobals.playerNames[playerIndex].Length, 10)
+        );
       } else {
         this.text = "P" + (playerIndex + 1).ToString();
       }
