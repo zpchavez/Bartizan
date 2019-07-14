@@ -5,6 +5,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using Newtonsoft.Json.Linq;
 
 namespace Mod
 {
@@ -16,92 +17,43 @@ namespace Mod
     {
     }
 
-    // This SHOULD be accessible from TFGame but isn't so I copy/pasted it
-    public static string GetSavePath ()
-    {
-      string text = SDL.SDL_GetPlatform ();
-      string result;
-      if (text.Equals ("Linux")) {
-        string text2 = Environment.GetEnvironmentVariable ("XDG_DATA_HOME");
-        if (string.IsNullOrEmpty (text2)) {
-          text2 = Environment.GetEnvironmentVariable ("HOME");
-          if (string.IsNullOrEmpty (text2)) {
-            result = ".";
-            return result;
-          }
-          text2 += "/.local/share";
-        }
-        text2 += "/TowerFall";
-        if (!Directory.Exists (text2)) {
-          Directory.CreateDirectory (text2);
-        }
-        result = text2;
-      } else if (text.Equals ("Mac OS X")) {
-        string text2 = Environment.GetEnvironmentVariable ("HOME");
-        if (string.IsNullOrEmpty (text2)) {
-          result = ".";
-        } else {
-          text2 += "/Library/Application Support/TowerFall";
-          if (!Directory.Exists (text2)) {
-            Directory.CreateDirectory (text2);
-          }
-          result = text2;
-        }
-      } else {
-        if (!text.Equals ("Windows")) {
-          throw new Exception ("SDL2 platform not handled!");
-        }
-        result = AppDomain.CurrentDomain.BaseDirectory;
-      }
-      return result;
-    }
-
-    private static void RespCallback(IAsyncResult ar)
-    {
-      TFGame.Log(new Exception("Result Callback"), false);
-    }
-
     public override void Added ()
     {
       base.Added();
 
-      string trackerApiSettingsFile = Path.Combine (GetSavePath(), "tf-tracker-api.txt");
-      if (File.Exists (trackerApiSettingsFile)) {
-        string[] trackerApiSettings = File.ReadAllLines(trackerApiSettingsFile);
-        if (trackerApiSettings.Length < 2) {
-          TFGame.Log(new Exception("Invalid tf-tracker-api.txt contents"), false);
-          return;
-        }
-        string apiUrl = trackerApiSettings[0];
-        string apiKey = trackerApiSettings[1];
-        TrackerMatchStats stats = new TrackerMatchStats();
+      TrackerApiClient client = new TrackerApiClient();
 
-        stats.rounds = ((MySession)this.session).RoundsPlayedThisMatch;
+      if (client.IsSetup()) {
+        JObject stats = new JObject();
+        stats["rounds"] = ((MySession)this.session).RoundsPlayedThisMatch;
+        stats["kills"] = new JObject();
+        stats["deaths"] = new JObject();
+        stats["wins"] = new JObject();
+        stats["selfs"] = new JObject();
+        stats["team_kills"] = new JObject();
+        stats["revives"] = new JObject();
+        stats["kills_as_ghost"] = new JObject();
+        stats["ghost_kills"] = new JObject();
+        stats["miracles"] = new JObject();
         for (int index = 0; index < this.session.MatchStats.Length; index++) {
           if (TFGame.Players[index]) {
-            stats.kills[index] = (int)this.session.MatchStats[index].Kills.Kills;
-            stats.deaths[index] =
+            string color = ((ArcherColor)TFGame.Characters[index]).ToString();
+            stats["kills"][color] = (int)this.session.MatchStats[index].Kills.Kills;
+            stats["deaths"][color] =
               (int)this.session.MatchStats[index].Deaths.Kills +
               (int)this.session.MatchStats[index].Deaths.SelfKills +
               (int)this.session.MatchStats[index].Deaths.TeamKills;
-            stats.wins[index] = this.session.MatchStats[index].Won ? 1 : 0;
-            stats.selfs[index] = (int)this.session.MatchStats[index].Kills.SelfKills;
-            stats.teamKills[index] = (int)this.session.MatchStats[index].Kills.TeamKills;
-            stats.revives[index] = (int)this.session.MatchStats[index].Revives;
-            stats.killsAsGhost[index] = (int)this.session.MatchStats[index].KillsAsGhost;
-            stats.ghostKills[index] = (int)this.session.MatchStats[index].GhostKills;
-            stats.miracles[index] = (int)((MySession)(this.session)).MyMatchStats[index].MiracleCatches;
+            stats["wins"][color] = this.session.MatchStats[index].Won ? 1 : 0;
+            stats["selfs"][color] = (int)this.session.MatchStats[index].Kills.SelfKills;
+            stats["team_kills"][color] = (int)this.session.MatchStats[index].Kills.TeamKills;
+            stats["revives"][color] = (int)this.session.MatchStats[index].Revives;
+            stats["kills_as_ghost"][color] = (int)this.session.MatchStats[index].KillsAsGhost;
+            stats["ghost_kills"][color] = (int)this.session.MatchStats[index].GhostKills;
+            stats["miracles"][color] = (int)((MySession)(this.session)).MyMatchStats[index].MiracleCatches;
           }
         }
 
-        string payload = stats.ToJSON(apiKey).Replace("\"", "\\\"");
-
-        Process.Start(
-          "/bin/bash",
-          "-c \"curl '" + apiUrl + "matches' " +
-          "-X POST -H 'Content-Type: application/json' -H 'Accept: application/json' " +
-          "--data-binary '" + payload + "' --compressed\""
-        );
+        client.SaveStats(stats);
       }
     }
   }

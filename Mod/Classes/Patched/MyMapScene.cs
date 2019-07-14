@@ -12,19 +12,21 @@ namespace Mod
 
     public MyMapScene(MainMenu.RollcallModes mode) : base(mode)
     {
+      TrackerApiClient client = new TrackerApiClient();
+      client.GetPlayerNames();
     }
 
     static MyMapScene()
     {
-        MyMapScene.lastRandomVersusTower = -1;
-        MyMapScene.NoRandomStates = new bool[GameData.VersusTowers.Count];
+      MyMapScene.lastRandomVersusTower = -1;
+      MyMapScene.NoRandomStates = new bool[GameData.VersusTowers.Count];
     }
 
     public override void InitVersusButtons()
     {
       base.InitVersusButtons();
 
-      string disabledMapsFile = Path.Combine(MyVersusMatchResults.GetSavePath(), "tf-disabled-maps.txt");
+      string disabledMapsFile = Path.Combine(TrackerApiClient.GetSavePath(), "tf-disabled-maps.txt");
 
       if (initialLoad && File.Exists(disabledMapsFile)) {
         initialLoad = false;
