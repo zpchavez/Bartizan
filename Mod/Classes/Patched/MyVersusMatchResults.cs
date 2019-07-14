@@ -35,6 +35,7 @@ namespace Mod
         stats["kills_as_ghost"] = new JObject();
         stats["ghost_kills"] = new JObject();
         stats["miracles"] = new JObject();
+        stats["map"] = this.session.MatchSettings.LevelSystem.Theme.Name;
         for (int index = 0; index < this.session.MatchStats.Length; index++) {
           if (TFGame.Players[index]) {
             string color = ((ArcherColor)TFGame.Characters[index]).ToString();
