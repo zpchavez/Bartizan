@@ -83,9 +83,8 @@ namespace Mod
       this.MakeRequest("GET", "active-names", "", callback);
     }
 
-    public void SaveStats(TrackerMatchStats stats) {
-      string payload = stats.ToJSON(this.apiKey).Replace("\"", "\\\"");
-      this.MakeRequest("POST", "matches", payload);
+    public void SaveStats(JObject stats) {
+      this.MakeRequest("POST", "matches", stats.ToString().Replace("\"", "\\\""));
     }
 
     public void MakeRequest(string method, string path, string payload="", Action<string> callback=null)
@@ -100,7 +99,7 @@ namespace Mod
             "-H 'Authorization: ApiKey " + apiKey + "'"
           );
           if (payload != "") {
-            commandString += "--data-binary '" + payload + "'";
+            commandString += " --data-binary '" + payload + "'";
           }
           commandString += " --compressed\"";
           process.StartInfo.FileName = "/bin/bash";
