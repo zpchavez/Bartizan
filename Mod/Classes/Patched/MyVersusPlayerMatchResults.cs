@@ -13,19 +13,19 @@ namespace Mod
 
     OutlineText winsText;
 
-    // For 8-player
-    public MyVersusPlayerMatchResults(Session session, VersusMatchResults matchResults, int playerIndex, bool small, Vector2 tweenFrom, Vector2 tweenTo, List<AwardInfo> awards)
-      : base(session, matchResults, playerIndex, small, tweenFrom, tweenTo, awards)
-    {
-      this.showWinCount();
-    }
-
-    // For 4-player
-    public MyVersusPlayerMatchResults(Session session, VersusMatchResults matchResults, int playerIndex, Vector2 tweenFrom, Vector2 tweenTo, List<AwardInfo> awards)
-      : base(session, matchResults, playerIndex, small, tweenFrom, tweenTo, awards)
-    {
-      this.showWinCount();
-    }
+    #if (EIGHT_PLAYER)
+      public MyVersusPlayerMatchResults(Session session, VersusMatchResults matchResults, int playerIndex, bool small, Vector2 tweenFrom, Vector2 tweenTo, List<AwardInfo> awards)
+        : base(session, matchResults, playerIndex, small, tweenFrom, tweenTo, awards)
+      {
+        this.showWinCount();
+      }
+    #else
+      public MyVersusPlayerMatchResults(Session session, VersusMatchResults matchResults, int playerIndex, Vector2 tweenFrom, Vector2 tweenTo, List<AwardInfo> awards)
+        : base(session, matchResults, playerIndex, tweenFrom, tweenTo, awards)
+      {
+        this.showWinCount();
+      }
+    #endif
 
     public void showWinCount()
     {
