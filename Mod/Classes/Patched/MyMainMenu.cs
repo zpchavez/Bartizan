@@ -14,6 +14,8 @@ namespace Mod
   [Patch]
   class MyMainMenu : MainMenu
   {
+    public const int ROSTER = 16;
+
     public MyMainMenu (MenuState state) : base(state)
     {
     }
@@ -32,7 +34,7 @@ namespace Mod
       BladeButton creditsButton;
       if (MainMenu.NoQuit) {
         if (trackerClient.IsSetup()) {
-          rosterButton = new BladeButton (188f, "ROSTER", this.MainOptions);
+          rosterButton = new BladeButton (188f, "ROSTER", this.Roster);
           list.Add(rosterButton);
         }
         optionsButton = new BladeButton (206f, "OPTIONS", this.MainOptions);
@@ -41,7 +43,7 @@ namespace Mod
         list.Add (creditsButton);
       } else {
         if (trackerClient.IsSetup()) {
-          rosterButton = new BladeButton (174f, "ROSTER", this.MainOptions);
+          rosterButton = new BladeButton (174f, "ROSTER", this.Roster);
           list.Add(rosterButton);
         }
         optionsButton = new BladeButton (192f, "OPTIONS", this.MainOptions);
@@ -80,7 +82,9 @@ namespace Mod
       }
       archivesButton.LeftItem = fightButton;
       archivesButton.UpItem = fightButton;
-      if (this.OldState == MenuState.Options) {
+      if (this.OldState == (MenuState)ROSTER) {
+        this.ToStartSelected = rosterButton;
+      } else if (this.OldState == MenuState.Options) {
         this.ToStartSelected = optionsButton;
       } else if (this.OldState == MenuState.Archives) {
         this.ToStartSelected = archivesButton;
@@ -92,6 +96,28 @@ namespace Mod
       this.BackState = MenuState.PressStart;
       this.TweenBGCameraToY (0);
       MainMenu.CurrentMatchSettings = null;
+    }
+
+    public override void CallStateFunc (string name, MenuState state)
+    {
+      if (state == (MenuState)ROSTER) {
+        this.CreateRoster();
+      } else {
+        MethodInfo method = typeof(MainMenu).GetMethod (name + state.ToString ());
+        if (method != (MethodInfo)null) {
+          method.Invoke (this, new object[0]);
+        }
+      }
+    }
+
+    public void CreateRoster()
+    {
+      TFGame.Log(new Exception("creating roster"), false);
+    }
+
+    public void Roster()
+    {
+      this.State = (MenuState)ROSTER;
     }
   }
 }
