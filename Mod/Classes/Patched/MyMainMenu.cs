@@ -1,0 +1,97 @@
+using TowerFall;
+using Patcher;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Monocle;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
+
+namespace Mod
+{
+  [Patch]
+  class MyMainMenu : MainMenu
+  {
+    public MyMainMenu (MenuState state) : base(state)
+    {
+    }
+
+    public override void CreateMain ()
+    {
+      TrackerApiClient trackerClient = new TrackerApiClient();
+      BladeButton rosterButton = null;
+      BladeButton quitButton = null;
+      List<MenuItem> list = new List<MenuItem> ();
+      FightButton fightButton = new FightButton (new Vector2 (210f, 160f), new Vector2 (210f, 300f));
+      list.Add (fightButton);
+      ArchivesButton archivesButton = new ArchivesButton (new Vector2 (370f, 210f), new Vector2 (370f, 300f));
+      list.Add (archivesButton);
+      BladeButton optionsButton;
+      BladeButton creditsButton;
+      if (MainMenu.NoQuit) {
+        if (trackerClient.IsSetup()) {
+          rosterButton = new BladeButton (188f, "ROSTER", this.MainOptions);
+          list.Add(rosterButton);
+        }
+        optionsButton = new BladeButton (206f, "OPTIONS", this.MainOptions);
+        list.Add (optionsButton);
+        creditsButton = new BladeButton (224f, "CREDITS", this.MainCredits);
+        list.Add (creditsButton);
+      } else {
+        if (trackerClient.IsSetup()) {
+          rosterButton = new BladeButton (174f, "ROSTER", this.MainOptions);
+          list.Add(rosterButton);
+        }
+        optionsButton = new BladeButton (192f, "OPTIONS", this.MainOptions);
+        list.Add (optionsButton);
+        creditsButton = new BladeButton (210f, "CREDITS", this.MainCredits);
+        list.Add (creditsButton);
+        quitButton = new BladeButton (228f, "QUIT", this.MainQuit);
+        list.Add (quitButton);
+      }
+
+      for (int i = 0; i < list.Count; i++) {
+        MenuItem item = list[i];
+        this.Layers [item.LayerIndex].Add(item, false);
+      }
+
+      fightButton.RightItem = archivesButton;
+      if (trackerClient.IsSetup()) {
+        optionsButton.UpItem = rosterButton;
+        rosterButton.UpItem = fightButton;
+        rosterButton.DownItem = optionsButton;
+        fightButton.DownItem = rosterButton;
+        fightButton.LeftItem = rosterButton;
+      } else {
+        optionsButton.UpItem = fightButton;
+        fightButton.DownItem = optionsButton;
+        fightButton.LeftItem = optionsButton;
+      }
+      optionsButton.DownItem = creditsButton;
+      optionsButton.RightItem = fightButton;
+      creditsButton.UpItem = optionsButton;
+      creditsButton.RightItem = fightButton;
+      if (!MainMenu.NoQuit) {
+        creditsButton.DownItem = quitButton;
+        quitButton.UpItem = creditsButton;
+        quitButton.RightItem = fightButton;
+      }
+      archivesButton.LeftItem = fightButton;
+      archivesButton.UpItem = fightButton;
+      if (this.OldState == MenuState.Options) {
+        this.ToStartSelected = optionsButton;
+      } else if (this.OldState == MenuState.Archives) {
+        this.ToStartSelected = archivesButton;
+      } else if (this.OldState == MenuState.Credits) {
+        this.ToStartSelected = creditsButton;
+      } else {
+        this.ToStartSelected = fightButton;
+      }
+      this.BackState = MenuState.PressStart;
+      this.TweenBGCameraToY (0);
+      MainMenu.CurrentMatchSettings = null;
+    }
+  }
+}
