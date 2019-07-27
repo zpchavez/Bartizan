@@ -7,7 +7,7 @@ with no problem.
 
 ## General changes
 
-- Modified to work with (and only with) 8-player TowerFall
+- Modified to work with 8-player by default, although 4-player is still supported by removing EIGHT_PLAYER from the preprocessor constants.
 - Fixed glitched replay gifs by removing screen shake from replays
 - Integrated with my stat tracker API which is currently a private repo so don't worry about it
 
@@ -79,7 +79,7 @@ A mod framework for [TowerFall Ascension](http://www.towerfall-game.com/) (copyr
 ![](img/respawn.gif?raw=true)
 ![](img/respawn2.gif?raw=true)
 
-Best played with Gunn Style activated, obviously.  
+Best played with Gunn Style activated, obviously.
 Not shown on the replay gifs: our awesome in-game kill count HUDs!
 
 ### Crawl
@@ -93,8 +93,8 @@ Not shown on the replay gifs: our awesome in-game kill count HUDs!
 
 *Variants: No Balancing, No Treasure, Start with Toy Arrows*
 
-Inspired by a certain other indie game - kill living players to regain your humanity!  
-Unlike in other game modes, you score points for killing enemy ghosts.  
+Inspired by a certain other indie game - kill living players to regain your humanity!
+Unlike in other game modes, you score points for killing enemy ghosts.
 This may be our most ambitious mod yet, and therefore not quite yet balanced. Toy arrows are a good way to nerf living players if you feel the ghosts are too weak.
 
 ## Variants
