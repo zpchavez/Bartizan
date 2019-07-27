@@ -4,6 +4,10 @@ namespace Mod
   {
     public static PlayerNames playerNames;
 
-    public const int MAX_PLAYERS = 8;
+    #if (EIGHT_PLAYER)
+      public const int MAX_PLAYERS = 8;
+    #else
+      public const int MAX_PLAYERS = 4;
+    #endif
   }
 }

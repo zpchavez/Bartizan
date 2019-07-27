@@ -240,7 +240,7 @@ namespace Mod
         public new void FinalKillTeams (PlayerCorpse corpse, Allegiance otherSpotlightTeam)
         {
             List<LevelEntity> list = new List<LevelEntity> ();
-            for (int i = 0; i < 8; i++) {
+            for (int i = 0; i < MyGlobals.MAX_PLAYERS; i++) {
                 if (TFGame.Players [i] && this.Session.MatchSettings.Teams [i] == otherSpotlightTeam) {
                     this.Session.MatchStats [i].GotWin = true;
                     LevelEntity playerOrCorpse = this.Session.CurrentLevel.GetPlayerOrCorpse (i);

@@ -20,7 +20,7 @@ namespace Mod
                 return true;
             }
             int num = base.Session.GetHighestScore () - (base.Session.CurrentLevel.LivingPlayers - 1);
-            for (int i = 0; i < 8; i++) {
+            for (int i = 0; i < MyGlobals.MAX_PLAYERS; i++) {
                 if (TFGame.Players [i] && i != playerIndex) {
                     Player player = base.Session.CurrentLevel.GetPlayer (i);
                     if (((MyMatchVariants)base.Session.MatchSettings.Variants).GottaBustGhosts)

@@ -15,7 +15,7 @@ namespace Mod
     public MySession (MatchSettings settings) : base(settings)
     {
       RoundsPlayedThisMatch = 0;
-      this.MyMatchStats = new MyMatchStats[8];
+      this.MyMatchStats = new MyMatchStats[MyGlobals.MAX_PLAYERS];
     }
 
     public override void LevelLoadStart (Level level)

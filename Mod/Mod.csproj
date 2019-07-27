@@ -2,6 +2,7 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">DebugLinux</Configuration>
+    <DefineConstants>EIGHT_PLAYER;</DefineConstants>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5C1AA190-DD28-41A1-8DD2-FEF3A9DEE28A}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -15,7 +16,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
-    <DefineConstants>DEBUG;</DefineConstants>
+    <DefineConstants>DEBUG;EIGHT_PLAYER;</DefineConstants>
     <DebugType>full</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugWindows|AnyCPU' ">
@@ -25,7 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
-    <DefineConstants>DEBUG;</DefineConstants>
+    <DefineConstants>DEBUG;EIGHT_PLAYER;</DefineConstants>
     <DebugType>full</DebugType>
   </PropertyGroup>
   <ItemGroup>

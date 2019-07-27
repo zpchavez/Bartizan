@@ -17,7 +17,11 @@ namespace Mod
 				switch (this.Mode) {
 					case RespawnRoundLogic.Mode:
 					case MobRoundLogic.Mode:
-						int goals = this.PlayerGoals(5, 8, 10, 10, 10, 10, 10);
+						#if (EIGHT_PLAYER)
+							int goals = this.PlayerGoals(5, 8, 10, 10, 10, 10, 10);
+						#else
+							int goals = this.PlayerGoals(5, 8, 10);
+						#endif
 						return (int)Math.Ceiling(((float)goals * MatchSettings.GoalMultiplier[(int)this.MatchLength]));
 					default:
 						return base.GoalScore;

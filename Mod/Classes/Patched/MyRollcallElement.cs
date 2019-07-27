@@ -10,13 +10,13 @@ namespace Mod
 
     public override void ForceStart()
     {
-      MyVersusPlayerMatchResults.PlayerWins = new int[8];
+      MyVersusPlayerMatchResults.PlayerWins = new int[MyGlobals.MAX_PLAYERS];
       base.ForceStart();
     }
 
     public override void StartVersus()
     {
-      MyVersusPlayerMatchResults.PlayerWins = new int[8];
+      MyVersusPlayerMatchResults.PlayerWins = new int[MyGlobals.MAX_PLAYERS];
       base.StartVersus();
     }
   }
