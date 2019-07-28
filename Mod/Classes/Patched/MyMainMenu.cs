@@ -116,13 +116,14 @@ namespace Mod
 
     public void CreateRoster()
     {
+      // Get enum value from string with: MyEnum enum = (MyEnum)Enum.Parse(typeof(MyEnum), myString);
       List<MyRosterPlayerButton> buttons = new List<MyRosterPlayerButton> ();
       MyRosterPlayerButton player1 = new MyRosterPlayerButton ("PLAYER");
-      player1.InitValue("PURPLE");
+      player1.InitValue(1);
       buttons.Add (player1);
 
       MyRosterPlayerButton player2 = new MyRosterPlayerButton ("PLAYER 2");
-      player2.InitValue("GREEN");
+      player2.InitValue(2);
       buttons.Add (player2);
 
       this.ToStartSelected = player1;
