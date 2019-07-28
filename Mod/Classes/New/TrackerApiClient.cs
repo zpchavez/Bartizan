@@ -83,6 +83,14 @@ namespace Mod
       this.MakeRequest("GET", "active-names", "", callback);
     }
 
+    public void GetRoster() {
+      Action<string> callback = (response) => {
+        JObject roster = JObject.Parse(response);
+        MyGlobals.roster = roster;
+      };
+      this.MakeRequest("GET", "roster", "", callback);
+    }
+
     public void SaveStats(JObject stats) {
       this.MakeRequest("POST", "matches", stats.ToString().Replace("\"", "\\\""));
     }

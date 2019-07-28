@@ -16,13 +16,15 @@ namespace Mod
   {
     public const int ROSTER = 16;
 
+    private TrackerApiClient trackerClient;
+
     public MyMainMenu (MenuState state) : base(state)
     {
+      trackerClient = new TrackerApiClient();
     }
 
     public override void CreateMain ()
     {
-      TrackerApiClient trackerClient = new TrackerApiClient();
       BladeButton rosterButton = null;
       BladeButton quitButton = null;
       List<MenuItem> list = new List<MenuItem> ();
@@ -116,6 +118,10 @@ namespace Mod
 
     public void CreateRoster()
     {
+      if (trackerClient.IsSetup()) {
+        trackerClient.GetRoster();
+      }
+
       // Get enum value from string with: MyEnum enum = (MyEnum)Enum.Parse(typeof(MyEnum), myString);
       List<MyRosterPlayerButton> buttons = new List<MyRosterPlayerButton> ();
       MyRosterPlayerButton player1 = new MyRosterPlayerButton ("PLAYER");
