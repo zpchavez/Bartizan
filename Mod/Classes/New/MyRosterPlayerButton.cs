@@ -17,6 +17,10 @@ namespace Mod
 
     public bool enableMenuBackOnNextTick;
 
+    public MenuItem OriginalUpItem;
+
+    public MenuItem OriginalDownItem;
+
     public MyRosterPlayerButton (string title)
       : base (title)
     {
@@ -58,11 +62,26 @@ namespace Mod
           this.UpdateIcon();
         },
         delegate {
-          this.editing = !this.editing;
-          this.MainMenu.CanAct = !this.editing;
+          this.ToggleEditMode();
           return true;
         }
       );
+    }
+
+    public void ToggleEditMode() {
+      this.editing = !this.editing;
+      if (this.editing) {
+        this.OriginalUpItem = this.UpItem;
+        this.OriginalDownItem = this.DownItem;
+        // Prevent changing options or going back while editing
+        this.UpItem = null;
+        this.DownItem = null;
+        this.MainMenu.CanAct = false;
+      } else {
+        this.UpItem = this.OriginalUpItem;
+        this.DownItem = this.OriginalDownItem;
+        this.enableMenuBackOnNextTick = true;
+      }
     }
 
     public override void Update ()
@@ -76,10 +95,9 @@ namespace Mod
 
       if (base.Selected) {
         if (MenuInput.Back && this.editing) {
-          this.editing = false;
+          this.ToggleEditMode();
           this.value = 0;
           this.UpdateIcon();
-          this.enableMenuBackOnNextTick = true;
         }
       }
     }
