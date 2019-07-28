@@ -54,6 +54,8 @@
     <Compile Include="Classes\New\MobRoundLogic.cs" />
     <Compile Include="Classes\New\MyGlobals.cs" />
     <Compile Include="Classes\New\MyMatchStats.cs" />
+    <Compile Include="Classes\New\MyOptionsButton.cs" />
+    <Compile Include="Classes\New\MyRosterPlayerButton.cs" />
     <Compile Include="Classes\New\PlayerNames.cs" />
     <Compile Include="Classes\New\RespawnRoundLogic.cs" />
     <Compile Include="Classes\New\TrackerApiClient.cs" />

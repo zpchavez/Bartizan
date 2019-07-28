@@ -101,7 +101,11 @@ namespace Mod
     public override void CallStateFunc (string name, MenuState state)
     {
       if (state == (MenuState)ROSTER) {
-        this.CreateRoster();
+        if (name == "Create") {
+          this.CreateRoster();
+        } else if (name == "Destroy") {
+          this.DestroyRoster();
+        }
       } else {
         MethodInfo method = typeof(MainMenu).GetMethod (name + state.ToString ());
         if (method != (MethodInfo)null) {
@@ -112,12 +116,46 @@ namespace Mod
 
     public void CreateRoster()
     {
-      TFGame.Log(new Exception("creating roster"), false);
+      List<MyRosterPlayerButton> buttons = new List<MyRosterPlayerButton> ();
+      MyRosterPlayerButton player1 = new MyRosterPlayerButton ("PLAYER");
+      player1.InitValue("PURPLE");
+      buttons.Add (player1);
+
+      MyRosterPlayerButton player2 = new MyRosterPlayerButton ("PLAYER 2");
+      player2.InitValue("GREEN");
+      buttons.Add (player2);
+
+      this.ToStartSelected = player1;
+
+      this.InitRosterOptions(buttons);
+
+      this.BackState = MenuState.Main;
+      this.TweenBGCameraToY (1);
     }
 
     public void Roster()
     {
       this.State = (MenuState)ROSTER;
+    }
+
+    public void DestroyRoster()
+    {
+    }
+
+    public void InitRosterOptions (List<MyRosterPlayerButton> buttons)
+    {
+      for (int i = 0; i < buttons.Count; i++) {
+        MyRosterPlayerButton optionsButton = buttons [i];
+        optionsButton.TweenTo = new Vector2 (250f, (float)(45 + i * 12));
+        optionsButton.Position = (optionsButton.TweenFrom = new Vector2 ((float)((i % 2 == 0) ? (-160) : 580), (float)(45 + i * 12)));
+        if (i > 0) {
+          optionsButton.UpItem = buttons [i - 1];
+        }
+        if (i < buttons.Count - 1) {
+          optionsButton.DownItem = buttons [i + 1];
+        }
+        this.Layers [optionsButton.LayerIndex].Add(optionsButton, false);
+      }
     }
   }
 }
