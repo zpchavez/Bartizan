@@ -15,6 +15,8 @@ namespace Mod
 
     public bool editing;
 
+    public bool enableMenuBackOnNextTick;
+
     public MyRosterPlayerButton (string title)
       : base (title)
     {
@@ -41,24 +43,49 @@ namespace Mod
         },
         delegate {
           if (this.value == 0) {
-            this.value = 10;
+            this.value = 9;
+          } else {
+            this.value -= 1;
           }
-          this.value -= 1;
-          this.selectedIcon.SwapSubtexture(this.icons[this.value], null);
+          this.UpdateIcon();
         },
         delegate {
           if (this.value == 9) {
             this.value = 0;
+          } else {
+            this.value += 1;
           }
-          this.value += 1;
-          this.selectedIcon.SwapSubtexture(this.icons[this.value], null);
+          this.UpdateIcon();
         },
         delegate {
           this.editing = !this.editing;
-          // this.MainMenu.CanAct = !this.editing;
+          this.MainMenu.CanAct = !this.editing;
           return true;
         }
       );
+    }
+
+    public override void Update ()
+    {
+      base.Update ();
+
+      if (this.enableMenuBackOnNextTick) {
+        this.MainMenu.CanAct = true;
+        this.enableMenuBackOnNextTick = false;
+      }
+
+      if (base.Selected) {
+        if (MenuInput.Back && this.editing) {
+          this.editing = false;
+          this.value = 0;
+          this.UpdateIcon();
+          this.enableMenuBackOnNextTick = true;
+        }
+      }
+    }
+
+    public void UpdateIcon() {
+      this.selectedIcon.SwapSubtexture(this.icons[this.value], null);
     }
 
     public override void Render ()
