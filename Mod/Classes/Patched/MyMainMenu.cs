@@ -146,7 +146,7 @@ namespace Mod
     {
       for (int i = 0; i < buttons.Count; i++) {
         MyRosterPlayerButton optionsButton = buttons [i];
-        optionsButton.TweenTo = new Vector2 (250f, (float)(45 + i * 12));
+        optionsButton.TweenTo = new Vector2 (250f, (float)(45 + i * 15));
         optionsButton.Position = (optionsButton.TweenFrom = new Vector2 ((float)((i % 2 == 0) ? (-160) : 580), (float)(45 + i * 12)));
         if (i > 0) {
           optionsButton.UpItem = buttons [i - 1];
