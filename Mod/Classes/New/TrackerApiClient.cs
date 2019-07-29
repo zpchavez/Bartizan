@@ -85,7 +85,7 @@ namespace Mod
 
     public void GetRoster() {
       Action<string> callback = (response) => {
-        JObject roster = JObject.Parse(response);
+        JArray roster = JArray.Parse(response);
         MyGlobals.roster = roster;
       };
       this.MakeRequest("GET", "roster", "", callback);

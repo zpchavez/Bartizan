@@ -2,6 +2,7 @@ using TowerFall;
 using Microsoft.Xna.Framework;
 using Monocle;
 using System;
+using Newtonsoft.Json.Linq;
 
 namespace Mod
 {
@@ -21,8 +22,7 @@ namespace Mod
 
     public MenuItem OriginalDownItem;
 
-    public MyRosterPlayerButton (string title)
-      : base (title)
+    public MyRosterPlayerButton (JObject player) : base(GetNameFromPlayer(player))
     {
       this.icons = new Subtexture[10];
       for (int i = 0; i < 10; i++) {
@@ -33,13 +33,25 @@ namespace Mod
       this.selectedIcon.Position = this.Position + new Vector2 (29f, 0f);
       this.selectedIcon.Visible = true;
       this.Add(this.selectedIcon);
-      this.value = 0;
+      JToken colorToken = player["color"];
+      if (colorToken.Type != JTokenType.Null) {
+        string colorString = player.Value<string>("color");
+        ArcherColor color = (ArcherColor)Enum.Parse(typeof(ArcherColor), colorString, false);
+        this.value = (int)color + 1;
+      } else {
+        this.value = 0;
+      }
+      this.UpdateIcon();
+      this.InitCallbacks();
     }
 
-    public void InitValue(int initialValue)
-    {
-      this.value = initialValue;
+     private static string GetNameFromPlayer(JObject player)
+     {
+       return player.Value<string>("name").ToUpper();
+     }
 
+    public void InitCallbacks()
+    {
       this.SetCallbacks(
         delegate {
           this.CanLeft = this.editing;

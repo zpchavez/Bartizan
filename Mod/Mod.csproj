@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\New\ArcherColor.cs" />
+    <Compile Include="Classes\New\GhostDeathInterface.cs" />
     <Compile Include="Classes\New\MobRoundLogic.cs" />
     <Compile Include="Classes\New\MyGlobals.cs" />
     <Compile Include="Classes\New\MyMatchStats.cs" />
@@ -58,8 +59,8 @@
     <Compile Include="Classes\New\MyRosterPlayerButton.cs" />
     <Compile Include="Classes\New\PlayerNames.cs" />
     <Compile Include="Classes\New\RespawnRoundLogic.cs" />
+    <Compile Include="Classes\New\RosterButtonCreator.cs" />
     <Compile Include="Classes\New\TrackerApiClient.cs" />
-    <Compile Include="Classes\New\GhostDeathInterface.cs" />
     <Compile Include="Classes\Patched\MyArrow.cs" />
     <Compile Include="Classes\Patched\MyGameplayLayer.cs" />
     <Compile Include="Classes\Patched\MyLevel.cs" />

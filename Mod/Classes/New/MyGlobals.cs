@@ -6,7 +6,7 @@ namespace Mod
   {
     public static PlayerNames playerNames;
 
-    public static JObject roster;
+    public static JArray roster;
 
     #if (EIGHT_PLAYER)
       public const int MAX_PLAYERS = 8;

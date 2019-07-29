@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using Newtonsoft.Json.Linq;
 
 namespace Mod
 {
@@ -21,6 +22,9 @@ namespace Mod
     public MyMainMenu (MenuState state) : base(state)
     {
       trackerClient = new TrackerApiClient();
+      if (trackerClient.IsSetup()) {
+        trackerClient.GetRoster();
+      }
     }
 
     public override void CreateMain ()
@@ -118,24 +122,13 @@ namespace Mod
 
     public void CreateRoster()
     {
-      if (trackerClient.IsSetup()) {
-        trackerClient.GetRoster();
+      if (MyGlobals.roster != null) {
+        List<MyRosterPlayerButton> buttons = RosterButtonCreator.Create();
+        if (buttons.Count > 0) {
+          this.ToStartSelected = buttons[0];
+          this.InitRosterOptions(buttons);
+        }
       }
-
-      // Get enum value from string with: MyEnum enum = (MyEnum)Enum.Parse(typeof(MyEnum), myString);
-      List<MyRosterPlayerButton> buttons = new List<MyRosterPlayerButton> ();
-      MyRosterPlayerButton player1 = new MyRosterPlayerButton ("PLAYER");
-      player1.InitValue(1);
-      buttons.Add (player1);
-
-      MyRosterPlayerButton player2 = new MyRosterPlayerButton ("PLAYER 2");
-      player2.InitValue(2);
-      buttons.Add (player2);
-
-      this.ToStartSelected = player1;
-
-      this.InitRosterOptions(buttons);
-
       this.BackState = MenuState.Main;
       this.TweenBGCameraToY (1);
     }
