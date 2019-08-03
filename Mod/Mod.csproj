@@ -164,6 +164,9 @@
     <None Include="Content\Atlas\menuAtlas\variants\meanerMonsters.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Content\Atlas\menuAtlas\menuTitles\roster.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
