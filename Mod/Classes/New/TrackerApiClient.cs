@@ -83,6 +83,40 @@ namespace Mod
       this.MakeRequest("GET", "active-names", "", callback);
     }
 
+    public void GetRoster() {
+      Action<string> callback = (response) => {
+        JArray roster = JArray.Parse(response);
+        MyGlobals.roster = roster;
+      };
+      this.MakeRequest("GET", "roster", "", callback);
+    }
+
+    public void UpdatePlayer(int playerId, JObject payload)
+    {
+      Action<string> callback = (response) => {
+        JToken payloadColor = payload["color"];
+        foreach (JObject player in MyGlobals.roster)
+        {
+          if (
+            payloadColor.Type != JTokenType.Null &&
+            (int)player["user_id"] != playerId &&
+            player["color"].ToString() == payloadColor.ToString()
+          ) {
+            // Unset previous player with that color.
+            player["color"] = null;
+          } else if ((int)player["user_id"] == playerId) {
+            player["color"] = payload["color"];
+          }
+        }
+      };
+      this.MakeRequest(
+        "PATCH",
+        "player/" + playerId.ToString(),
+        payload.ToString().Replace("\"", "\\\""),
+        callback
+      );
+    }
+
     public void SaveStats(JObject stats) {
       this.MakeRequest("POST", "matches", stats.ToString().Replace("\"", "\\\""));
     }

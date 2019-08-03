@@ -51,16 +51,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\New\ArcherColor.cs" />
+    <Compile Include="Classes\New\GhostDeathInterface.cs" />
     <Compile Include="Classes\New\MobRoundLogic.cs" />
     <Compile Include="Classes\New\MyGlobals.cs" />
     <Compile Include="Classes\New\MyMatchStats.cs" />
+    <Compile Include="Classes\New\MyOptionsButton.cs" />
     <Compile Include="Classes\New\PlayerNames.cs" />
     <Compile Include="Classes\New\RespawnRoundLogic.cs" />
+    <Compile Include="Classes\New\RosterButtonCreator.cs" />
+    <Compile Include="Classes\New\RosterPlayerButton.cs" />
     <Compile Include="Classes\New\TrackerApiClient.cs" />
-    <Compile Include="Classes\New\GhostDeathInterface.cs" />
     <Compile Include="Classes\Patched\MyArrow.cs" />
     <Compile Include="Classes\Patched\MyGameplayLayer.cs" />
     <Compile Include="Classes\Patched\MyLevel.cs" />
+    <Compile Include="Classes\Patched\MyMainMenu.cs" />
     <Compile Include="Classes\Patched\MyMapScene.cs" />
     <Compile Include="Classes\Patched\MyMatchSettings.cs" />
     <Compile Include="Classes\Patched\MyMatchVariants.cs" />
@@ -71,12 +75,14 @@
     <Compile Include="Classes\Patched\MyReplayFrame.cs" />
     <Compile Include="Classes\Patched\MyRollcallElement.cs" />
     <Compile Include="Classes\Patched\MyRoundLogic.cs" />
+    <Compile Include="Classes\Patched\MyScreenTitle.cs" />
     <Compile Include="Classes\Patched\MySession.cs" />
     <Compile Include="Classes\Patched\MyVersusCoinButton.cs" />
     <Compile Include="Classes\Patched\MyVersusMatchResults.cs" />
     <Compile Include="Classes\Patched\MyVersusModeButton.cs" />
     <Compile Include="Classes\Patched\MyVersusPlayerMatchResults.cs" />
     <Compile Include="Classes\Patched\MyVersusRoundResults.cs" />
+    <Compile Include="Classes\Patched\MyXGamepadInput.cs" />
     <Compile Include="Classes\Replaced\MyChalice.cs" />
     <Compile Include="Classes\Replaced\MyChalicePad.cs" />
     <Compile Include="Classes\Replaced\MyChaliceGhost.cs" />
@@ -156,6 +162,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\Atlas\menuAtlas\variants\meanerMonsters.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Atlas\menuAtlas\menuTitles\roster.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
