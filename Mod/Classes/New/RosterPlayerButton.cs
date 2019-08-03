@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Mod
 {
-  public class MyRosterPlayerButton : MyOptionsButton
+  public class RosterPlayerButton : MyOptionsButton
   {
     public Subtexture[] icons;
 
@@ -22,9 +22,12 @@ namespace Mod
 
     public MenuItem OriginalDownItem;
 
-    public MyRosterPlayerButton (JObject player) : base(GetNameFromPlayer(player))
+    int playerId;
+
+    public RosterPlayerButton (JObject player) : base(GetNameFromPlayer(player))
     {
       this.icons = new Subtexture[10];
+      this.playerId = player["id"];
       for (int i = 0; i < 10; i++) {
         this.icons [i] = new Subtexture (TFGame.MenuAtlas ["seedDigits"], i * 12, 0, 12, 10);
       }

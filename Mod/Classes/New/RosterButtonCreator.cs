@@ -5,14 +5,14 @@ namespace Mod
 {
   class RosterButtonCreator
   {
-    public static List<MyRosterPlayerButton> Create()
+    public static List<RosterPlayerButton> Create()
     {
-      List<MyRosterPlayerButton> buttons = new List<MyRosterPlayerButton> ();
+      List<RosterPlayerButton> buttons = new List<RosterPlayerButton> ();
 
       foreach (JObject player in MyGlobals.roster)
       {
         if (player.Value<bool>("active")) {
-          MyRosterPlayerButton button = new MyRosterPlayerButton(player);
+          RosterPlayerButton button = new RosterPlayerButton(player);
           buttons.Add (button);
         }
       }

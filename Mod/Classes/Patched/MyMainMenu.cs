@@ -123,7 +123,7 @@ namespace Mod
     public void CreateRoster()
     {
       if (MyGlobals.roster != null) {
-        List<MyRosterPlayerButton> buttons = RosterButtonCreator.Create();
+        List<RosterPlayerButton> buttons = RosterButtonCreator.Create();
         if (buttons.Count > 0) {
           this.ToStartSelected = buttons[0];
           this.InitRosterOptions(buttons);
@@ -142,10 +142,10 @@ namespace Mod
     {
     }
 
-    public void InitRosterOptions (List<MyRosterPlayerButton> buttons)
+    public void InitRosterOptions (List<RosterPlayerButton> buttons)
     {
       for (int i = 0; i < buttons.Count; i++) {
-        MyRosterPlayerButton optionsButton = buttons [i];
+        RosterPlayerButton optionsButton = buttons [i];
         optionsButton.TweenTo = new Vector2 (250f, (float)(45 + i * 15));
         optionsButton.Position = (optionsButton.TweenFrom = new Vector2 ((float)((i % 2 == 0) ? (-160) : 580), (float)(45 + i * 12)));
         if (i > 0) {
