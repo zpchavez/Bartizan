@@ -24,10 +24,13 @@ namespace Mod
 
     int playerId;
 
-    public RosterPlayerButton (JObject player) : base(GetNameFromPlayer(player))
+    TrackerApiClient trackerClient;
+
+    public RosterPlayerButton (JObject player, TrackerApiClient trackerClient) : base(GetNameFromPlayer(player))
     {
+      this.trackerClient = trackerClient;
       this.icons = new Subtexture[10];
-      this.playerId = player["id"];
+      this.playerId = (int)player["user_id"];
       for (int i = 0; i < 10; i++) {
         this.icons [i] = new Subtexture (TFGame.MenuAtlas ["seedDigits"], i * 12, 0, 12, 10);
       }
@@ -36,22 +39,26 @@ namespace Mod
       this.selectedIcon.Position = this.Position + new Vector2 (29f, 0f);
       this.selectedIcon.Visible = true;
       this.Add(this.selectedIcon);
-      JToken colorToken = player["color"];
+      this.SetValueFromColor(player["color"]);
+      this.InitCallbacks();
+    }
+
+    public void SetValueFromColor(JToken colorToken)
+    {
       if (colorToken.Type != JTokenType.Null) {
-        string colorString = player.Value<string>("color");
+        string colorString = colorToken.ToString();
         ArcherColor color = (ArcherColor)Enum.Parse(typeof(ArcherColor), colorString, false);
         this.value = (int)color + 1;
       } else {
         this.value = 0;
       }
       this.UpdateIcon();
-      this.InitCallbacks();
     }
 
-     private static string GetNameFromPlayer(JObject player)
-     {
-       return player.Value<string>("name").ToUpper();
-     }
+    private static string GetNameFromPlayer(JObject player)
+    {
+      return player.Value<string>("name").ToUpper();
+    }
 
     public void InitCallbacks()
     {
@@ -96,7 +103,23 @@ namespace Mod
         this.UpItem = this.OriginalUpItem;
         this.DownItem = this.OriginalDownItem;
         this.enableMenuBackOnNextTick = true;
+        this.UpdatePlayerColor();
       }
+    }
+
+    public void UpdatePlayerColor()
+    {
+      JObject payload = new JObject();
+      if (this.value > 0) {
+        ArcherColor color = (ArcherColor)(this.value - 1);
+        payload["color"] = color.ToString();
+      } else {
+        payload["color"] = null;
+      }
+      this.trackerClient.UpdatePlayer(
+        this.playerId,
+        payload
+      );
     }
 
     public override void Update ()

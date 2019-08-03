@@ -123,7 +123,7 @@ namespace Mod
     public void CreateRoster()
     {
       if (MyGlobals.roster != null) {
-        List<RosterPlayerButton> buttons = RosterButtonCreator.Create();
+        List<RosterPlayerButton> buttons = RosterButtonCreator.Create(this.trackerClient);
         if (buttons.Count > 0) {
           this.ToStartSelected = buttons[0];
           this.InitRosterOptions(buttons);
