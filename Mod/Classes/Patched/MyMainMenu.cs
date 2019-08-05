@@ -13,7 +13,7 @@ using Newtonsoft.Json.Linq;
 namespace Mod
 {
   [Patch]
-  class MyMainMenu : MainMenu
+  public class MyMainMenu : MainMenu
   {
     public const int ROSTER = 16;
 
@@ -123,11 +123,43 @@ namespace Mod
     public void CreateRoster()
     {
       if (MyGlobals.roster != null) {
-        List<RosterPlayerButton> buttons = RosterButtonCreator.Create(this.trackerClient);
-        if (buttons.Count > 0) {
-          this.ToStartSelected = buttons[0];
-          this.InitRosterOptions(buttons);
+        RosterController rosterController = new RosterController();
+
+        int pageCount = (int)MyGlobals.roster.Count / MyGlobals.ROSTER_PAGE_SIZE;
+        if ((int)MyGlobals.roster.Count % MyGlobals.ROSTER_PAGE_SIZE != 0) {
+          pageCount += 1;
         }
+        List<RosterPage> rosterPages = new List<RosterPage>();
+        for (int page = 0; page < pageCount; page += 1) {
+          RosterPage rosterPage = new RosterPage(page);
+          rosterPages.Add(rosterPage);
+          this.Layers [rosterPage.LayerIndex].Add(rosterPage, false);
+        }
+        // this.Layers [rosterPages[0].LayerIndex].Add(rosterPages[0], false);
+        rosterController.SetPages(rosterPages.ToArray());
+
+        this.Layers [rosterController.LayerIndex].Add(rosterController, false);
+
+        for (int page = 0; page < pageCount; page += 1) {
+          List<RosterPlayerButton> buttons = RosterButtonCreator.Create(page, this.trackerClient);
+          float pageX = rosterController.GetPageX(page);
+          TFGame.Log(new Exception("pageX: " + pageX.ToString()), false);
+          for (int i = 0; i < buttons.Count; i++) {
+            RosterPlayerButton optionsButton = buttons [i];
+            optionsButton.TweenTo = new Vector2 (pageX + 250f, (float)(65 + i * 15));
+            optionsButton.Position = (optionsButton.TweenFrom = new Vector2 ((float)((i % 2 == 0) ? (-160) : 580), (float)(45 + i * 12)));
+            // optionsButton.Position.X += rosterController.GetPageX(page);
+            if (i > 0) {
+              optionsButton.UpItem = buttons [i - 1];
+            }
+            if (i < buttons.Count - 1) {
+              optionsButton.DownItem = buttons [i + 1];
+            }
+            this.Layers [optionsButton.LayerIndex].Add(optionsButton, false);
+          }
+        }
+
+        this.ToStartSelected = null;
       }
       this.BackState = MenuState.Main;
       this.TweenBGCameraToY (1);
@@ -142,20 +174,29 @@ namespace Mod
     {
     }
 
-    public void InitRosterOptions (List<RosterPlayerButton> buttons)
+    // public void InitRosterOptions (List<RosterPlayerButton> buttons)
+    // {
+    //   for (int i = 0; i < buttons.Count; i++) {
+    //     RosterPlayerButton optionsButton = buttons [i];
+    //     optionsButton.TweenTo = new Vector2 (250f, (float)(65 + i * 15));
+    //     optionsButton.Position = (optionsButton.TweenFrom = new Vector2 ((float)((i % 2 == 0) ? (-160) : 580), (float)(45 + i * 12)));
+    //     if (i > 0) {
+    //       optionsButton.UpItem = buttons [i - 1];
+    //     }
+    //     if (i < buttons.Count - 1) {
+    //       optionsButton.DownItem = buttons [i + 1];
+    //     }
+    //     this.Layers [optionsButton.LayerIndex].Add(optionsButton, false);
+    //   }
+    // }
+
+    public void OnRosterPageTurn()
     {
-      for (int i = 0; i < buttons.Count; i++) {
-        RosterPlayerButton optionsButton = buttons [i];
-        optionsButton.TweenTo = new Vector2 (250f, (float)(45 + i * 15));
-        optionsButton.Position = (optionsButton.TweenFrom = new Vector2 ((float)((i % 2 == 0) ? (-160) : 580), (float)(45 + i * 12)));
-        if (i > 0) {
-          optionsButton.UpItem = buttons [i - 1];
-        }
-        if (i < buttons.Count - 1) {
-          optionsButton.DownItem = buttons [i + 1];
-        }
-        this.Layers [optionsButton.LayerIndex].Add(optionsButton, false);
-      }
+      // Tween the X positions of all the menu items on the page
+
+      // Enable input on the menu items
+
+      // Select the top option by default
     }
   }
 }
