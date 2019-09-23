@@ -118,7 +118,7 @@ namespace Mod
     }
 
     public void SaveStats(JObject stats) {
-      this.MakeRequest("POST", "matches", stats.ToString().Replace("\"", "\\\""));
+      this.MakeRequest("POST", "matches", stats.ToString().Replace("\"", "\\\"").Replace("'", "'\\''"));
     }
 
     public void MakeRequest(string method, string path, string payload="", Action<string> callback=null)
