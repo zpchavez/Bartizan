@@ -20,28 +20,28 @@ namespace Mod
         [PerPlayer, CanRandom]
         public Variant NoDodgeCooldowns;
 
-        [PerPlayer, CanRandom]
+        [PerPlayer, CanRandom, Description ("START WITH ONE OF EVERY ARROW TYPE")]
         public Variant VarietyPack;
 
-        [CanRandom]
+        [CanRandom, Description ("THE ROUND WON'T END UNTIL GHOSTS ARE DEAD")]
         public Variant GottaBustGhosts;
 
-        [CanRandom]
+        [CanRandom, Description ("PUTTING ON A CROWN SUMMONS THE CHALICE GHOST")]
         public Variant CrownSummonsChaliceGhost;
 
-        [CanRandom]
+        [CanRandom, Description ("THE CHALICE GHOST WILL GO AFTER GHOSTS")]
         public Variant ChaliceGhostsHuntGhosts;
 
-        [CanRandom]
+        [CanRandom, Description ("GHOSTS ARE REALLY FAST")]
         public Variant FastGhosts;
 
-        [CanRandom]
+        [CanRandom, Description ("GHOSTS CAN REVIVE")]
         public Variant GhostRevives;
 
-        [CanRandom]
+        [CanRandom, Description ("GHOSTS CAN OPEN NON-BOMB CHESTS AND COLLECT SOME ITEMS")]
         public Variant GhostItems;
 
-        [CanRandom]
+        [CanRandom, Description ("GHOSTS CAN KILL OTHER GHOSTS BY DASHING INTO THEM")]
         public Variant GhostJoust;
 
         [Description ("NEW RANDOM VARIANTS EVERY ROUND")]
