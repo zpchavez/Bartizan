@@ -91,6 +91,7 @@
     <Compile Include="Classes\New\PlayerGhostShield.cs" />
     <Compile Include="Classes\Patched\MyShieldPickup.cs" />
     <Compile Include="Classes\Patched\MyTreasureChest.cs" />
+    <Compile Include="Classes\Patched\MyTreasureSpawner.cs" />
     <Compile Include="Classes\Patched\MySpeedBootsPickup.cs" />
     <Compile Include="Classes\Patched\MyMirrorPickup.cs" />
     <Compile Include="Classes\Patched\MyTeamDeathmatchRoundLogic.cs" />
