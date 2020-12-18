@@ -113,7 +113,7 @@ namespace Mod
           Pickups treasureSpawn = this.GetTreasureSpawn (list2);
           list.Add (new TreasureChest (vector, TreasureChest.Types.Normal, TreasureChest.AppearModes.Time, treasureSpawn, num));
           #if (EIGHT_PLAYER)
-            float centerX = 220f;
+            float centerX = 210f;
           #else
             float centerX = 160f;
           #endif
