@@ -69,6 +69,7 @@ namespace Mod
       if (trackerClient.IsSetup()) {
         optionsButton.UpItem = rosterButton;
         rosterButton.UpItem = fightButton;
+        rosterButton.RightItem = fightButton;
         rosterButton.DownItem = optionsButton;
         fightButton.DownItem = rosterButton;
         fightButton.LeftItem = rosterButton;
