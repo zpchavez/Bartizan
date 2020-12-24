@@ -77,6 +77,7 @@
     <Compile Include="Classes\Patched\MyRoundLogic.cs" />
     <Compile Include="Classes\Patched\MyScreenTitle.cs" />
     <Compile Include="Classes\Patched\MySession.cs" />
+    <Compile Include="Classes\Patched\MyTFGame.cs" />
     <Compile Include="Classes\Patched\MyVersusCoinButton.cs" />
     <Compile Include="Classes\Patched\MyVersusMatchResults.cs" />
     <Compile Include="Classes\Patched\MyVersusModeButton.cs" />
