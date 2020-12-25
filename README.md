@@ -10,6 +10,7 @@ with no problem.
 - Modified to work with 8-player by default, although 4-player is still supported by removing EIGHT_PLAYER from the preprocessor constants.
 - Fixed glitched replay gifs by removing screen shake from replays
 - Fixed asymmetrical treasure spawning when symmetrical treasure is enabled
+- Fixed bug where the game starts with rumble on even when the setting is set to off
 - Integrated with my stat tracker API which is currently a private repo so don't worry about it
 
 ## Variants
